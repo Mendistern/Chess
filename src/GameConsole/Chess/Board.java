@@ -23,10 +23,19 @@ package GameConsole.Chess;
  */
 
 
+import GameConsole.Chess.piece.PieceSets;
+import GameConsole.Chess.spot.Spot;
+
 public class Board {
 
 
     private static final int numXandNumy = 8;
+
+    //creer 64 niewe lege spots, dus een lege schaken bord
+    private Spot[][] spots = new Spot[8][8];
+
+    //creer 2 pieceSets voor black and white
+    PieceSets[] pieceSets = new PieceSets[2];
 
     //private Piece[] countPieces;
     private Piece[][] chess = new Piece[numXandNumy][numXandNumy];
