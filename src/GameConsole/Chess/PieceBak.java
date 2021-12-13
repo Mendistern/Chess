@@ -1,7 +1,7 @@
 package GameConsole.Chess;
 
 import java.awt.*;
-
+/*
 public class Piece {
     private int Column;
     private int Row;
@@ -21,3 +21,4 @@ public class Piece {
 
 
 }
+*/

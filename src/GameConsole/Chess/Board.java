@@ -23,7 +23,10 @@ package GameConsole.Chess;
  */
 
 
+import GameConsole.Chess.piece.Piece;
+import GameConsole.Chess.piece.PieceColor;
 import GameConsole.Chess.piece.PieceSets;
+import GameConsole.Chess.piece.Piecetype;
 import GameConsole.Chess.spot.Spot;
 
 public class Board {
@@ -38,17 +41,30 @@ public class Board {
     PieceSets[] pieceSets = new PieceSets[2];
 
     //private Piece[] countPieces;
-    private Piece[][] chess = new Piece[numXandNumy][numXandNumy];
+  //  private Piece[][] chess = new Piece[numXandNumy][numXandNumy];
 
 
 
     public Board() {
+        pieceSets[0] = new PieceSets(PieceColor.WHITE);
+        pieceSets[1] = new PieceSets(PieceColor.BLACK);
 
 
-        drawBoard();
+
+        // drawBoard();
+
+        for (PieceSets ps :
+                pieceSets) {
+            if (ps != null){
+                System.out.println(ps);
+            }
+
+        }
     }
 
 
+
+/*
     public void drawBoard() {
 
         //this.chess = new Piece[sizeX][sizeY];
@@ -74,6 +90,6 @@ public class Board {
 
 
     }
-
+*/
 
 }

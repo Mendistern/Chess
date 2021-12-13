@@ -1,9 +1,9 @@
 import GameConsole.Chess.Board;
-import GameConsole.Chess.Piece;
+import GameConsole.Chess.piece.Piece;
 
 import java.util.Scanner;
 
-public class Main {
+public class Game {
 
     private static Piece[][] piece;
     Scanner sc = new Scanner(System.in);
@@ -13,7 +13,7 @@ public class Main {
 //        piece[0][0] sizeX = 8;
 //        piece[0][1] sizeY = 8;
         Board brd = new Board();
-        brd.drawBoard();
+       // brd.drawBoard();
 
 
 

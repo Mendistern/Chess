@@ -4,15 +4,17 @@ public class Spot  {
     private int column;
     private int row;
 
-    public Spot(int column, int row)  {
+    public Spot(int row, int column)  {
         try{
-            setInitialSpot(column,row);
+            setInitialSpot(row,column);
         }catch(SpotException se){
             System.out.println(se.getMessage());
             System.out.println(se.getStackTrace());
         }
 
     }
+
+
 
     //only used to set initial spot
     //also check if spot is valid
@@ -31,4 +33,8 @@ public class Spot  {
 
     }
 
+    @Override
+    public String toString() {
+        return String.format("(%d,%d)",row,column);
+    }
 }

@@ -6,13 +6,29 @@ public abstract class Piece {
     //type enum BLACK of WHITE
     private PieceColor pieceColor;
     //Locatie van de Piece in rij kolom
-    private Spot[][] pieceLocation;
+    private Spot pieceLocation;
     //belangrijk voor castling en enpassant?
     private boolean moved=false;
 
-    private Piecetype pieceType;
+    public abstract Piecetype getPieceType();
+
 
     //retourneert een array van Spots die deze Piece naartoe kan gaan.
-    abstract Spot[][] validMoves();
+    protected abstract Spot validMoves();
 
+    public Piece(PieceColor pieceColor, Spot pieceLocation) {
+        this.pieceColor = pieceColor;
+        this.pieceLocation = pieceLocation;
+
+    }
+
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "pieceColor=" + pieceColor +
+                ", pieceLocation=" + pieceLocation +
+                ", moved=" + moved +
+                ", pieceType=" + this.getPieceType() +
+                '}';
+    }
 }
