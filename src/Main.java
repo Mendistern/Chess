@@ -13,7 +13,7 @@ public class Main {
 //        piece[0][0] sizeX = 8;
 //        piece[0][1] sizeY = 8;
         Board brd = new Board();
-        brd.drawBoard();
+
 
 
 
