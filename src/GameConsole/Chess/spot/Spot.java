@@ -1,12 +1,14 @@
 package GameConsole.Chess.spot;
 
 public class Spot  {
+    //X
     private int column;
+    //Y
     private int row;
 
-    public Spot(int row, int column)  {
+    public Spot(int column, int row)  {
         try{
-            setInitialSpot(row,column);
+            setInitialSpot(column,row);
         }catch(SpotException se){
             System.out.println(se.getMessage());
             System.out.println(se.getStackTrace());
@@ -35,6 +37,6 @@ public class Spot  {
 
     @Override
     public String toString() {
-        return String.format("(%d,%d)",row,column);
+        return String.format("(%d,%d)",column,row);
     }
 }

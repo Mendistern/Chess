@@ -4,16 +4,14 @@ import GameConsole.Chess.piece.Piece;
 import GameConsole.Chess.piece.PieceColor;
 import GameConsole.Chess.spot.Spot;
 
-public class Rook extends Piece {
+public class Bishop extends Piece {
 
-
-
-    public Rook(PieceColor pieceColor, Spot pieceLocation) {
+    public Bishop(PieceColor pieceColor, Spot pieceLocation) {
         super(pieceColor, pieceLocation);
     }
 
     public Piecetype getPieceType(){
-        return Piecetype.ROOK;
+        return Piecetype.BISHOP;
     }
 
     public Spot validMoves(){

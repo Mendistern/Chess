@@ -23,10 +23,8 @@ package GameConsole.Chess;
  */
 
 
-import GameConsole.Chess.piece.Piece;
 import GameConsole.Chess.piece.PieceColor;
 import GameConsole.Chess.piece.PieceSets;
-import GameConsole.Chess.piece.Piecetype;
 import GameConsole.Chess.spot.Spot;
 
 public class Board {

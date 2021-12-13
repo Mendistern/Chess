@@ -1,5 +1,6 @@
 package GameConsole.Chess.piece;
 
+import GameConsole.Chess.piece.pieces.Piecetype;
 import GameConsole.Chess.spot.Spot;
 
 public abstract class Piece {
