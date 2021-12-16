@@ -47,6 +47,18 @@ public class PieceSets {
 
     }
 
+    public List<Piece> getPieces(){
+        return pieceSets;
+    }
+
+    public PieceColor getColor() {
+        return color;
+    }
+
+    public String getColorName(){
+        return color.getColorName();
+    }
+
     @Override
     public String toString() {
         StringBuilder pieces = new StringBuilder("");

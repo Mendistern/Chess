@@ -13,6 +13,18 @@ public abstract class Piece {
 
     public abstract Piecetype getPieceType();
 
+    public Spot getPieceLocation(){
+        return pieceLocation;
+    }
+
+    public int getColumn(){
+        return pieceLocation.getColumn();
+    }
+
+    public int getRow(){
+        return pieceLocation.getRow();
+    }
+
 
     //retourneert een array van Spots die deze Piece naartoe kan gaan.
     protected abstract Spot validMoves();

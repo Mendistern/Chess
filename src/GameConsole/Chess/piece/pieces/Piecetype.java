@@ -1,11 +1,15 @@
 package GameConsole.Chess.piece.pieces;
 
 public enum Piecetype {
-    QUEEN('Q'),KING('K'),PAWN('P'),ROOK('R'),BISHOP('B'),KNIGHT('N');
+    QUEEN("Q"),KING("K"),PAWN("P"),ROOK("R"),BISHOP("B"),KNIGHT("N");
 
-    char type;
+    String type;
 
-   Piecetype(char type){
+   Piecetype(String type){
         this.type = type;
+    }
+
+    public String getType() {
+        return type;
     }
 }
