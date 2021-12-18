@@ -12,18 +12,21 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         Chess model = new Chess();
         BoardView view = new BoardView();
         BoardPresenter presenter = new BoardPresenter(model, view);
+        Scene scene = new Scene(view.getCreateContent());
 
-        Scene scene = new Scene(view.getPane(), 440,490);
+
+//
+
 
         primaryStage.setScene(scene);
 
         primaryStage.setTitle("Ultimate Chess");
         primaryStage.show();
-        primaryStage.setMinWidth(primaryStage.getWidth());
-        primaryStage.setMinHeight(primaryStage.getHeight());
+
 
     }
 
