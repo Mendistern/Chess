@@ -17,15 +17,6 @@ public class Game {
 
         Piece[][] piecesOnBoard = brd.getPieceIntern();
 
-        /*
-        System.out.println( brd.checkIfSpotIsFree(0,1)==null?"false": brd.checkIfSpotIsFree(0,1).getPieceType());
-        System.out.println( brd.checkIfSpotIsFree(4,1)==null?"false":true);
-        System.out.println( brd.checkIfSpotIsFree(7,0)==null?"false":true);
-        System.out.println( brd.checkIfSpotIsFree(7,3)==null?"false":true);
-
-        System.out.println( brd.checkIfSpotIsFree(7,0)==null?"false":true);
-        System.out.println( brd.checkIfSpotIsFree(7,7)==null?"false":true);
-         */
 
 
 

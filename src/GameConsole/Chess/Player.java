@@ -1,31 +1,44 @@
 package GameConsole.Chess;
 
+import GameConsole.Chess.piece.PieceColor;
+
+
 public class Player {
-    private String namePlayer;
+    private String name;
+    private PieceColor color;
     private int gameWins, gameLosses, playerScore, totalPlayers;
     private boolean playerWon;
 
 
-    public Player(String namePlayer){
+    public Player(String name) {
+        this.name = name;
+    }
 
+    public void setColor(PieceColor color) {
+        this.color = color;
     }
 
     //getter for player attributes
 
-    public String getNamePlayer(){
-        return namePlayer;
+    public String getName() {
+        return name;
     }
-    public int getGameWins(){
+
+    public PieceColor getColor() {
+        return color;
+    }
+
+    public int getGameWins() {
         return gameWins;
     }
-    public int getGameLoses(){
+
+    public int getGameLoses() {
         return gameLosses;
     }
-    public int getPlayerScore(){
+
+    public int getPlayerScore() {
         return playerScore;
     }
-
-
 
 
 }
