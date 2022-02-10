@@ -14,11 +14,15 @@ public class Bishop extends Piece {
         return Piecetype.BISHOP;
     }
 
+
     public Spot validMoves(){
         //todo
 
         //change later to initialize the spots to the number of valid moves
         Spot[][] spot = new Spot[1][1];
         return spot[3][4];
+
     }
+
+
 }

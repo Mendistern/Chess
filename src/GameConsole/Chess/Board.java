@@ -29,6 +29,8 @@ import GameConsole.Chess.piece.PieceSets;
 import GameConsole.Chess.spot.Spot;
 
 import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Board {
 
