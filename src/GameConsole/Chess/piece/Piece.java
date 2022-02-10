@@ -27,7 +27,7 @@ public abstract class Piece {
 
 
     //retourneert een array van Spots die deze Piece naartoe kan gaan.
-    protected abstract Spot validMoves();
+    protected abstract Spot[][] validMoves();
 
     public Piece(PieceColor pieceColor, Spot pieceLocation) {
         this.pieceColor = pieceColor;

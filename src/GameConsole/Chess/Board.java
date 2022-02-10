@@ -29,8 +29,6 @@ import GameConsole.Chess.piece.PieceSets;
 import GameConsole.Chess.spot.Spot;
 
 import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
 
 public class Board {
 
@@ -112,19 +110,19 @@ public class Board {
 
                 //voor de spot met waarde [][]
                 spots[piece.getColumn()][piece.getRow()] = pieceSet.getColorName() + piece.getPieceType().getType();
-                pieceIntern[piece.getColumn()][piece.getRow()] = piece;
+                pieceIntern[piece.getColumn()][piece.getRow()] =piece;
 
             }
         }
         System.out.println("\ta\tb\tc\td\te\tf\tg\th");
-        for (int i = 7; i >= 0; i--) {
-            System.out.print(i + 1 + "\t");
-            for (int j = 0; j < 8; j++) {
-                if (spots[j][i] == null) {
+        for (int i = 7; i >=0; i--) {
+            System.out.print(i+1+"\t");
+            for (int j = 0; j <8; j++) {
+                if (spots[j][i]==null){
                     System.out.print(".\t");
-                    pieceIntern[j][i] = null;
-                } else {
-                    System.out.print(spots[j][i] + "\t");
+                    pieceIntern[j][i]=null;
+                }else{
+                    System.out.print(spots[j][i]+"\t");
                 }
             }
             System.out.println();
@@ -168,7 +166,7 @@ public class Board {
 
     }
 
-    public Piece getPieceFromSpot(int column, int row) {
+    public Piece getPieceFromSpot(int column, int row){
         return pieceIntern[column][row];
     }
 
