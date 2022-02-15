@@ -17,7 +17,10 @@ public class Main extends Application {
         BoardPresenter presenter = new BoardPresenter(model, view);
 
         Scene scene = new Scene(view.getPane(), 440,490);
+
         primaryStage.setScene(scene);
+
+        primaryStage.setTitle("Ultimate Chess");
         primaryStage.show();
         primaryStage.setMinWidth(primaryStage.getWidth());
         primaryStage.setMinHeight(primaryStage.getHeight());
