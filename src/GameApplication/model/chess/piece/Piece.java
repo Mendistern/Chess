@@ -1,8 +1,8 @@
-package GameApplication.model.Chess.piece;
+package GameApplication.model.chess.piece;
 
-import GameApplication.model.Chess.Board;
-import GameApplication.model.Chess.piece.pieces.Piecetype;
-import GameApplication.model.Chess.spot.Spot;
+import GameApplication.model.chess.Board;
+import GameApplication.model.chess.piece.pieces.Piecetype;
+import GameApplication.model.chess.spot.Spot;
 
 import java.util.Objects;
 
@@ -41,7 +41,7 @@ public abstract class Piece {
     }
 
     //retourneert een array van Spots die deze Piece naartoe kan gaan.
-    protected abstract Spot validMoves(Board board);
+    public abstract Spot[][] validMoves(Board board);
 
     public Piece(PieceColor pieceColor, Spot pieceLocation) {
         this.pieceColor = pieceColor;
@@ -55,10 +55,11 @@ public abstract class Piece {
     }
 
 
+    public abstract boolean moveToSpot(Board board,Spot  spot);
 
 
     //is een boolean om een loop rond de move te zetten (zolang move niet valid is moet de player opnieuw een move inzetten)
-    public abstract boolean moveTo(Board board,Spot spot);
+    public abstract boolean moveTo(Spot spot);
 
     @Override
     public boolean equals(Object o) {

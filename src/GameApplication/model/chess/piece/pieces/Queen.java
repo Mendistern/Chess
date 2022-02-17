@@ -1,9 +1,9 @@
-package GameApplication.model.Chess.piece.pieces;
+package GameApplication.model.chess.piece.pieces;
 
-import GameApplication.model.Chess.Board;
-import GameApplication.model.Chess.piece.Piece;
-import GameApplication.model.Chess.piece.PieceColor;
-import GameApplication.model.Chess.spot.Spot;
+import GameApplication.model.chess.Board;
+import GameApplication.model.chess.piece.Piece;
+import GameApplication.model.chess.piece.PieceColor;
+import GameApplication.model.chess.spot.Spot;
 
 public class Queen extends Piece {
     public Queen(PieceColor pieceColor, Spot pieceLocation) {
@@ -11,7 +11,12 @@ public class Queen extends Piece {
     }
 
     @Override
-    public boolean moveTo(Board board, Spot spot) {
+    public boolean moveToSpot(Board board, Spot spot) {
+        return false;
+    }
+
+    @Override
+    public boolean moveTo(Spot spot) {
         boolean returnBoolean = false;
         return returnBoolean;
     }
@@ -20,11 +25,11 @@ public class Queen extends Piece {
         return Piecetype.QUEEN;
     }
 
-    public Spot validMoves(Board board){
+    public Spot[][] validMoves(Board board){
         //todo
 
         //change later to initialize the spots to the number of valid moves
         Spot[][] spot = new Spot[1][1];
-        return spot[3][4];
+        return new Spot[8][8];
     }
 }

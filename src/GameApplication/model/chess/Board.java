@@ -1,4 +1,4 @@
-package GameApplication.model.Chess;
+package GameApplication.model.chess;
 
 
 
@@ -23,12 +23,12 @@ package GameApplication.model.Chess;
  */
 
 
-import GameApplication.model.Chess.piece.Piece;
-import GameApplication.model.Chess.piece.PieceColor;
-import GameApplication.model.Chess.piece.PieceSets;
-import GameApplication.model.Chess.spot.Spot;
+import GameApplication.model.chess.piece.Piece;
+import GameApplication.model.chess.piece.PieceColor;
+import GameApplication.model.chess.piece.PieceSets;
+import GameApplication.model.chess.piece.pieces.Bishop;
+import GameApplication.model.chess.spot.Spot;
 
-import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -129,12 +129,12 @@ public class Board {
                 //!!
                 //spots[piece.getColumn()][piece.getRow()] = pieceSet.getColorName() + piece.getPieceType().getType();
 
-                if (piece.getRow()==3){
-                    System.out.println(piece.getPieceLocation().getPiece());
-                }
+
 
                 pieceIntern[piece.getColumn()][piece.getRow()] = piece;
+                pieceIntern[piece.getColumn()][piece.getRow()].getPieceLocation().setPiece(piece);
                 piece.getPieceLocation().setPiece(piece);
+
 
             }
         }
@@ -209,8 +209,16 @@ public class Board {
                 System.out.println("Please choose one of your pieces.");
             }
 
+           Spot[][] validMoves =  originPiece.validMoves(this);
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (validMoves[i][j] != null){
+                        System.out.println(validMoves[i][j].toString());
+                    }
+                }
+            }
 
-        } while ( originPiece==null|| originPiece.getPieceColor() != lastTurnColor || !originPiece.moveTo(this, new Spot(columnDest, rowDest)) );
+        } while ( originPiece==null|| originPiece.getPieceColor() != lastTurnColor || !originPiece.moveToSpot(this,new Spot(columnDest, rowDest)) );
 
         lastTurnColor = currentPlayer.getColor() == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
         drawBoard();

@@ -1,4 +1,4 @@
-package GameApplication.model.Chess;
+package GameApplication.model.chess;
 
 /*
 public class Piece {

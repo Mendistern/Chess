@@ -1,6 +1,6 @@
-package GameApplication.model.Chess.spot;
+package GameApplication.model.chess.spot;
 
-import GameApplication.model.Chess.piece.Piece;
+import GameApplication.model.chess.piece.Piece;
 
 public class Spot  {
     //X
@@ -66,6 +66,6 @@ public class Spot  {
     //The column number is converted to ASCII. ROOK is in position 0 +65 = 65 -> 65 in ASCII is A. so char 65 is A
     @Override
     public String toString() {
-        return String.format("(%c%d)",column+65,row);
+        return String.format("(%c%d)",column+65,row+1);
     }
 }
