@@ -1,4 +1,4 @@
-package GameConsole.Chess.spot;
+package GameApplication.model.Chess.spot;
 
 public class SpotException extends Exception{
     public SpotException() {

@@ -1,6 +1,6 @@
-package GameConsole.Chess.spot;
+package GameApplication.model.Chess.spot;
 
-import GameConsole.Chess.piece.Piece;
+import GameApplication.model.Chess.piece.Piece;
 
 public class Spot  {
     //X
@@ -32,6 +32,10 @@ public class Spot  {
     public Piece getPiece() {
         return piece;
     }
+    public void setPiece(Piece piece){
+
+        this.piece = piece;
+    }
 
     //only used to set initial spot
     //also check if spot is valid
@@ -48,6 +52,15 @@ public class Spot  {
         this.column=column;
         this.row=row;
 
+    }
+
+    public void setSpot(int column, int row){
+        this.column=column;
+        this.row=row;
+    }
+
+    public String getFormattedName(){
+        return getPiece().getPieceColor().getColorName() + piece.getPieceType().getType();
     }
 
     //The column number is converted to ASCII. ROOK is in position 0 +65 = 65 -> 65 in ASCII is A. so char 65 is A

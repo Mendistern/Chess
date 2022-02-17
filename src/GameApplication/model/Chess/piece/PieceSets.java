@@ -1,10 +1,10 @@
-package GameConsole.Chess.piece;
+package GameApplication.model.Chess.piece;
 
-import GameConsole.Chess.piece.pieces.*;
-import GameConsole.Chess.spot.Spot;
-import GameConsole.exceptions.PieceSetsExceptions;
+import GameApplication.model.Chess.piece.pieces.*;
+import GameApplication.model.Chess.spot.Spot;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class PieceSets {
@@ -44,6 +44,11 @@ public class PieceSets {
             pieceSets.add(new Pawn(color,new Spot(i,valueForRow==0?1:6)));
         }
 
+        //add piece to spot
+        for (Piece piece : pieceSets) {
+            piece.getPieceLocation().setPiece(piece);
+        }
+
 
     }
 
@@ -58,6 +63,21 @@ public class PieceSets {
     public String getColorName(){
         return color.getColorName();
     }
+
+    public void removePiece(Piece piece){
+        boolean p = pieceSets.contains(piece);
+        System.out.println("Contains: "+p);
+        System.out.println("Removing piece: " + piece);
+        pieceSets.remove(piece);
+
+        for (Iterator<Piece> iterator = pieceSets.iterator(); iterator.hasNext(); ) {
+            Piece next = iterator.next();
+            System.out.println(piece.equals(next));
+        }
+    }
+
+
+
 
     @Override
     public String toString() {
