@@ -1,6 +1,6 @@
-package GameConsole.Chess;
+package GameApplication.model.chess;
 
-import GameConsole.Chess.piece.PieceColor;
+import GameApplication.model.chess.piece.PieceColor;
 
 
 public class Player {

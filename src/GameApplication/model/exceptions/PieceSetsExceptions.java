@@ -1,4 +1,4 @@
-package GameConsole.exceptions;
+package GameApplication.model.exceptions;
 
 public class PieceSetsExceptions extends Exception{
     public PieceSetsExceptions() throws Exception {

@@ -1,6 +1,5 @@
-package GameConsole.Chess;
+package GameApplication.model.chess;
 
-import java.awt.*;
 /*
 public class Piece {
     private int Column;

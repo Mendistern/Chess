@@ -1,4 +1,4 @@
-package GameConsole.Chess.piece;
+package GameApplication.model.chess.piece;
 
 public enum PieceColor {
     BLACK("b"),WHITE("w");

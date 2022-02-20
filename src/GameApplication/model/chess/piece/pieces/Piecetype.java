@@ -1,4 +1,4 @@
-package GameConsole.Chess.piece.pieces;
+package GameApplication.model.chess.piece.pieces;
 
 public enum Piecetype {
     QUEEN("Q"),KING("K"),PAWN("P"),ROOK("R"),BISHOP("B"),KNIGHT("N");

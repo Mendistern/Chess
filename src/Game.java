@@ -1,5 +1,5 @@
-import GameConsole.Chess.Board;
-import GameConsole.Chess.piece.Piece;
+import GameApplication.model.chess.Board;
+import GameApplication.model.chess.piece.Piece;
 
 import java.util.Scanner;
 
