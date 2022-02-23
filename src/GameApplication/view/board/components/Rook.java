@@ -1,4 +1,4 @@
-package GameApplication.model;
+package GameApplication.view.board.components;
 
 public class Rook extends Piece {
     public Rook(boolean color) {

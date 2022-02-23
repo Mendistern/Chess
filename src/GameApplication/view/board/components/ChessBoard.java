@@ -1,5 +1,8 @@
-package GameApplication.model;
+package GameApplication.view.board.components;
 
+import GameApplication.model.Move;
+import GameApplication.model.Space;
+import GameApplication.view.board.components.*;
 import javafx.scene.layout.GridPane;
 
 public class ChessBoard extends GridPane {
@@ -9,32 +12,24 @@ public class ChessBoard extends GridPane {
     public ChessBoard(boolean playerIsWhite) {
         super();
 
-        for (int x = 0; x < spaces[0].length; x++) {
-            for (int y = 0; y < spaces[1].length; y++) {
-                boolean light = ((x + y) % 2 != 0);
-                spaces[x][y] = new Space(light, x, y);
-
-                if (playerIsWhite) {
-                    this.add(spaces[x][y], x, 7 - y);
-                } else {
-                    this.add(spaces[x][y], 7 - x, y);
-                }
-                final int xVal = x;
-                final int yVal = y;
-                spaces[x][y].setOnAction(e -> onSpaceClick(xVal, yVal));
-
-
-            }
-        }
-        this.defineStartPositions();
-    }
-
-    public Space getSpace(int x, int y) {
-        return spaces[x][y];
-    }
-
-    public Space getActiveSpace() {
-        return this.activeSpace;
+//        for (int x = 0; x < spaces[0].length; x++) {
+//            for (int y = 0; y < spaces[1].length; y++) {
+//                boolean light = ((x + y) % 2 != 0);
+//                spaces[x][y] = new Space(light, x, y);
+//
+//                if (playerIsWhite) {
+//                    this.add(spaces[x][y], x, 7 - y);
+//                } else {
+//                    this.add(spaces[x][y], 7 - x, y);
+//                }
+//                final int xVal = x;
+//                final int yVal = y;
+//                spaces[x][y].setOnAction(e -> onSpaceClick(xVal, yVal));
+//
+//
+//            }
+//        }
+        defineStartPositions();
     }
 
     public void setActiveSpace(Space s) {
@@ -148,6 +143,14 @@ public class ChessBoard extends GridPane {
         }
 
         return true;
+    }
+
+    public Space getSpace(int x, int y) {
+        return spaces[x][y];
+    }
+
+    public Space getActiveSpace() {
+        return this.activeSpace;
     }
 
 

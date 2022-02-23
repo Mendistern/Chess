@@ -1,5 +1,6 @@
 package GameApplication.model;
 
+import GameApplication.view.board.components.Piece;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 

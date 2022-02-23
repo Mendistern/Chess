@@ -1,7 +1,6 @@
 package GameApplication.view.board;
 
 import GameApplication.model.Chess;
-import GameApplication.model.ChessBoard;
 
 public class BoardPresenter {
     private Chess model;

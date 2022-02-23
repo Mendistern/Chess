@@ -1,4 +1,4 @@
-package GameApplication.model;
+package GameApplication.view.board.components;
 
 public class Queen extends Piece {
     public Queen(boolean color) {

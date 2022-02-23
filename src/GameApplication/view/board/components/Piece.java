@@ -1,4 +1,4 @@
-package GameApplication.model;
+package GameApplication.view.board.components;
 
 import javafx.scene.image.Image;
 

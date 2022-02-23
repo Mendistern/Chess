@@ -1,7 +1,6 @@
 package GameApplication;
 
 import GameApplication.model.Chess;
-import GameApplication.model.ChessBoard;
 import GameApplication.view.board.BoardPresenter;
 import GameApplication.view.board.BoardView;
 import javafx.application.Application;
