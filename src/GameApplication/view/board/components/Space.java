@@ -1,4 +1,4 @@
-package GameApplication.model;
+package GameApplication.view.board.components;
 
 import GameApplication.view.board.components.Piece;
 import javafx.scene.control.Button;

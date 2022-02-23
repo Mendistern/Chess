@@ -1,34 +1,34 @@
 package GameApplication.view.board.components;
 
 import GameApplication.model.Move;
-import GameApplication.model.Space;
-import GameApplication.view.board.components.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.layout.GridPane;
 
 public class ChessBoard extends GridPane {
     public Space[][] spaces = new Space[8][8];
     public Space activeSpace = null;
 
-    public ChessBoard(boolean playerIsWhite) {
+    public ChessBoard() {
         super();
 
-//        for (int x = 0; x < spaces[0].length; x++) {
-//            for (int y = 0; y < spaces[1].length; y++) {
-//                boolean light = ((x + y) % 2 != 0);
-//                spaces[x][y] = new Space(light, x, y);
-//
-//                if (playerIsWhite) {
-//                    this.add(spaces[x][y], x, 7 - y);
-//                } else {
-//                    this.add(spaces[x][y], 7 - x, y);
-//                }
-//                final int xVal = x;
-//                final int yVal = y;
-//                spaces[x][y].setOnAction(e -> onSpaceClick(xVal, yVal));
-//
-//
-//            }
-//        }
+        for (int x = 0; x < spaces[0].length; x++) {
+            for (int y = 0; y < spaces[1].length; y++) {
+                boolean light = ((x + y) % 2 != 0);
+                spaces[x][y] = new Space(light, x, y);
+
+                if (light) {
+                    this.add(spaces[x][y], x, 7 - y);
+                } else {
+                    this.add(spaces[x][y], 7 - x, y);
+                }
+                final int xVal = x;
+                final int yVal = y;
+                // spaces[x][y].setOnAction(e -> onSpaceClick(xVal, yVal));
+
+
+            }
+        }
         defineStartPositions();
     }
 
@@ -61,12 +61,12 @@ public class ChessBoard extends GridPane {
             }
 
             //decouples space from space on board
-            this.setActiveSpace(null);
+            setActiveSpace(null);
         } else {
             //if there's a piece on the selected square when no active square
             if (spaces[x][y].getPiece() != null) {
                 //make active square clicked square
-                this.setActiveSpace(spaces[x][y]);
+                setActiveSpace(spaces[x][y]);
             }
         }
     }
@@ -145,8 +145,8 @@ public class ChessBoard extends GridPane {
         return true;
     }
 
-    public Space getSpace(int x, int y) {
-        return spaces[x][y];
+    public Space[][] getSpaces() {
+        return spaces;
     }
 
     public Space getActiveSpace() {
@@ -154,7 +154,7 @@ public class ChessBoard extends GridPane {
     }
 
 
-    private void defineStartPositions() {
+    public void defineStartPositions() {
         // white pieces
         this.spaces[0][0].setPiece(new Rook(true));
         this.spaces[1][0].setPiece(new Knight(true));
@@ -181,5 +181,7 @@ public class ChessBoard extends GridPane {
         for (int i = 0; i < this.spaces[0].length; i++)
             this.spaces[i][6].setPiece(new Pawn(false));
     }
+
+
 }
 
