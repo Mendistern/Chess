@@ -10,15 +10,15 @@ import javafx.scene.layout.*;
 
 
 public class BoardView extends BorderPane {
-    public Space[][] space = new Space[8][8];
-    //public Button[][] buttons = new Space[8][8];
+    public Button[][] buttons = new Button[8][8];
+    private Space[][] space;
 
     public Space activeSpace = null;
     public ChessBoard board;
 
-    public Space[][] getSpace() {
-        return space;
-    }
+//    public Space[][] getSpace() {
+//        return space;
+//    }
 
     private boolean playerIsWhite;
     private GridPane gamePane;
@@ -29,30 +29,24 @@ public class BoardView extends BorderPane {
     }
 
     private void initialiseNodes() {
-        board = new ChessBoard();
-        gamePane = new GridPane();
-        space = new Space[8][8];
-        playerIsWhite = true;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                boolean light = ((i + j) % 2 != 0);
-                space[i][j] = new Space(light, i, j);
 
-                if (light) {
-                    gamePane.add(space[i][j], i, 7 - j);
-                } else {
-                    gamePane.add(space[i][j], 7 - i, j);
-                }
-            }
-        }
+        board = new ChessBoard(playerIsWhite);
+
+        space = new Space[8][8];
+//
+//        for (int i = 0; i < 8; i++) {
+//            for (int j = 0; j < 8; j++) {
+//                boolean light = ((i + j) % 2 != 0);
+//                space[i][j] = new Space(playerIsWhite, i, j);
+//
+//
+//            }
+//        }
 
     }
 
     private void layoutNodes() {
-
-
-        super.setCenter(board);
-        gamePane.setAlignment(Pos.CENTER);
+        this.setCenter(board);
     }
 
 

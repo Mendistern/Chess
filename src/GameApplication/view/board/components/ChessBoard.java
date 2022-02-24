@@ -9,7 +9,7 @@ public class ChessBoard extends GridPane {
     public Space[][] spaces = new Space[8][8];
     public Space activeSpace = null;
 
-    public ChessBoard() {
+    public ChessBoard(boolean playerIsWhite) {
         super();
 
         for (int x = 0; x < spaces[0].length; x++) {
@@ -17,19 +17,19 @@ public class ChessBoard extends GridPane {
                 boolean light = ((x + y) % 2 != 0);
                 spaces[x][y] = new Space(light, x, y);
 
-                if (light) {
+                if (playerIsWhite) {
                     this.add(spaces[x][y], x, 7 - y);
                 } else {
                     this.add(spaces[x][y], 7 - x, y);
                 }
                 final int xVal = x;
                 final int yVal = y;
-                // spaces[x][y].setOnAction(e -> onSpaceClick(xVal, yVal));
+                spaces[x][y].setOnAction(e -> onSpaceClick(xVal, yVal));
 
 
             }
         }
-        defineStartPositions();
+        this.defineStartPositions();
     }
 
     public void setActiveSpace(Space s) {
