@@ -10,22 +10,25 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         Chess model = new Chess();
         BoardView view = new BoardView();
         BoardPresenter presenter = new BoardPresenter(model, view);
+        Scene scene = new Scene(view);
 
-        Scene scene = new Scene(view.getPane(), 440,490);
-
+        scene.getStylesheets().add("resources/stylesheet.css");
         primaryStage.setScene(scene);
+
 
         primaryStage.setTitle("Ultimate Chess");
         primaryStage.show();
-        primaryStage.setMinWidth(primaryStage.getWidth());
-        primaryStage.setMinHeight(primaryStage.getHeight());
+
 
     }
-
-    public static void main(String[] args) { launch(args); }
 }
