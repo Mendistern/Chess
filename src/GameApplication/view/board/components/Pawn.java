@@ -19,7 +19,6 @@ public class Pawn extends Piece {
     public MoveList[] getPieceMoves() {
 
         /*
-         * Pawn movement is HIGHLY conditional, so this branches.
          * The list ensures correct direction and two-space movement.
          * All the board-dependent things (like diagonal iff capturing) are ChessBoard's job.
          */
