@@ -47,11 +47,11 @@ public class BoardPresenter {
 //    }
 
     private void addEventListeners() {
-        for (int x = 7; x >= 0; x--) {
+        for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 final int finalX = x;
                 final int finalY = y;
-                view.getBoard().spaces[finalX][finalY].setOnAction(new EventHandler<ActionEvent>() {
+                view.getBoard().getSpaces()[finalX][finalY].setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
 //                        System.out.println("Clicked");
@@ -60,9 +60,9 @@ public class BoardPresenter {
 
                         handleValidMoves(model.getBoard().getPieceFromSpot(finalX, finalY));
 
-                        view.getBoard().setActiveSpace(view.getBoard().spaces[finalX][finalY]);
+                        //view.getBoard().setActiveSpace(view.getBoard().spaces[finalX][finalY]);
 
-                       model.getBoard().nextTurn();
+                       // model.getBoard().nextTurn();
                         updateView();
 
                     }
@@ -79,20 +79,17 @@ public class BoardPresenter {
                     view.getBoard().getActiveSpace().getStyleClass().add("chess-space-active");
                 }
 
-//               view.getSpace(). (e -> board.onSpaceClick(finalX, finalY));
+              // view.getSpace(). (e -> board.onSpaceClick(finalX, finalY));
             }
         }
     }
 
     public void handleValidMoves(Piece piece) {
-        //first remove existing valid moves
         List<Space> validSpaces =  view.getValidMovesSpaces();
         for (Space space : validSpaces) {
-            view.getBoard().spaces[space.getX()][space.getY()].getStyleClass().remove("chess-space-valid");
+            view.getBoard().getSpaces()[space.getX()][space.getY()].getStyleClass().remove("chess-space-valid");
         }
         view.clearValidMovesSpaces();
-
-
         //check if not clicked on empty cell
         if (piece == null) return;
         PieceColor color = piece.getPieceColor();
@@ -116,19 +113,17 @@ public class BoardPresenter {
             }
         }
 
-        updateView();
-
     }
 
 
-    private void updateView() {
+    public void updateView() {
         piecesFromModel = model.getPiecesOnBoard();
         view.getBoard().defineStartPositions(piecesFromModel);
 
 
        List<Space> validSpaces =  view.getValidMovesSpaces();
        for (Space space : validSpaces) {
-           view.getBoard().spaces[space.getX()][space.getY()].getStyleClass().add("chess-space-valid");
+           view.getBoard().getSpaces()[space.getX()][space.getY()].getStyleClass().add("chess-space-valid");
        }
 
     }
