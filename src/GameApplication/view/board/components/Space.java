@@ -4,6 +4,13 @@ import GameApplication.view.board.components.Piece;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
+/**
+ * Component class for rendering the pieces on a board
+ *
+ * @author Nicolas Bouquiaux
+ * @version 1.0
+ */
+
 public class Space extends Button {
     private int x;
     private int y;

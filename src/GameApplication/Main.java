@@ -6,6 +6,12 @@ import GameApplication.view.board.BoardView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+/**
+ * Main class that stages our mainView & model to scenes
+ *
+ * @author Nicolas Bouquiaux
+ * @version 1.0
+ */
 
 public class Main extends Application {
 
@@ -18,7 +24,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         Chess model = new Chess();
-        BoardView view = new BoardView();
+        BoardView view = new BoardView(8);
         BoardPresenter presenter = new BoardPresenter(model, view);
         Scene scene = new Scene(view);
 
