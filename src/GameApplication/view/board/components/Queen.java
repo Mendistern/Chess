@@ -1,6 +1,6 @@
 package GameApplication.view.board.components;
 
-public class Queen extends Piece {
+public class Queen extends PieceComp {
     public Queen(boolean color) {
         super(color);
     }

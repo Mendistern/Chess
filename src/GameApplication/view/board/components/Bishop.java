@@ -1,8 +1,6 @@
 package GameApplication.view.board.components;
 
-import GameApplication.view.board.components.Piece;
-
-public class Bishop extends Piece {
+public class Bishop extends PieceComp {
     public Bishop(boolean color) {
         super(color);
     }

@@ -1,21 +1,24 @@
 package GameApplication.view.board;
 
 import GameApplication.model.Chess;
+import GameApplication.model.chess.piece.Piece;
 import GameApplication.view.board.components.Space;
-import GameApplication.view.board.components.ChessBoard;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
 public class BoardPresenter {
     private Chess model;
     private BoardView view;
-    private ChessBoard board;
+
+
+    private Piece[][] piecesFromModel;
+
 
     public BoardPresenter(Chess model, BoardView view) {
         this.model = model;
         this.view = view;
-        //updateView(true);
-        //addEventListeners();
+        addEventListeners();
+        updateView();
     }
 
 //    private void updateView(boolean playerIsWhite) {
@@ -39,14 +42,20 @@ public class BoardPresenter {
 //    }
 
     private void addEventListeners() {
-        for (int x = 0; x < view.getBoard().spaces[0].length; x++) {
-            for (int y = 0; y < view.getBoard().spaces[1].length; y++) {
+        for (int x = 7; x >= 0; x--) {
+            for (int y = 0; y < 8; y++) {
                 final int finalX = x;
                 final int finalY = y;
                 view.getBoard().spaces[finalX][finalY].setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+                        System.out.println("Clicked");
+                        System.out.println((finalY)+ " "+ (finalX) );
 
+
+
+                        model.getBoard().nextTurn();
+                        updateView();
 
                     }
 
@@ -65,6 +74,17 @@ public class BoardPresenter {
 //               view.getSpace(). (e -> board.onSpaceClick(finalX, finalY));
             }
         }
+    }
+
+
+    public void updateView(){
+        piecesFromModel = model.getPiecesOnBoard();
+        view.getBoard().defineStartPositions(piecesFromModel);
+
+    }
+
+    public Piece[][] getPiecesFromModel() {
+        return piecesFromModel;
     }
 }
 

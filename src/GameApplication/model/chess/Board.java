@@ -25,6 +25,7 @@ package GameApplication.model.chess;
 
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
+import GameApplication.model.chess.piece.PieceSets;
 import GameApplication.model.chess.piece.pieces.Bishop;
 import GameApplication.model.chess.spot.Spot;
 
@@ -40,7 +41,7 @@ public class Board {
     //creatie van variabele arary, die voor elke spots waarde, zijn Piece gaat inzetten. (of null)
     private Piece[][] pieceIntern;
     //creer 2 pieceSets voor black and white
-    //PieceSets[] pieceSets = new PieceSets[2];
+    PieceSets[] pieceSets = new PieceSets[2];
 
     private Player[] players;
 
@@ -51,8 +52,8 @@ public class Board {
 
 
     public Board() {
-//        pieceSets[0] = new PieceSets(PieceColor.WHITE);
-//        pieceSets[1] = new PieceSets(PieceColor.BLACK);
+        pieceSets[0] = new PieceSets(PieceColor.WHITE);
+        pieceSets[1] = new PieceSets(PieceColor.BLACK);
 
         generatePlayers();
 
@@ -97,6 +98,10 @@ public class Board {
     }
 
 
+    public PieceSets[] getPieceSets() {
+        return pieceSets;
+    }
+
     public int getArrayIndexForColor(PieceColor color){
         return color == PieceColor.WHITE ? 0 : 1;
     }
@@ -104,12 +109,35 @@ public class Board {
     public void drawBoard() {
 
         pieceIntern = new Piece[8][8];
-        
+
 
         //Empy spots
         spots = new String[8][8];
 
         //Update each spot with the latest piece -> get it's type
+        for (PieceSets pieceSet :
+                pieceSets) {
+            //pieceSet 0
+            // List van pieces
+
+
+            for (Piece piece :
+                    pieceSet.getPieces()) {
+                //System.out.println(piece.getColumn()+ " "+ piece.getRow());
+
+                //voor de spot met waarde [][]
+                //!!
+                //spots[piece.getColumn()][piece.getRow()] = pieceSet.getColorName() + piece.getPieceType().getType();
+
+
+
+                pieceIntern[piece.getColumn()][piece.getRow()] = piece;
+                pieceIntern[piece.getColumn()][piece.getRow()].getPieceLocation().setPiece(piece);
+                piece.getPieceLocation().setPiece(piece);
+
+
+            }
+        }
 
 
         System.out.println("\ta\tb\tc\td\te\tf\tg\th");
@@ -137,12 +165,13 @@ public class Board {
 
         //Go to next turn
 
-        nextTurn();
+        //nextTurn();
 
 
     }
 
     public void nextTurn() {
+        System.out.println("Next turn");
         //initialiseer currentPlayer met waarde om later error te vermijden
         Player currentPlayer = players[0];
         for (Player pl :
@@ -181,7 +210,7 @@ public class Board {
                 System.out.println("Please choose one of your pieces.");
             }
 
-           Spot[][] validMoves =  originPiece.validMoves(this);
+            Spot[][] validMoves =  originPiece.validMoves(this);
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
                     if (validMoves[i][j] != null){
@@ -191,6 +220,8 @@ public class Board {
             }
 
         } while ( originPiece==null|| originPiece.getPieceColor() != lastTurnColor || !originPiece.moveToSpot(this,new Spot(columnDest, rowDest)) );
+
+
 
         lastTurnColor = currentPlayer.getColor() == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
         drawBoard();

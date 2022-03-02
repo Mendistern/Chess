@@ -1,10 +1,8 @@
 package GameApplication.view.board;
 
 
-import GameApplication.model.Chess;
 import GameApplication.view.board.components.Space;
 import GameApplication.view.board.components.*;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 
@@ -15,6 +13,8 @@ public class BoardView extends BorderPane {
 
     public Space activeSpace = null;
     public ChessBoard board;
+
+    private PieceComp[][] piecesFromModel;
 
 //    public Space[][] getSpace() {
 //        return space;
@@ -28,11 +28,19 @@ public class BoardView extends BorderPane {
         layoutNodes();
     }
 
+
+
     private void initialiseNodes() {
 
         board = new ChessBoard(playerIsWhite);
 
+
+
+
+
         space = new Space[8][8];
+
+
 //
 //        for (int i = 0; i < 8; i++) {
 //            for (int j = 0; j < 8; j++) {
