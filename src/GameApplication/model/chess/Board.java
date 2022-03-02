@@ -234,6 +234,10 @@ public class Board {
         return pieceIntern[column][row];
     }
 
+    public PieceColor getLastTurnColor() {
+        return lastTurnColor;
+    }
+
 
     /*
     public String[][] getSpots() {

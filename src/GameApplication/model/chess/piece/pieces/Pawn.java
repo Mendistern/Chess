@@ -214,6 +214,8 @@ public class Pawn extends Piece {
     public Spot[][] validMoves(Board board) {
         errorMsg.setPrintError(false);
         this.board = board;
+        System.out.println(getColumn() + " "+getRow());
+
         Piece[][] boardPieces = board.getPieceIntern();
         Spot[][] validSpots = new Spot[8][8];
 

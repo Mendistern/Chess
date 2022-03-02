@@ -6,10 +6,17 @@ import GameApplication.view.board.components.*;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class BoardView extends BorderPane {
     public Button[][] buttons = new Button[8][8];
     private Space[][] space;
+
+
+
+    private List<Space> validMovesSpaces;
 
     public Space activeSpace = null;
     public ChessBoard board;
@@ -26,6 +33,7 @@ public class BoardView extends BorderPane {
     public BoardView() {
         initialiseNodes();
         layoutNodes();
+        validMovesSpaces = new ArrayList<>();
     }
 
 
@@ -60,6 +68,19 @@ public class BoardView extends BorderPane {
 
     public Space getActiveSpace() {
         return activeSpace;
+    }
+
+
+    public List<Space> getValidMovesSpaces() {
+        return validMovesSpaces;
+    }
+
+    public void setValidMovesSpaces(Space validMovesSpace) {
+        this.validMovesSpaces.add(validMovesSpace);
+    }
+
+    public void clearValidMovesSpaces() {
+        this.validMovesSpaces.clear();
     }
 
     public ChessBoard getBoard() {

@@ -2,9 +2,14 @@ package GameApplication.view.board;
 
 import GameApplication.model.Chess;
 import GameApplication.model.chess.piece.Piece;
+import GameApplication.model.chess.piece.PieceColor;
+import GameApplication.model.chess.spot.Spot;
 import GameApplication.view.board.components.Space;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class BoardPresenter {
     private Chess model;
@@ -49,12 +54,15 @@ public class BoardPresenter {
                 view.getBoard().spaces[finalX][finalY].setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-                        System.out.println("Clicked");
-                        System.out.println((finalY)+ " "+ (finalX) );
+//                        System.out.println("Clicked");
+//                        System.out.println((finalY)+ " "+ (finalX) );
 
 
+                        handleValidMoves(model.getBoard().getPieceFromSpot(finalX, finalY));
 
-                        model.getBoard().nextTurn();
+                        view.getBoard().setActiveSpace(view.getBoard().spaces[finalX][finalY]);
+
+                       model.getBoard().nextTurn();
                         updateView();
 
                     }
@@ -76,10 +84,52 @@ public class BoardPresenter {
         }
     }
 
+    public void handleValidMoves(Piece piece) {
+        //first remove existing valid moves
+        List<Space> validSpaces =  view.getValidMovesSpaces();
+        for (Space space : validSpaces) {
+            view.getBoard().spaces[space.getX()][space.getY()].getStyleClass().remove("chess-space-valid");
+        }
+        view.clearValidMovesSpaces();
 
-    public void updateView(){
+
+        //check if not clicked on empty cell
+        if (piece == null) return;
+        PieceColor color = piece.getPieceColor();
+        //check if clicked on own piece
+        if (model.getBoard().getLastTurnColor() != color) return;
+
+
+
+
+
+        Spot[][] validSpots = model.getBoard().getPieceFromSpot(piece.getColumn(), piece.getRow()).validMoves(model.getBoard());
+
+
+
+        for (Spot[] validSpot : validSpots) {
+            for (Spot spot : validSpot) {
+                if (spot != null) {
+                    view.setValidMovesSpaces(new Space(true,spot.getColumn(),spot.getRow()));
+                    System.out.println(spot);
+                }
+            }
+        }
+
+        updateView();
+
+    }
+
+
+    private void updateView() {
         piecesFromModel = model.getPiecesOnBoard();
         view.getBoard().defineStartPositions(piecesFromModel);
+
+
+       List<Space> validSpaces =  view.getValidMovesSpaces();
+       for (Space space : validSpaces) {
+           view.getBoard().spaces[space.getX()][space.getY()].getStyleClass().add("chess-space-valid");
+       }
 
     }
 

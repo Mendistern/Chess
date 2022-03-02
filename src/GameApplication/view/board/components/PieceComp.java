@@ -4,8 +4,6 @@ import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
 import javafx.scene.image.Image;
 
-import static GameApplication.model.chess.piece.pieces.Piecetype.ROOK;
-
 public abstract class PieceComp {
     protected Image image;
     protected boolean color;
@@ -30,8 +28,8 @@ public abstract class PieceComp {
         return "white";
     }
 
-    public boolean isWhite() {
-        return this.color;
+    public boolean isBlack(Piece piece) {
+        return piece.getPieceColor() == PieceColor.BLACK;
     }
 
     public String toString() {
@@ -41,7 +39,7 @@ public abstract class PieceComp {
     protected abstract String getName();
 
     public static PieceComp fromPieceToPieceComp(Piece piece){
-        boolean isBlack = piece.getPieceColor()== PieceColor.BLACK?true:false;
+        boolean isBlack = piece.getPieceColor() == PieceColor.BLACK;
         PieceComp pieceComp;
         switch (piece.getPieceType()){
             case PAWN:
