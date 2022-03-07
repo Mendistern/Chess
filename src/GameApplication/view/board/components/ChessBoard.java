@@ -1,6 +1,7 @@
 package GameApplication.view.board.components;
 
 import GameApplication.model.Move;
+import GameApplication.model.chess.Board;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.GridPane;
@@ -73,6 +74,12 @@ public class ChessBoard extends GridPane {
         //add style to new active location
         if (this.activeSpace != null)
             this.activeSpace.getStyleClass().add("chess-space-active");
+    }
+
+    public void onSpaceClickV2(Board board, int clickedColumn, int clickedRow){
+        board.getMoveManager().addMove(clickedColumn, clickedRow);
+
+        System.out.println(board.getMoveManager().getMoves());
     }
 
     public void onSpaceClick(int x, int y) {
@@ -213,7 +220,7 @@ public class ChessBoard extends GridPane {
                 if (this.piecesFromBoard[7-j][i]!=null) {
                     pieceComponentsOfBoard[7-j][i] = PieceComp.fromPieceToPieceComp(this.piecesFromBoard[7-j][i]);
                     this.spaces[7-j][i].setPiece(pieceComponentsOfBoard[7-j][i]);
-                    System.out.println((i )+ " " + (7-j)+" "+pieceComponentsOfBoard[7-j][i].getName()+" "+pieceComponentsOfBoard[7-j][i].getColor());
+                    //.out.println((i )+ " " + (7-j)+" "+pieceComponentsOfBoard[7-j][i].getName()+" "+pieceComponentsOfBoard[7-j][i].getColor());
                     //System.out.println(i + " " + j);
                 }
 

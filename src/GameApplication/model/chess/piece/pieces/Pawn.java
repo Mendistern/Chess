@@ -11,6 +11,10 @@ public class Pawn extends Piece {
     int numOfRowsFromOrigin;
     private Board board;
 
+    private Spot[][] validAttackSpots ;
+
+
+
     public Pawn(PieceColor pieceColor, Spot pieceLocation) {
         super(pieceColor, pieceLocation);
     }
@@ -119,6 +123,12 @@ public class Pawn extends Piece {
             return false;
         }
 
+        if (numOfRowsFromOrigin==2&&!isMoved()){
+            if (board.getPieceIntern()[getColumn()][getRow()+getMoveDirectionValue()]!=null){
+                return false;
+            }
+        }
+
         //after checking that dest is possible numOfRowsFromOrigin wise, check if target is empty
         if (!checkIfTargetIsEmpty(spot)) {
             errorMsg.moveNotPossible();
@@ -134,7 +144,7 @@ public class Pawn extends Piece {
     }
 
 
-    private boolean checkIfAttacking(Spot spot) {
+    public boolean checkIfAttacking(Spot spot) {
 
 
         //Maak rekenkundige waarde voor Spot (wit is +1 zwart is -1)
@@ -163,12 +173,15 @@ public class Pawn extends Piece {
         }
 
 
+        validAttackSpots[spot.getColumn()][spot.getRow()]=new Spot(spot.getColumn(),spot.getRow());
         return true;
 
 
     }
 
-    private void attack(Spot spot) {
+
+    @Override
+    public void attack(Spot spot) {
 
         //haal geattackeerde piece
         Piece attackedPiece = board.getPieceIntern()[spot.getColumn()][spot.getRow()];
@@ -216,6 +229,8 @@ public class Pawn extends Piece {
         this.board = board;
         System.out.println(getColumn() + " "+getRow());
 
+        validAttackSpots = new Spot[8][8];
+
         Piece[][] boardPieces = board.getPieceIntern();
         Spot[][] validSpots = new Spot[8][8];
 
@@ -244,6 +259,36 @@ public class Pawn extends Piece {
 
         return validSpots;
     }
+
+
+    public Spot[][] getValidAttackSpots() {
+        return validAttackSpots;
+    }
+
+    public Spot[][] attackableSpots(Board board) {
+        errorMsg.setPrintError(false);
+        this.board = board;
+        System.out.println(getColumn() + " "+getRow());
+
+        Piece[][] boardPieces = board.getPieceIntern();
+        Spot[][] validAttackSpots = new Spot[8][8];
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0;j<8; j++) {
+                if(checkIfAttacking(new Spot(j,i))){
+                    validAttackSpots[i][j] = new Spot(j,i);
+                }
+            }
+        }
+
+
+
+
+
+        return validAttackSpots;
+    }
+
+
 
     public int getMoveDirectionValue() {
         return this.getPieceColor() == PieceColor.WHITE ? 1 : -1;

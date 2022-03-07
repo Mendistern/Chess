@@ -17,6 +17,7 @@ public class BoardView extends BorderPane {
 
 
     private List<Space> validMovesSpaces;
+    private List<Space> validAttackSpaces;
 
     public Space activeSpace = null;
     public ChessBoard board;
@@ -34,6 +35,7 @@ public class BoardView extends BorderPane {
         initialiseNodes();
         layoutNodes();
         validMovesSpaces = new ArrayList<>();
+        validAttackSpaces = new ArrayList<>();
     }
 
 
@@ -79,9 +81,21 @@ public class BoardView extends BorderPane {
         this.validMovesSpaces.add(validMovesSpace);
     }
 
+    public List<Space> getValidAttackSpaces() {
+        return validAttackSpaces;
+    }
+
+    public void setValidAttackSpaces(Space validAttackSpace) {
+        validAttackSpaces.add(validAttackSpace);
+    }
+
     public void clearValidMovesSpaces() {
         this.validMovesSpaces.clear();
     }
+    public void clearAttackSpaces() {
+        this.validAttackSpaces.clear();
+    }
+
 
     public ChessBoard getBoard() {
         return board;

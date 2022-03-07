@@ -23,6 +23,7 @@ package GameApplication.model.chess;
  */
 
 
+import GameApplication.model.MoveManager;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
 import GameApplication.model.chess.piece.PieceSets;
@@ -48,12 +49,17 @@ public class Board {
     //initiliseer laatse ronde kleur met wit;
     PieceColor lastTurnColor = PieceColor.WHITE;
 
+    //creer een moveManager
+    MoveManager moveManager;
+
     Scanner key = new Scanner(System.in);
 
 
     public Board() {
         pieceSets[0] = new PieceSets(PieceColor.WHITE);
         pieceSets[1] = new PieceSets(PieceColor.BLACK);
+
+        moveManager = new MoveManager(this);
 
         generatePlayers();
 
@@ -183,7 +189,7 @@ public class Board {
         Piece originPiece;
         int columnDest;
         int rowDest;
-        do {
+        /*do {
             System.out.println();
             System.out.println("move format: kolomRij x kolomRij bv: wQ -> d3 = d1 x d3");
             System.out.println("Your turn: " + currentPlayer.getName());
@@ -219,7 +225,7 @@ public class Board {
                 }
             }
 
-        } while ( originPiece==null|| originPiece.getPieceColor() != lastTurnColor || !originPiece.moveToSpot(this,new Spot(columnDest, rowDest)) );
+        } while ( originPiece==null|| originPiece.getPieceColor() != lastTurnColor || !originPiece.moveToSpot(this,new Spot(columnDest, rowDest)) );*/
 
 
 
@@ -236,6 +242,10 @@ public class Board {
 
     public PieceColor getLastTurnColor() {
         return lastTurnColor;
+    }
+
+    public MoveManager getMoveManager() {
+        return moveManager;
     }
 
 
