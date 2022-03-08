@@ -24,7 +24,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         Chess model = new Chess();
-        BoardView view = new BoardView(8);
+        BoardView view = new BoardView();
         BoardPresenter presenter = new BoardPresenter(model, view);
         Scene scene = new Scene(view);
 

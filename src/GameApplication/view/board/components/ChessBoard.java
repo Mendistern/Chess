@@ -1,7 +1,7 @@
 package GameApplication.view.board.components;
 
-import GameApplication.model.Move;
 import GameApplication.model.chess.Board;
+import GameApplication.view.board.Move;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.GridPane;
