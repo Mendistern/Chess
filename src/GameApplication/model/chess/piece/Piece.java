@@ -28,6 +28,7 @@ public abstract class Piece {
         return pieceLocation.getRow();
     }
 
+    //self explanatory
     public PieceColor getPieceColor() {
         return pieceColor;
     }
@@ -36,6 +37,7 @@ public abstract class Piece {
         return moved;
     }
 
+    //self explanatory
     public void setMoved(boolean moved) {
         this.moved = moved;
     }
@@ -55,8 +57,18 @@ public abstract class Piece {
     }
 
 
+
+    //Actually move to Spot
     public abstract boolean moveToSpot(Board board,Spot  spot);
 
+    //get all valid attack spots
+    public abstract Spot[][] getValidAttackSpots();
+
+    //execute attack on opponents piece
+    public abstract void attack(Spot spot);
+
+    //Check if current Piece object is attacking the given Spot paramater. (through spot.getColumn() and spot.getRow)
+public abstract boolean checkIfAttacking(Spot spot);
 
     //is een boolean om een loop rond de move te zetten (zolang move niet valid is moet de player opnieuw een move inzetten)
     public abstract boolean moveTo(Spot spot);

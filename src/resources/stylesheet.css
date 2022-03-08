@@ -18,9 +18,15 @@
 .chess-space-dark {
     -fx-background-color: #D18B47;
 }
-
 .chess-space-active {
-    -fx-background-color: red;
+    -fx-background-color: #d6b838;
+}
+
+.chess-space-valid{
+    -fx-background-color: rgba(71, 209, 76, 0.82)
+}
+.chess-space-attackable{
+    -fx-background-color: #c8172c
 }
 
 .chat-box {

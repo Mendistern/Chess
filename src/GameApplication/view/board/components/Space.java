@@ -1,74 +1,67 @@
 package GameApplication.view.board.components;
 
-import GameApplication.view.board.components.Piece;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-
-/**
- * Component class for rendering the pieces on a board
- *
- * @author Nicolas Bouquiaux
- * @version 1.0
- */
 
 public class Space extends Button {
     private int x;
     private int y;
-    private Piece piece;
+    private PieceComp pieceComp;
 
     public Space(boolean light, int x, int y) {
+        super();
         this.x = x;
         this.y = y;
-        this.piece = null;
+        this.pieceComp = null;
         this.getStyleClass().add("chess-space");
 
-        if (light) {
+        if (light)
             this.getStyleClass().add("chess-space-light");
-        } else {
+        else
             this.getStyleClass().add("chess-space-dark");
-        }
     }
 
-    public Piece getPiece() {
-        return this.piece;
+    public PieceComp getPiece() {
+        return this.pieceComp;
     }
 
-    public void setPiece(Piece piece) {
-        this.piece = piece;
-        if (this.piece != null) {
-            this.setGraphic(new ImageView(piece.getImage()));
-        } else { //doesn't set a piece if null --> cause java don't like it when you throw nulls at it
+    public void setPiece(PieceComp pieceComp) {
+        this.pieceComp = pieceComp;
+        if (this.pieceComp != null)
+            this.setGraphic(new ImageView(pieceComp.getImage()));
+        else
             this.setGraphic(new ImageView());
-        }
     }
 
     public boolean isOccupied() {
-        return (this.piece != null);
+        return (this.pieceComp != null);
     }
 
-    public Piece releasePiece() {
-        Piece tmpPiece = this.piece;
+    public PieceComp releasePiece() {
+        PieceComp tmpPieceComp = this.pieceComp;
         setPiece(null);
-        return tmpPiece;
+        return tmpPieceComp;
     }
 
     public String getPieceColor() {
-        if (getPiece() != null) {
+        if (getPiece() != null)
             return getPiece().getColor();
-        } else {
+        else
             return "";
-        }
     }
 
     public int getX() {
         return this.x;
     }
+
     public void setX(int xIn) {
         this.x = xIn;
     }
+
     public int getY() {
         return this.y;
     }
+
     public void setY(int yIn) {
         this.y = yIn;
     }

@@ -26,6 +26,21 @@ public class Bishop extends Piece {
         return returnBoolean;
     }
 
+    @Override
+    public Spot[][] getValidAttackSpots() {
+        return new Spot[0][];
+    }
+
+    @Override
+    public void attack(Spot spot) {
+
+    }
+
+    @Override
+    public boolean checkIfAttacking(Spot spot) {
+        return false;
+    }
+
     public Piecetype getPieceType(){
         return Piecetype.BISHOP;
     }
@@ -39,9 +54,4 @@ public class Bishop extends Piece {
         return new Spot[8][8];
 
     }
-
-
-
-
-
 }
