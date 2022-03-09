@@ -46,12 +46,12 @@ public class ChessBoard extends GridPane {
                 boolean light = ((x + y) % 2 != 0);
                 spaces[x][y] = new Space(light, x, y);
 
-                if (playerIsWhite) {
+                if (!playerIsWhite) {
                     System.out.println(x + " " +y);
-                    this.add(spaces[x][y], x, y);
+                    this.add(spaces[x][y], x, 7- y);
 
                 } else {
-                    this.add(spaces[x][y], x, y);
+                    this.add(spaces[x][y], 7 -x, y);
 
                 }
                 final int xVal = x;
