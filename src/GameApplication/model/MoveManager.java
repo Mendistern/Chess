@@ -50,11 +50,10 @@ public class MoveManager {
             //krijg de Piece van de eerste Spot
             Piece pieceFromSpot = board.getPieceFromSpot(firstSpot.getColumn(), firstSpot.getRow());
 
-            //---
-            if (!pieceFromSpot.moveTo(new Spot(column,row))){
-                spots.clear();
-                return;
-            }
+
+
+
+
 
             //Krijg de Piece van de huidige click (spot)
             Piece currentPiece = board.getPieceFromSpot(column,row);
@@ -66,6 +65,11 @@ public class MoveManager {
                //en maak een recursieve oproep naar de addMove methode
                addMove(column,row);
             }else{
+                //Als move niet mogelijk is
+                if (!pieceFromSpot.moveTo(new Spot(column,row))){
+                    spots.clear();
+                    return;
+                }
                 //^De else betekent dat er op een andere Spot met of zonder Piece geklicked werd.
                 //Nu bekijken we als de 2de spot van de lijst, 1 van de valid moves van de eerste piece is.
                 for (Spot[] validMove : pieceFromSpot.validMoves(board)) {

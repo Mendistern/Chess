@@ -20,6 +20,7 @@ public class Rook extends Piece {
         int currentColumn = getColumn();
         int currentRow = getRow();
 
+
         int destinationColumn = spot.getColumn();
         int destinationRow = spot.getRow();
 

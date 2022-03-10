@@ -3,13 +3,19 @@ package GameApplication.model.chess.piece.pieces;
 import GameApplication.model.chess.Board;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
+import GameApplication.model.chess.piece.PieceSets;
 import GameApplication.model.chess.spot.Spot;
 
-public class Pawn extends Piece {
+import java.util.List;
 
-    private boolean isEnpassantAvailable = false;
+public class Pawn extends Piece {
     int numOfRowsFromOrigin;
     private Board board;
+    private boolean isEnpassantAvailable = false;
+
+
+    //enpassant variable to check if opponents Pawn has advanced 2 moves.
+    private boolean isLastMove2SpotsForward;
 
     private Spot[][] validAttackSpots ;
 
@@ -92,6 +98,8 @@ public class Pawn extends Piece {
 
         }
 
+        if (checkIfEnPassantIsAvailable(spot))return true;
+
 
         //check if in same column as in to move forward
         if (!checkIfInSameColumn(spot)) {
@@ -141,6 +149,45 @@ public class Pawn extends Piece {
 
 
         return returnBoolean;
+    }
+
+    private boolean checkIfEnPassantIsAvailable(Spot spot){
+
+        int dy = getRow() < spot.getRow()?-1:+1;
+
+        Pawn opponentsPiece;
+        try{
+        if (board.getPieceIntern()[spot.getColumn()][spot.getRow()+dy]!=null&&board.getPieceIntern()[spot.getColumn()][spot.getRow()+dy].getPieceType()==Piecetype.PAWN&&board.getPieceIntern()[spot.getColumn()][spot.getRow()+dy].getPieceColor()!=board.getLastTurnColor()){
+            opponentsPiece=(Pawn)board.getPieceIntern()[spot.getColumn()][spot.getRow()+dy];
+        }else{
+            return false;
+        }}catch (IndexOutOfBoundsException ioob){
+            return false;
+        }
+
+        if (!opponentsPiece.isLastMove2SpotsForward())return false;
+
+        if (!checkAttackColumnOnly1SpotAway(spot)) {
+            // errorMsg.column1Sideways();
+            return false;
+
+        }
+
+        if (numOfRowsFromOrigin>1){
+            return false;
+        }
+
+
+        int rowValueForEnPassant = getPieceColor() ==PieceColor.WHITE ?3:4;
+        //bug here
+        if (Math.abs(7-getRow())!=rowValueForEnPassant){
+            return false;
+        }
+
+
+
+        return true;
+
     }
 
 
@@ -304,6 +351,32 @@ public class Pawn extends Piece {
         errorMsg.setPrintError(true);
         if(!moveTo(spot)) return false;
 
+
+        //set value if moving 2 spots forward
+        if (!isMoved()&&numOfRowsFromOrigin==2){
+            isLastMove2SpotsForward=true;
+        }else{
+            isLastMove2SpotsForward=false;
+        }
+
+        if (checkIfEnPassantIsAvailable(spot)){
+            int dy = getRow() < spot.getRow()?-1:+1;
+
+            Piece attackedPiece = board.getPieceIntern()[spot.getColumn()][spot.getRow()+dy];
+            board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()+dy] = null;
+
+            //board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
+
+
+            board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
+            spot.setPiece(this);
+            //System.out.println(board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())]);
+            getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
+            setMoved(true);
+
+            return true;
+        }
+
         if(checkIfAttacking(spot)){
             attack(spot);
             return true;
@@ -313,7 +386,22 @@ public class Pawn extends Piece {
         board.getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
 
         setMoved(true);
+
+
+        List<Piece> piecesOfAttacker = board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())].getPieces();
+        for (Piece piece : piecesOfAttacker) {
+            if (piece.getPieceType()==Piecetype.PAWN){
+                Pawn opponentsPawn = (Pawn) piece;
+                opponentsPawn.isLastMove2SpotsForward = false;
+            }
+
+        }
+
         errorMsg.setPrintError(false);
         return true;
+    }
+
+    public boolean isLastMove2SpotsForward() {
+        return isLastMove2SpotsForward;
     }
 }
