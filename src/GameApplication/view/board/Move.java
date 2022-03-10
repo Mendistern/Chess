@@ -1,4 +1,13 @@
-package GameApplication.model;
+package GameApplication.view.board;
+
+/**
+ * Class that processes a move
+ *
+ * @author Nicolas Bouquiaux
+ * @version 1.0
+ */
+
+//totally so unnecessary
 
 public class Move {
     int oldX;
@@ -65,7 +74,8 @@ public class Move {
     }
 
     // Converts x number poisition to character label
-    private String getCharLabel(int i) {
+    public String getCharLabel(int i) {
         return i > 0 && i < 27 ? String.valueOf((char) (i + 64)) : null;
     }
+    //probably unnecessary code but what gives?
 }

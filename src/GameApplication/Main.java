@@ -6,6 +6,12 @@ import GameApplication.view.board.BoardView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+/**
+ * Main class that stages our mainView & model to scenes
+ *
+ * @author Nicolas Bouquiaux
+ * @version 1.0
+ */
 
 public class Main extends Application {
 

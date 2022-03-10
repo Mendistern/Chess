@@ -14,37 +14,13 @@ import java.util.List;
 public class BoardPresenter {
     private Chess model;
     private BoardView view;
-
-
     private Piece[][] piecesFromModel;
-
-
     public BoardPresenter(Chess model, BoardView view) {
         this.model = model;
         this.view = view;
         addEventListeners();
         updateView();
     }
-
-//    private void updateView(boolean playerIsWhite) {
-//
-//        for (int x = 0; x < board.getSpaces()[0].length; x++) {
-//            for (int y = 0; y < board.getSpaces()[1].length; y++) {
-//                boolean light = ((x + y) % 2 != 0);
-//                board.getSpaces()[x][y] = new Space(light, x, y);
-//
-//                if (playerIsWhite) {
-//                    board.add(board.getSpaces()[x][y], x, 7 - y);
-//                } else {
-//                    board.add(board.getSpaces()[x][y], 7 - x, y);
-//                }
-//                final int xVal = x;
-//                final int yVal = y;
-//
-//
-//            }
-//        }
-//    }
 
     private void addEventListeners() {
         for (int x = 0; x < 8; x++) {
@@ -54,17 +30,10 @@ public class BoardPresenter {
                 view.getBoard().getSpaces()[finalX][finalY].setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-//                        System.out.println("Clicked");
-//                        System.out.println((finalY)+ " "+ (finalX) );
-
 
                         handleValidMoves(model.getBoard().getPieceFromSpot(finalX, finalY));
-
                         view.getBoard().setActiveSpace(view.getBoard().spaces[finalX][finalY]);
-
                         view.getBoard().onSpaceClickV2(model.getBoard(),finalX, finalY);
-                       // view.getBoard().onSpaceClick(finalX, finalY);
-                       // model.getBoard().nextTurn();
                         updateView();
 
                     }
@@ -80,8 +49,6 @@ public class BoardPresenter {
                 if (view.getBoard().getActiveSpace() != null) {
                     view.getBoard().getActiveSpace().getStyleClass().add("chess-space-active");
                 }
-
-              // view.getSpace(). (e -> board.onSpaceClick(finalX, finalY));
             }
         }
     }
@@ -102,20 +69,12 @@ public class BoardPresenter {
         PieceColor color = piece.getPieceColor();
         //check if clicked on own piece
         if (model.getBoard().getLastTurnColor() != color) return;
-
-
-
-
-
         Spot[][] validSpots = model.getBoard().getPieceFromSpot(piece.getColumn(), piece.getRow()).validMoves(model.getBoard());
-
-
 
         for (Spot[] validSpot : validSpots) {
             for (Spot spot : validSpot) {
                 if (spot != null) {
                         view.setValidMovesSpaces(new Space(true,spot.getColumn(),spot.getRow()));
-                    //System.out.println(spot);
                 }
             }
         }
@@ -124,9 +83,7 @@ public class BoardPresenter {
         for (Spot[] validSpot :validAttackSpots.getValidAttackSpots()) {
             for (Spot spot : validSpot) {
                 if (spot != null) {
-
                     view.setValidAttackSpaces(new Space(true,spot.getColumn(),spot.getRow()));
-                    //System.out.println(spot);
                 }
             }
         }
