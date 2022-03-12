@@ -63,9 +63,6 @@ public class Rook extends Piece {
             int dy,y;
             //check whether up or down.
             dy = currentColumn < destinationColumn ? 1 : -1;
-
-
-
                 for (y = currentColumn+dy; y !=destinationColumn; y+=dy) {
 
                     if (board.getPieceIntern()[y][destinationRow] != null) {

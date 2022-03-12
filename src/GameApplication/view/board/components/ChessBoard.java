@@ -65,13 +65,8 @@ public class ChessBoard extends GridPane {
                 clickedSpace.getPieceColor() != activeSpace.getPieceColor()) {
             Move p;
             p = new Move(activeSpace.getX(), activeSpace.getY(), x, y);
-
-
             // update gameboard
-            if (this.processMove(p)) {
-                // send move to other player
-
-            }
+           this.processMove(p);
 
             //decouples space from space on board
             setActiveSpace(null);
@@ -85,6 +80,7 @@ public class ChessBoard extends GridPane {
     }
 
     protected boolean processMove(Move p) {
+        //when a move is valid, register current (old) coordinates and new coordinates & reposition piece to new coordinates
         if (moveIsValid(p)) {
             Space oldSpace = spaces[p.getOldX()][p.getOldY()];
             Space newSpace = spaces[p.getNewX()][p.getNewY()];
@@ -105,12 +101,15 @@ public class ChessBoard extends GridPane {
             return false;
         }
 
+        // check if previous spot is present or else throw exception
         try {
             oldSpace = spaces[p.getOldX()][p.getOldY()];
         } catch (NullPointerException e) {
             return false;
         }
 
+
+        // Checks if new spot is a valid choice, else throw exception
         try {
             newSpace = spaces[p.getNewX()][p.getNewY()];
         } catch (NullPointerException e) {

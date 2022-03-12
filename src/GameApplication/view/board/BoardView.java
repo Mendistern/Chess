@@ -23,9 +23,6 @@ public class BoardView extends BorderPane {
 
     private PieceComp[][] piecesFromModel;
 
-//    public Space[][] getSpace() {
-//        return space;
-//    }
 
     private boolean playerIsWhite;
     private GridPane gamePane;
