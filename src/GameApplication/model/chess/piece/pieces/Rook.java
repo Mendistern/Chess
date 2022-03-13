@@ -78,6 +78,7 @@ public class Rook extends Piece {
 
     }
 
+
     @Override
     public boolean checkIfAttacking(Spot spot) {
 
@@ -154,5 +155,9 @@ public class Rook extends Piece {
         setMoved(true);
         return true;
 
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 }

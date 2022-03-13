@@ -6,74 +6,54 @@ import GameApplication.model.chess.piece.PieceColor;
 import GameApplication.model.chess.spot.Spot;
 
 public class Queen extends Piece {
-    private Board board;
-    private Spot[][] validAttackSpots;
-
     public Queen(PieceColor pieceColor, Spot pieceLocation) {
         super(pieceColor, pieceLocation);
+    }
+
+    private Board board;
+
+    private Spot[][] validAttackSpots ;
+
+
+    @Override
+    public boolean moveToSpot(Board board, Spot spot) {
+
+        this.board = board;
+        if(!moveTo(spot)) return false;
+
+        if(checkIfAttacking(spot)){
+            attack(spot);
+            return true;
+        }
+
+        //Als alles ok is, beweeg de Piece
+        getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
+        board.getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
+
+        setMoved(true);
+        return true;
     }
 
     @Override
     public boolean moveTo(Spot spot) {
 
-        int qR, qC, oR, oC;
-        qC = getColumn();
-        qR = getRow();
-        oC = spot.getColumn();
-        oR = spot.getRow();
+        Rook queenAsRook = new Rook(getPieceColor(),new Spot(getColumn(),getRow()));
 
-        //check if destination contains same piece of same color
-        if (board.getPieceIntern()[oC][oR] != null && board.getPieceIntern()[oC][oR].getPieceColor() == getPieceColor()) {
-            return false;
-        }
+        queenAsRook.setBoard(board);
 
-        //check if valid move direction
-        if (qC != oC && qR != oR) {
-            return false;
-        }
-
-        //if queen and opponent same row
-        if (qC == oC) {
-            int dx;
-            int y;
-            dx = qR < oR ? 1 : -1;
-
-            for (y = qR + dx; y != oR; y += dx) {
-                if (board.getPieceIntern()[oC][y] != null) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-        //if queen and opponent same column
-        if (qC == oC) {
-            int qY, x;
-            qY = qC < oC ? 1 : -1;
-            for (x = qC + qY; x != oC; x += qY) {
-                if (board.getPieceIntern()[x][oR] != null) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        if (Math.abs(qR - oR) == Math.abs(qC - oC)) {
-            int qZ, z;
-            qZ = 0;
-
-            for (z = qC + qZ; z != Math.abs(oC - qC); z += qZ) {
-                if (board.getPieceIntern()[z][oC - qC] != null) {
-                    return false;
-                }
-            }
-
+        if (queenAsRook.moveTo(spot)){
             return true;
         }
 
-        //if moving up down
+        Bishop queenAsBishop = new Bishop(getPieceColor(),new Spot(getColumn(),getRow()));
+        queenAsBishop.setBoard(board);
+
+        if (queenAsBishop.moveTo(spot)){
+            return true;
+        }
+
 
         return false;
-
     }
 
     @Override
@@ -86,59 +66,48 @@ public class Queen extends Piece {
         Piece attackedPiece = board.getPieceIntern()[spot.getColumn()][spot.getRow()];
         board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
 
+        //board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
+
+
         board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
         spot.setPiece(this);
+        //System.out.println(board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())]);
         getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
         setMoved(true);
-
     }
 
     @Override
     public boolean checkIfAttacking(Spot spot) {
-        if (board.getPieceIntern()[spot.getColumn()][spot.getRow()] != null) {
-            validAttackSpots[spot.getColumn()][spot.getRow()] = new Spot(spot.getColumn(), spot.getRow());
+
+        if (board.getPieceIntern()[spot.getColumn()][spot.getRow()]!=null){
+            validAttackSpots[spot.getColumn()][spot.getRow()]=new Spot(spot.getColumn(),spot.getRow());
             return true;
         }
+
         return false;
     }
-
-    public Piecetype getPieceType() {
+    public Piecetype getPieceType(){
         return Piecetype.QUEEN;
     }
 
-    public Spot[][] validMoves(Board board) {
-        //todo
+    public Spot[][] validMoves(Board board){
         this.board = board;
+
         validAttackSpots = new Spot[8][8];
 
         Piece[][] boardPieces = board.getPieceIntern();
         Spot[][] validSpots = new Spot[8][8];
+
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (moveTo(new Spot(i, j))) {
-                    checkIfAttacking(new Spot(i, j));
+                    checkIfAttacking(new Spot(i,j));
                     validSpots[i][j] = new Spot(i, j);
                 }
             }
         }
+
         return validSpots;
 
-    }
-
-
-    public boolean moveToSpot(Board board, Spot spot) {
-        this.board = board;
-        if (!moveTo(spot)) return false;
-
-        if (checkIfAttacking(spot)) {
-            attack(spot);
-            return true;
-        }
-        //als alles gaat, beweeg piece
-        getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
-        board.getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
-
-        setMoved(true);
-        return true;
     }
 }
