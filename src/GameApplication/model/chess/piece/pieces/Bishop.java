@@ -124,9 +124,6 @@ public class Bishop extends Piece {
         return validSpots;
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
 
     @Override
     public boolean moveToSpot(Board board, Spot spot) {
@@ -146,5 +143,7 @@ public class Bishop extends Piece {
     }
 
 
-
+    public void setBoard(Board board) {
+        this.board = board;
+    }
 }
