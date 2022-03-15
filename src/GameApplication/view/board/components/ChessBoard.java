@@ -4,8 +4,13 @@ import GameApplication.model.chess.Board;
 import GameApplication.view.board.Move;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import GameApplication.model.chess.piece.Piece;
+import javafx.scene.layout.StackPane;
+
+import java.sql.Struct;
 
 public class ChessBoard extends GridPane {
     public Space[][] spaces = new Space[8][8];
@@ -19,9 +24,13 @@ public class ChessBoard extends GridPane {
         piecesFromBoard = new Piece[8][8];
 
         //kolom
+        int colNum = 1;
+        GridPane gridPane = new GridPane();
+        StackPane stackpane = new StackPane();
         for (int y = 7; y >= 0; y--) {
             //rij
             for (int x = 0; x < 8; x++) {
+
                 boolean light = ((x + y) % 2 != 0);
                 spaces[x][y] = new Space(light, x, y);
 
@@ -31,11 +40,27 @@ public class ChessBoard extends GridPane {
                 } else {
                     this.add(spaces[x][y], 7 - x, y);
                 }
+
+
                 final int xVal = x;
                 final int yVal = y;
                 spaces[x][y].setOnAction(e -> onSpaceClick(xVal, yVal));
+
             }
+            Label label = new Label("" + colNum);
+            colNum++;
+            gridPane.setAlignment(Pos.BOTTOM_LEFT);
+
+
+
+            gridPane.getChildren().add(label);
+            this.add(label, 0, 7 -y);
         }
+
+
+        this.getChildren().add(gridPane);
+        this.setGridLinesVisible(true);
+
     }
 
     public void setActiveSpace(Space s) {
