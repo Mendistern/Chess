@@ -3,7 +3,6 @@ package GameApplication.view.board;
 import GameApplication.model.Chess;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
-import GameApplication.model.chess.piece.pieces.Pawn;
 import GameApplication.model.chess.spot.Spot;
 import GameApplication.view.board.components.Space;
 import javafx.event.ActionEvent;
@@ -15,6 +14,8 @@ public class BoardPresenter {
     private Chess model;
     private BoardView view;
     private Piece[][] piecesFromModel;
+    int size = 8;
+
     public BoardPresenter(Chess model, BoardView view) {
         this.model = model;
         this.view = view;
@@ -33,12 +34,15 @@ public class BoardPresenter {
 
                         handleValidMoves(model.getBoard().getPieceFromSpot(finalX, finalY));
                         view.getBoard().setActiveSpace(view.getBoard().spaces[finalX][finalY]);
-                        view.getBoard().onSpaceClickV2(model.getBoard(),finalX, finalY);
+                        view.getBoard().onSpaceClickV2(model.getBoard(), finalX, finalY);
+
+
                         updateView();
 
                     }
 
                 });
+
                 Space s = view.getBoard().getActiveSpace();
                 if (view.getBoard().getActiveSpace() != null) {
                     view.getBoard().getActiveSpace().getStyleClass().removeAll("chess-space-active");
@@ -52,6 +56,10 @@ public class BoardPresenter {
             }
         }
     }
+
+
+
+
 
     public void handleValidMoves(Piece piece) {
         List<Space> validSpaces =  view.getValidMovesSpaces();

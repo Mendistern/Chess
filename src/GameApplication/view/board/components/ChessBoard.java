@@ -1,32 +1,51 @@
 package GameApplication.view.board.components;
 
 import GameApplication.model.chess.Board;
+import GameApplication.model.chess.piece.Piece;
 import GameApplication.view.board.Move;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import GameApplication.model.chess.piece.Piece;
 import javafx.scene.layout.StackPane;
+import javafx.scene.transform.Translate;
 
-import java.sql.Struct;
+
 
 public class ChessBoard extends GridPane {
     public Space[][] spaces = new Space[8][8];
     public Space activeSpace = null;
     public PieceComp[][] pieceComponentsOfBoard;
     private Piece[][] piecesFromBoard;
+    public int size;
+    private Translate pos;
+
+    private GridPane gridPane;
+
+    public StackPane getRoot() {
+        return root;
+    }
+
+    private StackPane root;
+
+    public GridPane getGridPane() {
+        return gridPane;
+    }
 
     public ChessBoard(boolean playerIsWhite) {
         super();
+//        final int xVal;
+//        final int yVal;
+
         pieceComponentsOfBoard = new PieceComp[8][8];
         piecesFromBoard = new Piece[8][8];
 
         //kolom
-        int colNum = 1;
-        GridPane gridPane = new GridPane();
-        StackPane stackpane = new StackPane();
+        int colNum = 1; // vereist want loop start vanaf 0
+
+         gridPane = new GridPane(); //houdt de nummers gescheiden voor problemen te voorkomen
+        Node test =gridPane;
+        root = new StackPane(); // stackpane zorgt ervoor dat we deze op de huidige pane kunnen plaatsen, anders krijg je duplication errors
         for (int y = 7; y >= 0; y--) {
             //rij
             for (int x = 0; x < 8; x++) {
@@ -41,27 +60,43 @@ public class ChessBoard extends GridPane {
                     this.add(spaces[x][y], 7 - x, y);
                 }
 
-
                 final int xVal = x;
                 final int yVal = y;
                 spaces[x][y].setOnAction(e -> onSpaceClick(xVal, yVal));
 
+                 test.getScaleX();
+                 test.autosize();
             }
+
             Label label = new Label("" + colNum);
             colNum++;
-            gridPane.setAlignment(Pos.BOTTOM_LEFT);
-
-
-
-            gridPane.getChildren().add(label);
+            root.setAlignment(Pos.BOTTOM_LEFT);
+            root.getChildren().add(label);
             this.add(label, 0, 7 -y);
+
+            test.autosize();
         }
+
+
 
 
         this.getChildren().add(gridPane);
         this.setGridLinesVisible(true);
+        this.setAlignment(Pos.CENTER);
+        this.autosize();
+
 
     }
+
+
+
+    private double cell_width;
+    private double cell_height;
+
+
+
+
+
 
     public void setActiveSpace(Space s) {
         //removes syle from old active location

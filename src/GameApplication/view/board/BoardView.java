@@ -1,10 +1,13 @@
 package GameApplication.view.board;
 
 
+import GameApplication.view.board.components.ChessBoard;
+import GameApplication.view.board.components.PieceComp;
 import GameApplication.view.board.components.Space;
-import GameApplication.view.board.components.*;
+import javafx.geometry.Bounds;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,25 +28,48 @@ public class BoardView extends BorderPane {
 
 
     private boolean playerIsWhite;
-    private GridPane gamePane;
+
+    public Group getBoardGroup() {
+        return boardGroup;
+    }
+
+    public Bounds getGameBounds() {
+        return gameBounds;
+    }
+
+    private Group boardGroup;
+    private Bounds gameBounds;
 
     public BoardView() {
         initialiseNodes();
         layoutNodes();
         validMovesSpaces = new ArrayList<>();
         validAttackSpaces = new ArrayList<>();
+
+
     }
 
 
     private void initialiseNodes() {
-
         board = new ChessBoard(playerIsWhite);
+
         space = new Space[8][8];
+
+
+
     }
+
 
     private void layoutNodes() {
+
         this.setCenter(board);
+
+
     }
+
+
+
+
 
 
     public Space getActiveSpace() {
@@ -84,9 +110,9 @@ public class BoardView extends BorderPane {
         return playerIsWhite;
     }
 
-    public GridPane getGamePane() {
-        return gamePane;
-    }
+//    public GridPane getGamePane() {
+//        return gamePane;
+//    }
 
 }
 

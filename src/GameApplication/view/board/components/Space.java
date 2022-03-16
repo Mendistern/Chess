@@ -6,13 +6,19 @@ import javafx.scene.image.ImageView;
 public class Space extends Button {
     private int x;
     private int y;
+
+
+
     private PieceComp pieceComp;
+
+
 
     public Space(boolean light, int x, int y) {
         super();
         this.x = x;
         this.y = y;
         this.pieceComp = null;
+
         this.getStyleClass().add("chess-space");
 
         if (light)
