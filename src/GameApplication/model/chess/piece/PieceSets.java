@@ -11,6 +11,8 @@ public class PieceSets {
     //hier gaan we alle Piece's inzetten
     List<Piece> pieceSets = new ArrayList<>();
 
+    private boolean isChecked;
+
     private PieceColor color;
 
 
@@ -20,6 +22,16 @@ public class PieceSets {
         setPieceStartPositions(color);
 
         this.color = color;
+    }
+
+    public King getKing(){
+
+        for (Piece piece:pieceSets){
+            if (piece.getPieceType()==Piecetype.KING){
+                return (King) piece;
+            }
+        }
+        return null;
     }
 
 
@@ -78,6 +90,13 @@ public class PieceSets {
          */
     }
 
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
 
     @Override
     public String toString() {

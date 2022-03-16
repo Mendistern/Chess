@@ -7,7 +7,7 @@ import GameApplication.model.chess.spot.Spot;
 
 
 public class Rook extends Piece {
-    private Board board;
+    //private Board board;
     private Spot[][] validAttackSpots ;
 
     public Rook(PieceColor pieceColor, Spot pieceLocation) {
@@ -27,7 +27,7 @@ public class Rook extends Piece {
 
 
         //check if destination contains piece of same color
-        if (board.getPieceIntern()[destinationColumn][destinationRow] != null && board.getPieceIntern()[destinationColumn][destinationRow].getPieceColor() == getPieceColor()) {
+        if (getBoard().getPieceIntern()[destinationColumn][destinationRow] != null && getBoard().getPieceIntern()[destinationColumn][destinationRow].getPieceColor() == getPieceColor()) {
             return false;
         }
 
@@ -51,7 +51,7 @@ public class Rook extends Piece {
             for (y = currentRow + dx; y != destinationRow; y += dx) {
 
                 //If board on spot dColumn and row y is occupied
-                if (board.getPieceIntern()[destinationColumn][y] != null) {
+                if (getBoard().getPieceIntern()[destinationColumn][y] != null) {
 
                     return false;
                 }
@@ -65,7 +65,7 @@ public class Rook extends Piece {
             dy = currentColumn < destinationColumn ? 1 : -1;
                 for (y = currentColumn+dy; y !=destinationColumn; y+=dy) {
 
-                    if (board.getPieceIntern()[y][destinationRow] != null) {
+                    if (getBoard().getPieceIntern()[y][destinationRow] != null) {
 
                         return false;
                     }
@@ -82,7 +82,7 @@ public class Rook extends Piece {
     @Override
     public boolean checkIfAttacking(Spot spot) {
 
-        if (board.getPieceIntern()[spot.getColumn()][spot.getRow()]!=null){
+        if (getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()]!=null){
             validAttackSpots[spot.getColumn()][spot.getRow()]=new Spot(spot.getColumn(),spot.getRow());
             return true;
         }
@@ -97,13 +97,13 @@ public class Rook extends Piece {
 
     @Override
     public void attack(Spot spot) {
-        Piece attackedPiece = board.getPieceIntern()[spot.getColumn()][spot.getRow()];
-        board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
+        Piece attackedPiece = getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()];
+        getBoard().getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
 
         //board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
 
 
-        board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
+        getBoard().getPieceSets()[getBoard().getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
         spot.setPiece(this);
         //System.out.println(board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())]);
         getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
@@ -116,11 +116,11 @@ public class Rook extends Piece {
     }
 
     public Spot[][] validMoves(Board board) {
-        this.board = board;
+        super.setBoard(board);
 
         validAttackSpots = new Spot[8][8];
 
-        Piece[][] boardPieces = board.getPieceIntern();
+        Piece[][] boardPieces = getBoard().getPieceIntern();
         Spot[][] validSpots = new Spot[8][8];
 
         for (int i = 0; i < 8; i++) {
@@ -140,7 +140,7 @@ public class Rook extends Piece {
     @Override
     public boolean moveToSpot(Board board, Spot spot) {
 
-        this.board = board;
+        super.setBoard(board);
         if(!moveTo(spot)) return false;
 
         if(checkIfAttacking(spot)){
@@ -150,14 +150,12 @@ public class Rook extends Piece {
 
         //Als alles ok is, beweeg de Piece
         getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
-        board.getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
+        getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
 
         setMoved(true);
         return true;
 
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
+
 }

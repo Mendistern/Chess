@@ -3,6 +3,7 @@ package GameApplication.view.board;
 import GameApplication.model.Chess;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
+import GameApplication.model.chess.piece.pieces.King;
 import GameApplication.model.chess.piece.pieces.Pawn;
 import GameApplication.model.chess.spot.Spot;
 import GameApplication.view.board.components.Space;
@@ -34,8 +35,8 @@ public class BoardPresenter {
                         handleValidMoves(model.getBoard().getPieceFromSpot(finalX, finalY));
                         view.getBoard().setActiveSpace(view.getBoard().spaces[finalX][finalY]);
                         view.getBoard().onSpaceClickV2(model.getBoard(),finalX, finalY);
-                        updateView();
 
+                        updateView();
                     }
 
                 });
@@ -91,9 +92,18 @@ public class BoardPresenter {
     }
 
 
+
     public void updateView() {
+
         piecesFromModel = model.getPiecesOnBoard();
         view.getBoard().defineStartPositions(piecesFromModel);
+
+
+
+        King king   = model.getBoard().getKing(model.getBoard().getCheckedColor());
+
+        view.getBoard().getSpaces()[king.getColumn()][king.getRow()].getStyleClass().remove("chess-space-attackable");
+
 
 
        List<Space> validSpaces =  view.getValidMovesSpaces();
@@ -104,6 +114,18 @@ public class BoardPresenter {
        for (Space space : validAttackSpaces) {
            view.getBoard().getSpaces()[space.getX()][space.getY()].getStyleClass().add("chess-space-attackable");
        }
+
+
+
+        if (model.getBoard().getCheckedState()){
+            view.getBoard().getSpaces()[king.getColumn()][king.getRow()].getStyleClass().add("chess-space-attackable");
+        }
+
+
+
+
+
+
 
     }
 

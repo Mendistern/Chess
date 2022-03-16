@@ -9,8 +9,12 @@ import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
 import GameApplication.model.chess.piece.PieceSets;
 import GameApplication.model.chess.piece.pieces.Bishop;
+import GameApplication.model.chess.piece.pieces.King;
+import GameApplication.model.chess.piece.pieces.Piecetype;
 import GameApplication.model.chess.spot.Spot;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -23,17 +27,23 @@ public class Board {
     //creatie van variabele arary, die voor elke spots waarde, zijn Piece gaat inzetten. (of null)
     private Piece[][] pieceIntern;
     //creer 2 pieceSets voor black and white
-    PieceSets[] pieceSets = new PieceSets[2];
+    private PieceSets[] pieceSets = new PieceSets[2];
 
     private Player[] players;
 
     //initiliseer laatse ronde kleur met wit;
-    PieceColor lastTurnColor = PieceColor.WHITE;
+    private PieceColor lastTurnColor = PieceColor.WHITE;
 
     //creer een moveManager
-    MoveManager moveManager;
+   private  MoveManager moveManager;
 
-    Scanner key = new Scanner(System.in);
+    private Scanner key = new Scanner(System.in);
+
+    private Player currentPlayer;
+
+    private boolean checkedState;
+
+    private PieceColor checkedColor;
 
 
     public Board() {
@@ -82,6 +92,7 @@ public class Board {
             System.out.printf("%s is %s%n", player.getName(), player.getColor());
         }
 
+        currentPlayer = players[0];
     }
 
 
@@ -155,21 +166,30 @@ public class Board {
         //nextTurn();
 
 
+
     }
 
-    public void nextTurn() {
-        System.out.println("Next turn");
-        //initialiseer currentPlayer met waarde om later error te vermijden
-        Player currentPlayer = players[0];
+    public void switchPlayer(){
         for (Player pl :
                 players) {
             if (pl.getColor() == lastTurnColor) {
                 currentPlayer = pl;
             }
         }
-        Piece originPiece;
-        int columnDest;
-        int rowDest;
+        lastTurnColor = currentPlayer.getColor() == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
+    }
+
+    public void nextTurn() {
+        System.out.println("Next turn");
+        //initialiseer currentPlayer met waarde om later error te vermijden
+
+
+
+
+
+
+
+
         /*do {
             System.out.println();
             System.out.println("move format: kolomRij x kolomRij bv: wQ -> d3 = d1 x d3");
@@ -210,11 +230,42 @@ public class Board {
 
 
 
-        lastTurnColor = currentPlayer.getColor() == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
+
+
+
+
+
+
         drawBoard();
+
 
         //TODO
         //
+    }
+
+    public void checkForCheck(){
+        List<Piece> pieces = getPieceSets()[getArrayIndexForColor(getCurrentPlayer().getColor())].getPieces();
+        King king = null;
+        for (Iterator<Piece> iterator = pieces.iterator(); iterator.hasNext(); ) {
+            Piece next =  iterator.next();
+            if (next.getPieceType()== Piecetype.KING){
+                king = (King)next;
+                break;
+            }
+
+        }
+
+        boolean isCheck =  king.isCheck(this);
+
+        pieceSets[getArrayIndexForColor(getCurrentPlayer().getColor())].setChecked(isCheck);
+       if (isCheck) {
+           setCheckedColor(getCurrentPlayer().getColor());
+       }
+        setCheckedState(isCheck);
+
+
+        System.out.println(king);
+        System.out.println(isCheck + " ");
     }
 
     public Piece getPieceFromSpot(int column, int row) {
@@ -229,6 +280,10 @@ public class Board {
         return moveManager;
     }
 
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
 
     /*
     public String[][] getSpots() {
@@ -239,5 +294,30 @@ public class Board {
 
     public Piece[][] getPieceIntern() {
         return pieceIntern;
+    }
+
+
+    public void setCheckedState(boolean checkedState) {
+        this.checkedState = checkedState;
+    }
+
+    public boolean getCheckedState() {
+        return checkedState;
+    }
+
+    public King getKing(PieceColor color){
+        return pieceSets[getArrayIndexForColor(color)].getKing();
+    }
+
+    public PieceColor getOpponentColor(){
+        return getCurrentPlayer().getColor()==PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
+    }
+
+    public void setCheckedColor(PieceColor checkedColor) {
+        this.checkedColor = checkedColor;
+    }
+
+    public PieceColor getCheckedColor() {
+        return checkedColor;
     }
 }

@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Bishop extends Piece {
-    private Board board;
+    //private Board board;
     private Spot[][] validAttackSpots ;
 
 
@@ -43,7 +43,7 @@ public class Bishop extends Piece {
            return false;
        }
 
-       if (board.getPieceIntern()[targetColumn][targetRow]!=null&&board.getPieceIntern()[targetColumn][targetRow].getPieceColor()==board.getLastTurnColor()){
+       if (getBoard().getPieceIntern()[targetColumn][targetRow]!=null&&getBoard().getPieceIntern()[targetColumn][targetRow].getPieceColor()==getBoard().getLastTurnColor()){
            return false;
        }
 
@@ -56,7 +56,7 @@ public class Bishop extends Piece {
         int x = getColumn()+columnOffset;
 
         for (int y=getRow()+rowOffset;y!=targetRow;y+=rowOffset){
-            if (board.getPieceIntern()[x][y]!=null){
+            if (getBoard().getPieceIntern()[x][y]!=null){
                 return false;
             }
             x+=columnOffset;
@@ -72,7 +72,7 @@ public class Bishop extends Piece {
     @Override
     public boolean checkIfAttacking(Spot spot) {
 
-        if (board.getPieceIntern()[spot.getColumn()][spot.getRow()]!=null&&board.getPieceIntern()[spot.getColumn()][spot.getRow()].getPieceColor()!=board.getLastTurnColor()){
+        if (getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()]!=null&&getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()].getPieceColor()!=getBoard().getLastTurnColor()){
 
             validAttackSpots[spot.getColumn()][spot.getRow()] = new Spot(spot.getColumn(),spot.getRow());
             return true;
@@ -88,13 +88,13 @@ public class Bishop extends Piece {
     @Override
     public void attack(Spot spot) {
         //haal geattackeerde piece
-        Piece attackedPiece = board.getPieceIntern()[spot.getColumn()][spot.getRow()];
-        board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
+        Piece attackedPiece = getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()];
+        getBoard().getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
 
         //board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
 
 
-        board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
+        getBoard().getPieceSets()[getBoard().getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
         spot.setPiece(this);
         //System.out.println(board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())]);
         getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
@@ -104,7 +104,7 @@ public class Bishop extends Piece {
 
 
     public Spot[][] validMoves(Board board){
-        this.board = board;
+        super.setBoard(board);
 
 
         validAttackSpots = new Spot[8][8];
@@ -127,7 +127,7 @@ public class Bishop extends Piece {
 
     @Override
     public boolean moveToSpot(Board board, Spot spot) {
-        this.board = board;
+        super.setBoard(board);
         if(!moveTo(spot)) return false;
 
         if(checkIfAttacking(spot)){
@@ -136,14 +136,12 @@ public class Bishop extends Piece {
         }
         //Als alles ok is, beweeg de Piece
         getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
-        board.getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
+        getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
 
         setMoved(true);
         return true;
     }
 
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
+
 }

@@ -7,6 +7,9 @@ import GameApplication.model.chess.spot.Spot;
 import java.util.Objects;
 
 public abstract class Piece {
+
+
+    private Board board;
     //type enum BLACK of WHITE
     private PieceColor pieceColor;
     //Locatie van de Piece in rij kolom
@@ -57,6 +60,13 @@ public abstract class Piece {
     }
 
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
 
     //Actually move to Spot
     public abstract boolean moveToSpot(Board board,Spot  spot);

@@ -10,7 +10,7 @@ public class Knight extends Piece {
     public Knight(PieceColor pieceColor, Spot pieceLocation) {
         super(pieceColor, pieceLocation);
     }
-    private Board board;
+    //private Board board;
 
     //create 2 arrays: X for valid Spot distance from current spot by column and same for Y
     private static final int[] X = {2,1,-1,-2,-2,-1,1,2};
@@ -30,7 +30,7 @@ public class Knight extends Piece {
             if (targetColumn-getColumn()==X[i]&&targetRow-getRow()==Y[i]){
                 //if yes, return true if target spot is empty or different color, false if same color
                 checkIfAttacking(spot);
-                return board.getPieceIntern()[targetColumn][targetRow] == null || board.getPieceIntern()[targetColumn][targetRow].getPieceColor() != board.getLastTurnColor();
+                return getBoard().getPieceIntern()[targetColumn][targetRow] == null || getBoard().getPieceIntern()[targetColumn][targetRow].getPieceColor() != getBoard().getLastTurnColor();
             }
         }
 
@@ -43,7 +43,7 @@ public class Knight extends Piece {
 
     public Spot[][] validMoves(Board board){
         //todo
-        this.board = board;
+        super.setBoard(board);
 
         //change later to initialize the spots to the number of valid moves
         Spot[][] validSpots = new Spot[8][8];
@@ -61,7 +61,7 @@ public class Knight extends Piece {
     }
 
     private boolean checkIfTargetIsEmpty(Spot spot) {
-        return board.getPieceFromSpot(spot.getColumn(), spot.getRow()) == null;
+        return getBoard().getPieceFromSpot(spot.getColumn(), spot.getRow()) == null;
     }
 
 
@@ -69,7 +69,7 @@ public class Knight extends Piece {
     public boolean checkIfAttacking(Spot spot) {
 
         if (checkIfTargetIsEmpty(spot)) return false;
-        if (board.getPieceIntern()[spot.getColumn()][spot.getRow()].getPieceColor()==getPieceColor()) {
+        if (getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()].getPieceColor()==getPieceColor()) {
             //errorMsg.cannotAttackSameColor();
             return false;
         }
@@ -85,13 +85,13 @@ public class Knight extends Piece {
     @Override
     public void attack(Spot spot) {
 
-        Piece attackedPiece = board.getPieceIntern()[spot.getColumn()][spot.getRow()];
-        board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
+        Piece attackedPiece = getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()];
+        getBoard().getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
 
         //board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
 
 
-        board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
+        getBoard().getPieceSets()[getBoard().getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
         spot.setPiece(this);
         //System.out.println(board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())]);
         getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
@@ -101,7 +101,9 @@ public class Knight extends Piece {
 
     @Override
     public boolean moveToSpot(Board board, Spot spot) {
+        super.setBoard(board);
         if(!moveTo(spot)) return false;
+
 
         if(checkIfAttacking(spot)){
             attack(spot);
@@ -109,7 +111,7 @@ public class Knight extends Piece {
         }
 
         getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
-        board.getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
+        getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
 
         setMoved(true);
         return true;

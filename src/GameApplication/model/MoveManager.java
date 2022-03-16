@@ -2,9 +2,13 @@ package GameApplication.model;
 
 import GameApplication.model.chess.Board;
 import GameApplication.model.chess.piece.Piece;
+import GameApplication.model.chess.piece.PieceColor;
+import GameApplication.model.chess.piece.pieces.King;
+import GameApplication.model.chess.piece.pieces.Piecetype;
 import GameApplication.model.chess.spot.Spot;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MoveManager {
@@ -96,7 +100,16 @@ public class MoveManager {
 
         spots.clear();
 
+
+
+board.switchPlayer();
+        board.checkForCheck();
+
         board.nextTurn();
+
+
+
+
         //TODO
     }
 

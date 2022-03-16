@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Pawn extends Piece {
     int numOfRowsFromOrigin;
-    private Board board;
+    //private Board board;
     private boolean isEnpassantAvailable = false;
 
 
@@ -132,7 +132,7 @@ public class Pawn extends Piece {
         }
 
         if (numOfRowsFromOrigin==2&&!isMoved()){
-            if (board.getPieceIntern()[getColumn()][getRow()+getMoveDirectionValue()]!=null){
+            if (getBoard().getPieceIntern()[getColumn()][getRow()+getMoveDirectionValue()]!=null){
                 return false;
             }
         }
@@ -157,8 +157,8 @@ public class Pawn extends Piece {
 
         Pawn opponentsPiece;
         try{
-        if (board.getPieceIntern()[spot.getColumn()][spot.getRow()+dy]!=null&&board.getPieceIntern()[spot.getColumn()][spot.getRow()+dy].getPieceType()==Piecetype.PAWN&&board.getPieceIntern()[spot.getColumn()][spot.getRow()+dy].getPieceColor()!=board.getLastTurnColor()){
-            opponentsPiece=(Pawn)board.getPieceIntern()[spot.getColumn()][spot.getRow()+dy];
+        if (getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()+dy]!=null&&getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()+dy].getPieceType()==Piecetype.PAWN&&getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()+dy].getPieceColor()!=getBoard().getLastTurnColor()){
+            opponentsPiece=(Pawn)getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()+dy];
         }else{
             return false;
         }}catch (IndexOutOfBoundsException ioob){
@@ -214,7 +214,7 @@ public class Pawn extends Piece {
         }
 
         //check if attack target is same color
-        if (board.getPieceIntern()[spot.getColumn()][spot.getRow()].getPieceColor()==getPieceColor()) {
+        if (getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()].getPieceColor()==getPieceColor()) {
             //errorMsg.cannotAttackSameColor();
             return false;
         }
@@ -231,13 +231,13 @@ public class Pawn extends Piece {
     public void attack(Spot spot) {
 
         //haal geattackeerde piece
-        Piece attackedPiece = board.getPieceIntern()[spot.getColumn()][spot.getRow()];
-        board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
+        Piece attackedPiece = getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()];
+        getBoard().getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
 
         //board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
 
 
-        board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
+        getBoard().getPieceSets()[getBoard().getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
         spot.setPiece(this);
         //System.out.println(board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())]);
         getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
@@ -245,7 +245,7 @@ public class Pawn extends Piece {
     }
 
     private boolean checkIfTargetIsEmpty(Spot spot) {
-        return board.getPieceFromSpot(spot.getColumn(), spot.getRow()) == null;
+        return getBoard().getPieceFromSpot(spot.getColumn(), spot.getRow()) == null;
     }
 
     public boolean checkIfGoingInRightDirection(Spot spot) {
@@ -273,12 +273,12 @@ public class Pawn extends Piece {
 
     public Spot[][] validMoves(Board board) {
         errorMsg.setPrintError(false);
-        this.board = board;
+        super.setBoard(board);
         System.out.println(getColumn() + " "+getRow());
 
         validAttackSpots = new Spot[8][8];
 
-        Piece[][] boardPieces = board.getPieceIntern();
+        Piece[][] boardPieces = getBoard().getPieceIntern();
         Spot[][] validSpots = new Spot[8][8];
 
         for (int i = 0; i < 8; i++) {
@@ -314,10 +314,10 @@ public class Pawn extends Piece {
 
     public Spot[][] attackableSpots(Board board) {
         errorMsg.setPrintError(false);
-        this.board = board;
+        super.setBoard(board);
         System.out.println(getColumn() + " "+getRow());
 
-        Piece[][] boardPieces = board.getPieceIntern();
+        Piece[][] boardPieces = getBoard().getPieceIntern();
         Spot[][] validAttackSpots = new Spot[8][8];
 
         for (int i = 0; i < 8; i++) {
@@ -347,7 +347,7 @@ public class Pawn extends Piece {
     }
 
     public boolean moveToSpot(Board board,Spot spot) {
-        this.board = board;
+       super.setBoard(board);
         errorMsg.setPrintError(true);
         if(!moveTo(spot)) return false;
 
@@ -362,13 +362,13 @@ public class Pawn extends Piece {
         if (checkIfEnPassantIsAvailable(spot)){
             int dy = getRow() < spot.getRow()?-1:+1;
 
-            Piece attackedPiece = board.getPieceIntern()[spot.getColumn()][spot.getRow()+dy];
-            board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()+dy] = null;
+            Piece attackedPiece = getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()+dy];
+            getBoard().getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()+dy] = null;
 
             //board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
 
 
-            board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
+            getBoard().getPieceSets()[getBoard().getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
             spot.setPiece(this);
             //System.out.println(board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())]);
             getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
@@ -383,12 +383,12 @@ public class Pawn extends Piece {
         }
         //Als alles ok is, beweeg de Piece
         getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
-        board.getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
+        getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
 
         setMoved(true);
 
 
-        List<Piece> piecesOfAttacker = board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())].getPieces();
+        List<Piece> piecesOfAttacker = getBoard().getPieceSets()[getBoard().getArrayIndexForColor(getAttackerColor())].getPieces();
         for (Piece piece : piecesOfAttacker) {
             if (piece.getPieceType()==Piecetype.PAWN){
                 Pawn opponentsPawn = (Pawn) piece;

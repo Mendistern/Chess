@@ -10,7 +10,7 @@ public class Queen extends Piece {
         super(pieceColor, pieceLocation);
     }
 
-    private Board board;
+    //private Board board;
 
     private Spot[][] validAttackSpots ;
 
@@ -18,7 +18,7 @@ public class Queen extends Piece {
     @Override
     public boolean moveToSpot(Board board, Spot spot) {
 
-        this.board = board;
+        super.setBoard(board);
         if(!moveTo(spot)) return false;
 
         if(checkIfAttacking(spot)){
@@ -28,7 +28,7 @@ public class Queen extends Piece {
 
         //Als alles ok is, beweeg de Piece
         getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
-        board.getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
+        getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
 
         setMoved(true);
         return true;
@@ -39,14 +39,14 @@ public class Queen extends Piece {
 
         Rook queenAsRook = new Rook(getPieceColor(),new Spot(getColumn(),getRow()));
 
-        queenAsRook.setBoard(board);
+        queenAsRook.setBoard(getBoard());
 
         if (queenAsRook.moveTo(spot)){
             return true;
         }
 
         Bishop queenAsBishop = new Bishop(getPieceColor(),new Spot(getColumn(),getRow()));
-        queenAsBishop.setBoard(board);
+        queenAsBishop.setBoard(getBoard());
 
         if (queenAsBishop.moveTo(spot)){
             return true;
@@ -63,13 +63,13 @@ public class Queen extends Piece {
 
     @Override
     public void attack(Spot spot) {
-        Piece attackedPiece = board.getPieceIntern()[spot.getColumn()][spot.getRow()];
-        board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
+        Piece attackedPiece = getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()];
+        getBoard().getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
 
         //board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
 
 
-        board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
+        getBoard().getPieceSets()[getBoard().getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
         spot.setPiece(this);
         //System.out.println(board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())]);
         getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
@@ -79,7 +79,7 @@ public class Queen extends Piece {
     @Override
     public boolean checkIfAttacking(Spot spot) {
 
-        if (board.getPieceIntern()[spot.getColumn()][spot.getRow()]!=null){
+        if (getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()]!=null){
             validAttackSpots[spot.getColumn()][spot.getRow()]=new Spot(spot.getColumn(),spot.getRow());
             return true;
         }
@@ -91,11 +91,11 @@ public class Queen extends Piece {
     }
 
     public Spot[][] validMoves(Board board){
-        this.board = board;
+        super.setBoard(board);
 
         validAttackSpots = new Spot[8][8];
 
-        Piece[][] boardPieces = board.getPieceIntern();
+        Piece[][] boardPieces = getBoard().getPieceIntern();
         Spot[][] validSpots = new Spot[8][8];
 
         for (int i = 0; i < 8; i++) {
