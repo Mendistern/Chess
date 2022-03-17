@@ -1,6 +1,7 @@
 package GameApplication.view.board;
 
 
+import GameApplication.view.ChessMenu;
 import GameApplication.view.board.components.ChessBoard;
 import GameApplication.view.board.components.PieceComp;
 import GameApplication.view.board.components.Space;
@@ -16,27 +17,31 @@ import java.util.List;
 public class BoardView extends BorderPane {
     public Button[][] buttons = new Button[8][8];
     private Space[][] space;
-
-
     private List<Space> validMovesSpaces;
     private List<Space> validAttackSpaces;
 
     public Space activeSpace = null;
     public ChessBoard board;
 
+    public ChessMenu getChessMenu() {
+        return chessMenu;
+    }
+
+    private ChessMenu chessMenu;
+    private Button btnSettings;
+    private Button btnInstructions;
+    private Button btnSave;
+
+
+
     private PieceComp[][] piecesFromModel;
-
-
     private boolean playerIsWhite;
-
     public Group getBoardGroup() {
         return boardGroup;
     }
-
     public Bounds getGameBounds() {
         return gameBounds;
     }
-
     private Group boardGroup;
     private Bounds gameBounds;
 
@@ -46,23 +51,21 @@ public class BoardView extends BorderPane {
         validMovesSpaces = new ArrayList<>();
         validAttackSpaces = new ArrayList<>();
 
-
     }
 
 
     private void initialiseNodes() {
         board = new ChessBoard(playerIsWhite);
-
         space = new Space[8][8];
-
-
 
     }
 
 
     private void layoutNodes() {
-
+        chessMenu = new ChessMenu();
+        super.setTop(chessMenu);
         this.setCenter(board);
+
 
 
     }

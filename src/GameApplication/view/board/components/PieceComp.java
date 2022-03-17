@@ -67,4 +67,12 @@ public abstract class PieceComp {
 
         return pieceComp;
     }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public void setColor(boolean color) {
+        this.color = color;
+    }
 }

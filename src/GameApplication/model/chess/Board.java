@@ -1,15 +1,10 @@
 package GameApplication.model.chess;
 
 
-
-
-
 import GameApplication.model.MoveManager;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
 import GameApplication.model.chess.piece.PieceSets;
-import GameApplication.model.chess.piece.pieces.Bishop;
-import GameApplication.model.chess.spot.Spot;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -32,6 +27,22 @@ public class Board {
 
     //creer een moveManager
     MoveManager moveManager;
+
+    //create int for ruleOf50
+    private int ruleOf50 = 0;
+
+    public int get50MoveRuleTurns() {
+        return ruleOf50;
+    }
+    public void set50MoveRuleTurns(int turns) {
+        this.ruleOf50 = turns;
+    }
+
+    public int getCurrentTurn() {
+        return currentTurn;
+    }
+
+    private int currentTurn = 1;
 
     Scanner key = new Scanner(System.in);
 
@@ -96,42 +107,26 @@ public class Board {
     public void drawBoard() {
 
         pieceIntern = new Piece[8][8];
-
-
         //Empy spots
         spots = new String[8][8];
-
         //Update each spot with the latest piece -> get it's type
         for (PieceSets pieceSet :
                 pieceSets) {
             //pieceSet 0
             // List van pieces
-
-
             for (Piece piece :
                     pieceSet.getPieces()) {
                 //System.out.println(piece.getColumn()+ " "+ piece.getRow());
-
                 //voor de spot met waarde [][]
                 //!!
                 //spots[piece.getColumn()][piece.getRow()] = pieceSet.getColorName() + piece.getPieceType().getType();
-
-
-
                 pieceIntern[piece.getColumn()][piece.getRow()] = piece;
                 pieceIntern[piece.getColumn()][piece.getRow()].getPieceLocation().setPiece(piece);
                 piece.getPieceLocation().setPiece(piece);
-
-
             }
         }
 
-
         System.out.println("\ta\tb\tc\td\te\tf\tg\th");
-
-
-
-
         for (int i = 7; i >= 0; i--) {
             System.out.print(i + 1 + "\t");
             for (int j = 0; j < 8; j++) {
@@ -145,16 +140,6 @@ public class Board {
 
             System.out.println();
         }
-
-
-
-
-
-        //Go to next turn
-
-        //nextTurn();
-
-
     }
 
     public void nextTurn() {
@@ -166,48 +151,12 @@ public class Board {
             if (pl.getColor() == lastTurnColor) {
                 currentPlayer = pl;
             }
+            currentTurn++;
+            ruleOf50++;
         }
         Piece originPiece;
         int columnDest;
         int rowDest;
-        /*do {
-            System.out.println();
-            System.out.println("move format: kolomRij x kolomRij bv: wQ -> d3 = d1 x d3");
-            System.out.println("Your turn: " + currentPlayer.getName());
-
-            //krijg input van user
-            String moveType = key.nextLine();
-            //split de input in 2 volgens de X na upperCase
-            String[] splittedMove = moveType.toUpperCase().split("X");
-            //trim de 2 delen van spaties
-            splittedMove[0] = splittedMove[0].trim();
-            splittedMove[1] = splittedMove[1].trim();
-
-            ////krijg de kolom in nummer formaat, dus van char naar int
-            int columnOrigin = splittedMove[0].charAt(0) - 65;
-            int rowOrigin = Integer.parseInt(String.valueOf(splittedMove[0].charAt(1))) - 1;
-
-            columnDest = splittedMove[1].charAt(0) - 65;
-            rowDest = Integer.parseInt(String.valueOf(splittedMove[1].charAt(1))) - 1;
-
-
-            originPiece = getPieceFromSpot(columnOrigin, rowOrigin);
-
-            if (originPiece ==null || originPiece.getPieceColor() != lastTurnColor) {
-                System.out.println("Please choose one of your pieces.");
-            }
-
-            Spot[][] validMoves =  originPiece.validMoves(this);
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
-                    if (validMoves[i][j] != null){
-                        System.out.println(validMoves[i][j].toString());
-                    }
-                }
-            }
-
-        } while ( originPiece==null|| originPiece.getPieceColor() != lastTurnColor || !originPiece.moveToSpot(this,new Spot(columnDest, rowDest)) );*/
-
 
 
         lastTurnColor = currentPlayer.getColor() == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
@@ -224,12 +173,9 @@ public class Board {
     public PieceColor getLastTurnColor() {
         return lastTurnColor;
     }
-
     public MoveManager getMoveManager() {
         return moveManager;
     }
-
-
     /*
     public String[][] getSpots() {
         return spots;

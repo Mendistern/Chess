@@ -4,12 +4,23 @@ import GameApplication.model.chess.piece.pieces.*;
 import GameApplication.model.chess.spot.Spot;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class PieceSets {
+    public List<Piece> getPieceSets() {
+        return pieceSets;
+    }
+
     //hier gaan we alle Piece's inzetten
     List<Piece> pieceSets = new ArrayList<>();
+
+    public void setPieceSets(List<Piece> pieceSets) {
+        this.pieceSets = pieceSets;
+    }
+
+    public void setColor(PieceColor color) {
+        this.color = color;
+    }
 
     private PieceColor color;
 

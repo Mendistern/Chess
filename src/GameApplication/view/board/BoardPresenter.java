@@ -5,8 +5,12 @@ import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
 import GameApplication.model.chess.spot.Spot;
 import GameApplication.view.board.components.Space;
+import GameApplication.view.instructions.InstructionsView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -41,6 +45,18 @@ public class BoardPresenter {
 
                     }
 
+                });
+                view.getChessMenu().getMiInstructions().setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        InstructionsView instructionsView = new InstructionsView();
+                        Stage newStage = new Stage();
+                        newStage.initOwner(view.getScene().getWindow());
+                        newStage.initModality(Modality.APPLICATION_MODAL);
+                        Scene scene = new Scene(instructionsView);
+                        newStage.setScene(scene);
+                        newStage.showAndWait();
+                    }
                 });
 
                 Space s = view.getBoard().getActiveSpace();
