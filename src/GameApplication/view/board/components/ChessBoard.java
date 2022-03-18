@@ -33,7 +33,7 @@ public class ChessBoard extends GridPane {
     }
 
     public ChessBoard(boolean playerIsWhite) {
-        super();
+
 //        final int xVal;
 //        final int yVal;
 
@@ -64,39 +64,29 @@ public class ChessBoard extends GridPane {
                 final int yVal = y;
                 spaces[x][y].setOnAction(e -> onSpaceClick(xVal, yVal));
 
-                 test.getScaleX();
-                 test.autosize();
+                test.getScaleX();
+                test.autosize();
             }
 
-            Label label = new Label("" + colNum);
             colNum++;
+            Label label = newRowLabel(colNum);
             root.setAlignment(Pos.BOTTOM_LEFT);
             root.getChildren().add(label);
-            this.add(label, 0, 7 -y);
+            this.add(newRowLabel(7 - y), 0, 7 - y, 1, 1);
+//
 
-            test.autosize();
+
         }
-
-
-
-
         this.getChildren().add(gridPane);
         this.setGridLinesVisible(true);
         this.setAlignment(Pos.CENTER);
         this.autosize();
-
-
     }
 
 
 
     private double cell_width;
     private double cell_height;
-
-
-
-
-
 
     public void setActiveSpace(Space s) {
         //removes syle from old active location
@@ -240,6 +230,11 @@ public class ChessBoard extends GridPane {
 
             }
         }
+    }
+
+    private Label newRowLabel(int i) {
+        Label l = new Label(8 - i + "");
+        return l;
     }
 
 }

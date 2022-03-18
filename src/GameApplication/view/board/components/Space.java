@@ -14,7 +14,7 @@ public class Space extends Button {
 
 
     public Space(boolean light, int x, int y) {
-        super();
+
         this.x = x;
         this.y = y;
         this.pieceComp = null;
