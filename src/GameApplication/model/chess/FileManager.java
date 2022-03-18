@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 
 /**
  * @author nicolas
+ *
  */
 public class FileManager {
     public static Image loadImage(String resource, int width, int height) {
