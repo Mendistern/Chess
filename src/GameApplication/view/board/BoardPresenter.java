@@ -3,7 +3,9 @@ package GameApplication.view.board;
 import GameApplication.model.Chess;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
+import GameApplication.model.chess.piece.pieces.Piecetype;
 import GameApplication.model.chess.spot.Spot;
+import GameApplication.view.board.components.ChessBoard;
 import GameApplication.view.board.components.Space;
 import GameApplication.view.instructions.InstructionsView;
 import javafx.event.ActionEvent;
@@ -14,11 +16,14 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+
 public class BoardPresenter {
     private Chess model;
     private BoardView view;
     private Piece[][] piecesFromModel;
     int size = 8;
+    private ChessBoard board;
+
 
     public BoardPresenter(Chess model, BoardView view) {
         this.model = model;
@@ -27,18 +32,55 @@ public class BoardPresenter {
         updateView();
     }
 
+    public static char convCol(int col) {
+        switch (col) {
+            case 1:
+                return 'A';
+            case 2:
+                return 'B';
+            case 3:
+                return 'C';
+            case 4:
+                return 'D';
+            case 5:
+                return 'E';
+            case 6:
+                return 'F';
+            case 7:
+                return 'G';
+            case 8:
+                return 'H';
+            default:
+                return ' ';
+        }
+    }
+
     private void addEventListeners() {
+        board = view.getBoard();
+
+
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 final int finalX = x;
                 final int finalY = y;
+//                spot = new Spot(x, y);
+
                 view.getBoard().getSpaces()[finalX][finalY].setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
 
+                        StringBuilder str = new StringBuilder();
                         handleValidMoves(model.getBoard().getPieceFromSpot(finalX, finalY));
+
                         view.getBoard().setActiveSpace(view.getBoard().spaces[finalX][finalY]);
                         view.getBoard().onSpaceClickV2(model.getBoard(), finalX, finalY);
+//                        Spot pos = model.getBoard().getPieceFromSpot(finalX,finalY).getPieceLocation();
+                        Spot piece = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation();
+
+
+                        str.append("turn ").append(piece.getPiece().getPieceLocation());
+
+                        view.getGameFlow().appendText(str.toString());
 
 
                         updateView();
@@ -59,6 +101,7 @@ public class BoardPresenter {
                     }
                 });
 
+
                 Space s = view.getBoard().getActiveSpace();
                 if (view.getBoard().getActiveSpace() != null) {
                     view.getBoard().getActiveSpace().getStyleClass().removeAll("chess-space-active");
@@ -69,20 +112,47 @@ public class BoardPresenter {
                 if (view.getBoard().getActiveSpace() != null) {
                     view.getBoard().getActiveSpace().getStyleClass().add("chess-space-active");
                 }
+
+
             }
         }
+
     }
 
-
-
-
-
+    //    public void writeToConsole(Piece piece){
+//        List<Space> clickedSpace = view.getClickedSpace();
+//
+//
+//
+//        for (Space space : clickedSpace){
+//            space.setUserData( new Spot( view.getBoard().getSpaces().length - 7, convCol(space.getX() + 1)));
+//            StringBuilder str = new StringBuilder();
+//            str.append( "Position XY : "  ).append(space.getUserData().toString()).append("\n");
+//            int x = (int) e.getX();
+//            int y = (int) e.getY();
+//
+//            int rx = ((int) e.getX() % 8);
+//            int ry = ((int) e.getY() % 8);
+//
+//            int lin = (x - rx) / 8;
+//            int col = (y - ry) / 8;
+//
+//            str.append("Line X: ").append(lin).append("\n");
+//            str.append("Col Y: ").append(convCol(col)).append("\n");
+//            str.append("Position XY : ").append(new Position(lin, convCol(col))).append("\n");
+//            str.append("\n-----------------------------------------------------------------------------\n\n");
+//            view.getGameFlow().appendText( str.toString() );
+//
+//        }
+//
+//
+//    }
     public void handleValidMoves(Piece piece) {
-        List<Space> validSpaces =  view.getValidMovesSpaces();
+        List<Space> validSpaces = view.getValidMovesSpaces();
         for (Space space : validSpaces) {
             view.getBoard().getSpaces()[space.getX()][space.getY()].getStyleClass().remove("chess-space-valid");
         }
-        List<Space> validAttackSpaces =  view.getValidAttackSpaces();
+        List<Space> validAttackSpaces = view.getValidAttackSpaces();
         for (Space space : validAttackSpaces) {
             view.getBoard().getSpaces()[space.getX()][space.getY()].getStyleClass().remove("chess-space-attackable");
         }
@@ -98,42 +168,45 @@ public class BoardPresenter {
         for (Spot[] validSpot : validSpots) {
             for (Spot spot : validSpot) {
                 if (spot != null) {
-                        view.setValidMovesSpaces(new Space(true,spot.getColumn(),spot.getRow()));
+                    view.setValidMovesSpaces(new Space(true, spot.getColumn(), spot.getRow()));
                 }
             }
         }
 
         Piece validAttackSpots = model.getBoard().getPieceFromSpot(piece.getColumn(), piece.getRow());
-        for (Spot[] validSpot :validAttackSpots.getValidAttackSpots()) {
+        for (Spot[] validSpot : validAttackSpots.getValidAttackSpots()) {
             for (Spot spot : validSpot) {
                 if (spot != null) {
-                    view.setValidAttackSpaces(new Space(true,spot.getColumn(),spot.getRow()));
+                    view.setValidAttackSpaces(new Space(true, spot.getColumn(), spot.getRow()));
                 }
             }
         }
-
-    }
-
-
-    public void updateView() {
-        piecesFromModel = model.getPiecesOnBoard();
-        view.getBoard().defineStartPositions(piecesFromModel);
-
-
-       List<Space> validSpaces =  view.getValidMovesSpaces();
-       for (Space space : validSpaces) {
-           view.getBoard().getSpaces()[space.getX()][space.getY()].getStyleClass().add("chess-space-valid");
-       }
-       List<Space> validAttackSpaces =  view.getValidAttackSpaces();
-       for (Space space : validAttackSpaces) {
-           view.getBoard().getSpaces()[space.getX()][space.getY()].getStyleClass().add("chess-space-attackable");
-       }
 
     }
 
     public Piece[][] getPiecesFromModel() {
         return piecesFromModel;
     }
+
+    public void updateView() {
+        piecesFromModel = model.getPiecesOnBoard();
+        view.getBoard().defineStartPositions(piecesFromModel);
+
+
+        List<Space> validSpaces = view.getValidMovesSpaces();
+        for (Space space : validSpaces) {
+            view.getBoard().getSpaces()[space.getX()][space.getY()].getStyleClass().add("chess-space-valid");
+        }
+        List<Space> validAttackSpaces = view.getValidAttackSpaces();
+        for (Space space : validAttackSpaces) {
+            view.getBoard().getSpaces()[space.getX()][space.getY()].getStyleClass().add("chess-space-attackable");
+        }
+
+    }
+
+    public void setPiecesFromModel(Piece[][] piecesFromModel) {
+        this.piecesFromModel = piecesFromModel;
+    }
 }
 
-      
+
