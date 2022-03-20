@@ -43,7 +43,7 @@ public class Bishop extends Piece {
            return false;
        }
 
-       if (getBoard().getPieceIntern()[targetColumn][targetRow]!=null&&getBoard().getPieceIntern()[targetColumn][targetRow].getPieceColor()==getBoard().getLastTurnColor()){
+       if (getBoard().getPieceIntern()[targetColumn][targetRow]!=null&&getBoard().getPieceIntern()[targetColumn][targetRow].getPieceColor()==this.getPieceColor()){
            return false;
        }
 

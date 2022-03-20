@@ -102,7 +102,8 @@ public class MoveManager {
 
 
 
-board.switchPlayer();
+        board.switchPlayer();
+
         board.checkForCheck();
 
         board.nextTurn();

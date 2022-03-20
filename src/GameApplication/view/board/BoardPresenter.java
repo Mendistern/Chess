@@ -28,9 +28,11 @@ public class BoardPresenter {
             for (int y = 0; y < 8; y++) {
                 final int finalX = x;
                 final int finalY = y;
+                System.out.println("final "+finalY+" "+finalY);
                 view.getBoard().getSpaces()[finalX][finalY].setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+
 
                         handleValidMoves(model.getBoard().getPieceFromSpot(finalX, finalY));
                         view.getBoard().setActiveSpace(view.getBoard().spaces[finalX][finalY]);
@@ -102,7 +104,11 @@ public class BoardPresenter {
 
         King king   = model.getBoard().getKing(model.getBoard().getCheckedColor());
 
+        //remove attack color from kings position
         view.getBoard().getSpaces()[king.getColumn()][king.getRow()].getStyleClass().remove("chess-space-attackable");
+
+        //if king moved, after check, remove attack color from his last position
+        view.getBoard().getSpaces()[king.getLastKingPosition().get(0).getColumn()][king.getLastKingPosition().get(0).getRow()].getStyleClass().remove("chess-space-attackable");
 
 
 

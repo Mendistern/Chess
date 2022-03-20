@@ -54,11 +54,11 @@ public class ChessBoard extends GridPane {
 
 
             gridPane.getChildren().add(label);
-            this.add(label, 0, 7 -y);
+           //this.add(label, 0, 7 -y);
         }
 
 
-        this.getChildren().add(gridPane);
+      //  this.getChildren().add(gridPane);
         this.setGridLinesVisible(true);
 
     }

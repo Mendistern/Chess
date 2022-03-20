@@ -170,13 +170,15 @@ public class Board {
     }
 
     public void switchPlayer(){
+
         for (Player pl :
                 players) {
-            if (pl.getColor() == lastTurnColor) {
+            if (pl.getColor() != lastTurnColor) {
                 currentPlayer = pl;
             }
         }
-        lastTurnColor = currentPlayer.getColor() == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
+        lastTurnColor = currentPlayer.getColor() ;
+       // lastTurnColor = currentPlayer.getColor() == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
     }
 
     public void nextTurn() {
