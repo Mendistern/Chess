@@ -1,17 +1,15 @@
 package GameApplication.model;
 
-import com.sun.javafx.scene.layout.PaneHelper;
+import GameApplication.model.chess.piece.Piece;
+import GameApplication.model.chess.spot.Spot;
+import GameApplication.view.board.components.PieceComp;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Currency;
 import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,7 +17,7 @@ import java.util.regex.Pattern;
 /**
  * @author nicolas
  */
-public class FileWriter {
+public class FileWrite {
 
 
     final static int MAX_LINES = 10000; // chess shouldn't take longer than 50 turns but just in case
@@ -29,8 +27,36 @@ public class FileWriter {
     String Path;
     private int line_print;
 
-    public FileWriter(String setPath) {
-        Path = setPath;
+    public FileWrite() {
+
+    }
+
+    public void writeState(String Path, boolean object) throws IOException {
+        try {
+
+            Piece piece = null;
+            assert false;
+            Spot spot = null;
+            PieceComp.fromPieceToPieceComp(spot.getPiece());
+            String val = piece.getPieceLocation().toString();
+            FileOutputStream fos = new FileOutputStream(Path);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(piece);
+            oos.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveToFile(String Path, String contents) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Path))) {
+            writer.write(contents);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
+
     }
 
     private int level_of(String s) {

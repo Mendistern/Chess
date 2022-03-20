@@ -8,9 +8,11 @@ public class Space extends Button {
     private int y;
 
 
+    public PieceComp getPieceComp() {
+        return pieceComp;
+    }
 
     private PieceComp pieceComp;
-
 
 
     public Space(boolean light, int x, int y) {

@@ -1,8 +1,14 @@
 package GameApplication.view.board.components;
 
+import GameApplication.model.ChessIO;
+import GameApplication.model.FileWrite;
 import GameApplication.model.chess.Board;
+import GameApplication.model.chess.FileManager;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.view.board.Move;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -10,6 +16,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Translate;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 public class ChessBoard extends GridPane {
@@ -19,6 +30,7 @@ public class ChessBoard extends GridPane {
     private Piece[][] piecesFromBoard;
     public int size;
     private Translate pos;
+    private Map<String, ChessIO> io = new LinkedHashMap<>();
 
     private GridPane gridPane;
 
@@ -43,8 +55,8 @@ public class ChessBoard extends GridPane {
         //kolom
         int colNum = 1; // vereist want loop start vanaf 0
 
-         gridPane = new GridPane(); //houdt de nummers gescheiden voor problemen te voorkomen
-        Node test =gridPane;
+        gridPane = new GridPane(); //houdt de nummers gescheiden voor problemen te voorkomen
+        Node test = gridPane;
         root = new StackPane(); // stackpane zorgt ervoor dat we deze op de huidige pane kunnen plaatsen, anders krijg je duplication errors
         for (int y = 7; y >= 0; y--) {
             //rij
@@ -66,23 +78,44 @@ public class ChessBoard extends GridPane {
 
                 test.getScaleX();
                 test.autosize();
+                ///this.add(newColLabel(x), 0, x + 1, 1, 1);
+                //this.add(newColLabel(7-x), 0, 9,1,1);
             }
+
 
             colNum++;
             Label label = newRowLabel(colNum);
             root.setAlignment(Pos.BOTTOM_LEFT);
             root.getChildren().add(label);
-            this.add(newRowLabel(7 - y), 0, 7 - y, 1, 1);
-//
 
+            this.add(newRowLabel(7 - y), 0, 7 - y, 1, 1);
 
         }
         this.getChildren().add(gridPane);
         this.setGridLinesVisible(true);
         this.setAlignment(Pos.CENTER);
-        this.autosize();
+
     }
 
+    public Map<String, ChessIO> getIo() {
+        return io;
+    }
+
+    public PieceComp[][] getPieceComponentsOfBoard() {
+        return pieceComponentsOfBoard;
+    }
+
+    public Piece[][] getPiecesFromBoard() {
+        return piecesFromBoard;
+    }
+
+    public double getCell_width() {
+        return cell_width;
+    }
+
+    public double getCell_height() {
+        return cell_height;
+    }
 
 
     private double cell_width;
@@ -117,7 +150,7 @@ public class ChessBoard extends GridPane {
             Move p;
             p = new Move(activeSpace.getX(), activeSpace.getY(), x, y);
             // update gameboard
-           this.processMove(p);
+            this.processMove(p);
 
             //decouples space from space on board
             setActiveSpace(null);
@@ -212,6 +245,7 @@ public class ChessBoard extends GridPane {
         return spaces;
     }
 
+
     public Space getActiveSpace() {
         return this.activeSpace;
     }
@@ -235,8 +269,46 @@ public class ChessBoard extends GridPane {
 
     private Label newRowLabel(int i) {
         Label l = new Label(8 - i + "");
+        l.setMinSize(20, 50);
+        l.setAlignment(Pos.CENTER_LEFT);
         return l;
     }
 
+    private Label newColLabel(int i) {
+        Label l = new Label((char) (i + 65) + "");
+        l.setMinSize(50, 20);
+        l.setAlignment(Pos.CENTER);
+        return l;
+    }
+
+    public Map<String, ChessIO> getIO() {
+        return io;
+    }
+
+
+//    public void load(File file) {
+//        load(getFileExtension(file.getName()), FileManager.loadDataFromFile(file));
+//    }
+
+    public void setIO(ChessIO io) {
+        this.io.put(io.getFileExtension(), io);
+    }
+
+    private String getFileExtension(String name) {
+        return name.substring(name.lastIndexOf('.') + 1);
+    }
+
+    public void save(File file) throws IOException {
+        byte[] s = io.get(getFileExtension(file.getName())).save(this);
+        FileManager.saveDataToFile(s, file);
+    }
+
+
+//    public void loadFromResource(String resource) {
+//        load(getFileExtension(resource), FileManager.loadDataFromResource(resource));
+//    }
+
+
 }
+
 

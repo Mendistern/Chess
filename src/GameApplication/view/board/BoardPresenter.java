@@ -1,19 +1,34 @@
 package GameApplication.view.board;
 
 import GameApplication.model.Chess;
+import GameApplication.model.ChessIO;
+import GameApplication.model.FileWrite;
+import GameApplication.model.chess.IO.ChessLoader;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
-import GameApplication.model.chess.piece.pieces.Piecetype;
 import GameApplication.model.chess.spot.Spot;
 import GameApplication.view.board.components.ChessBoard;
+import GameApplication.view.board.components.PieceComp;
 import GameApplication.view.board.components.Space;
+import GameApplication.view.game.GamePresenter;
+import GameApplication.view.game.GameView;
 import GameApplication.view.instructions.InstructionsView;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.swing.*;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -23,11 +38,15 @@ public class BoardPresenter {
     private Piece[][] piecesFromModel;
     int size = 8;
     private ChessBoard board;
+    private GridPane options;
+    private FileWrite fileWrite;
 
 
     public BoardPresenter(Chess model, BoardView view) {
         this.model = model;
         this.view = view;
+        options = new GridPane();
+        fileWrite = new FileWrite();
         addEventListeners();
         updateView();
     }
@@ -75,11 +94,10 @@ public class BoardPresenter {
                         view.getBoard().setActiveSpace(view.getBoard().spaces[finalX][finalY]);
                         view.getBoard().onSpaceClickV2(model.getBoard(), finalX, finalY);
 //                        Spot pos = model.getBoard().getPieceFromSpot(finalX,finalY).getPieceLocation();
-                        Spot piece = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation();
+                        Spot pieceLocation = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation();
 
 
-                        str.append("turn ").append(piece.getPiece().getPieceLocation());
-
+                        str.append("turn ").append(model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation().toString());
                         view.getGameFlow().appendText(str.toString());
 
 
@@ -100,6 +118,46 @@ public class BoardPresenter {
                         newStage.showAndWait();
                     }
                 });
+                view.getChessMenu().getMiSave().setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+
+
+                        try {
+                            FileChooser fileChooser = new FileChooser();
+
+                            //Set extension filter for text files
+                            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+                            fileChooser.getExtensionFilters().add(extFilter);
+
+                            //Show save file dialog
+                            File file = fileChooser.showSaveDialog(view.getScene().getWindow());
+
+                            GameView gameView = new GameView();
+                            Stage newStage = new Stage();
+                            newStage.initOwner(view.getScene().getWindow());
+                            newStage.initModality(Modality.APPLICATION_MODAL);
+                            Scene scene = new Scene(gameView);
+                            newStage.setScene(scene);
+
+                            Spot pieceLocation = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation();
+
+
+                            JsonArray blackPieces = new JsonArray();
+                            JsonArray moveMessages = new JsonArray();
+                            Alert succesAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                            fileWrite.saveToFile(view.getTfPath().getText(), view.getGameFlow().getText());
+
+                            succesAlert.setHeaderText("File succesfully written to " + view.getTfPath().getText());
+                            succesAlert.show();
+                        } catch (IOException e) {
+                            Alert failedAlert = new Alert(Alert.AlertType.ERROR);
+                            failedAlert.setHeaderText("Problem saving file");
+                            failedAlert.setContentText("Path does not exist" + e.getMessage());
+                            failedAlert.showAndWait();
+                        }
+                    }
+                });
 
 
                 Space s = view.getBoard().getActiveSpace();
@@ -118,6 +176,7 @@ public class BoardPresenter {
         }
 
     }
+
 
     //    public void writeToConsole(Piece piece){
 //        List<Space> clickedSpace = view.getClickedSpace();
@@ -183,6 +242,7 @@ public class BoardPresenter {
         }
 
     }
+
 
     public Piece[][] getPiecesFromModel() {
         return piecesFromModel;

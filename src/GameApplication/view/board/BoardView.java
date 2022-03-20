@@ -5,14 +5,20 @@ import GameApplication.view.ChessMenu;
 import GameApplication.view.board.components.ChessBoard;
 import GameApplication.view.board.components.PieceComp;
 import GameApplication.view.board.components.Space;
+import GameApplication.view.game.OptionButton;
 import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +32,15 @@ public class BoardView extends BorderPane {
 
     public Space activeSpace = null;
     public ChessBoard board;
+    private OptionButton options;
 
     public ChessMenu getChessMenu() {
         return chessMenu;
     }
 
     private ChessMenu chessMenu;
+
+    ;
     private Button btnSettings;
     private Button btnInstructions;
     private Button btnSave;
@@ -52,14 +61,24 @@ public class BoardView extends BorderPane {
     private Bounds gameBounds;
     private TextArea gameFlow;
     private GridPane textHolder;
-
+    private TextField tfPath;
     public BoardView() {
         initialiseNodes();
         layoutNodes();
         validMovesSpaces = new ArrayList<>();
         validAttackSpaces = new ArrayList<>();
+//        options = new OptionButton("/resources/save.png", getOnMouseClicked(),chessMenu.getMiSave().getText());
         clickedSpace = new ArrayList<>();
 
+
+    }
+
+    public Button getBtnSave() {
+        return btnSave;
+    }
+
+    public TextField getTfPath() {
+        return tfPath;
     }
 
     public TextArea getGameFlow() {
@@ -78,6 +97,9 @@ public class BoardView extends BorderPane {
         board = new ChessBoard(playerIsWhite);
         space = new Space[8][8];
         textHolder = new GridPane();
+        tfPath = new TextField();
+        String location = "D:\\stuff\\ChessGame\\src\\resources\\";
+        tfPath.setText(location + "myFile");
 
 
     }
@@ -85,8 +107,9 @@ public class BoardView extends BorderPane {
 
     private void layoutNodes() {
         chessMenu = new ChessMenu();
+        //chessMenu.getMiSave();
         gameFlow = new TextArea();
-        super.setTop(chessMenu);
+        super.setTop(getChessMenu());
         this.setCenter(board);
 
         //textArea layout
@@ -101,12 +124,15 @@ public class BoardView extends BorderPane {
     }
 
 
-
-
-
-
     public Space getActiveSpace() {
         return activeSpace;
+    }
+
+    private FileChooser createFileChooser() {
+        FileChooser fileChooser = new FileChooser();
+        board.getIO().forEach((k, v) -> fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter(v.getFileTypeDescription(), "*." + v.getFileExtension())));
+        return fileChooser;
     }
 
 
@@ -146,6 +172,7 @@ public class BoardView extends BorderPane {
     public boolean isPlayerIsWhite() {
         return playerIsWhite;
     }
+
 
 //    public GridPane getGamePane() {
 //        return gamePane;

@@ -9,6 +9,10 @@ import java.util.List;
 
 public class MoveManager {
 
+    public List<Spot> getSpots() {
+        return spots;
+    }
+
     //Creer een lijst met laatste spots
     List<Spot> spots = new ArrayList<>();
 
@@ -103,5 +107,6 @@ public class MoveManager {
     public List<Spot> getMoves() {
         return spots;
     }
+
 
 }
