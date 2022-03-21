@@ -16,9 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,9 +95,12 @@ public class BoardView extends BorderPane {
         board = new ChessBoard(playerIsWhite);
         space = new Space[8][8];
         textHolder = new GridPane();
-        tfPath = new TextField();
-        String location = "D:\\stuff\\ChessGame\\src\\resources\\";
-        tfPath.setText(location + "myFile");
+        tfPath = new TextField("myFile.txt");
+        Path myFile = Paths.get(tfPath.getText());
+        tfPath.setText(myFile.toString());
+
+
+        //String location = Paths.get( FileSystems.getDefault().getPath(this.getPath());,)
 
 
     }

@@ -1,11 +1,16 @@
 package GameApplication;
 
 import GameApplication.model.Chess;
+import GameApplication.model.ChessIO;
 import GameApplication.view.board.BoardPresenter;
 import GameApplication.view.board.BoardView;
+import GameApplication.view.board.components.ChessBoard;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.util.ServiceLoader;
+
 /**
  * Main class that stages our mainView & model to scenes
  *
@@ -23,6 +28,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+
         Chess model = new Chess();
         BoardView view = new BoardView();
         BoardPresenter presenter = new BoardPresenter(model, view);
@@ -35,6 +41,8 @@ public class Main extends Application {
         primaryStage.setTitle("Ultimate Chess");
         primaryStage.show();
 
+
+        //board.loadFromResource("init.json");
 
     }
 }

@@ -28,6 +28,9 @@ import javafx.stage.Stage;
 import javax.swing.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -127,11 +130,12 @@ public class BoardPresenter {
                             FileChooser fileChooser = new FileChooser();
 
                             //Set extension filter for text files
-                            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-                            fileChooser.getExtensionFilters().add(extFilter);
+
+                            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("text files", "*.txt"), new FileChooser.ExtensionFilter("all", "*.*"));
 
                             //Show save file dialog
                             File file = fileChooser.showSaveDialog(view.getScene().getWindow());
+
 
                             GameView gameView = new GameView();
                             Stage newStage = new Stage();
@@ -146,7 +150,12 @@ public class BoardPresenter {
                             JsonArray blackPieces = new JsonArray();
                             JsonArray moveMessages = new JsonArray();
                             Alert succesAlert = new Alert(Alert.AlertType.CONFIRMATION);
-                            fileWrite.saveToFile(view.getTfPath().getText(), view.getGameFlow().getText());
+
+                            Path myFile = Paths.get(view.getTfPath().getText());
+
+
+                            board.save(file);
+
 
                             succesAlert.setHeaderText("File succesfully written to " + view.getTfPath().getText());
                             succesAlert.show();
