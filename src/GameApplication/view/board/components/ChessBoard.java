@@ -76,6 +76,7 @@ public class ChessBoard extends GridPane {
     }
 
     public void onSpaceClickV2(Board board, int clickedColumn, int clickedRow) {
+
         board.getMoveManager().addMove(clickedColumn, clickedRow);
 
 

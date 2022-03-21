@@ -33,9 +33,14 @@ public class BoardPresenter {
                     @Override
                     public void handle(ActionEvent actionEvent) {
 
+                        view.getBoard().setActiveSpace(view.getBoard().spaces[finalX][finalY]);
+                        /*if (model.getBoard().getCheckedState()){
+                            System.out.println("check state");
+                            return;
+                        }*/
 
                         handleValidMoves(model.getBoard().getPieceFromSpot(finalX, finalY));
-                        view.getBoard().setActiveSpace(view.getBoard().spaces[finalX][finalY]);
+
                         view.getBoard().onSpaceClickV2(model.getBoard(),finalX, finalY);
 
                         updateView();

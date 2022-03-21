@@ -13,10 +13,7 @@ import GameApplication.model.chess.piece.pieces.King;
 import GameApplication.model.chess.piece.pieces.Piecetype;
 import GameApplication.model.chess.spot.Spot;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Board {
 
@@ -293,6 +290,20 @@ public class Board {
     }
 
      */
+
+    public List<Piece> getPiecesFromInternalBoard(PieceColor color){
+        List<Piece> pieces =  new ArrayList<>();
+        for (Piece[] pieceColumns : getPieceIntern()
+        ) {
+            for (Piece piece : pieceColumns) {
+                if (piece != null && piece.getPieceColor() ==color) {
+                    pieces.add(piece);
+                }
+
+            }
+        }
+        return pieces;
+    }
 
     public Piece[][] getPieceIntern() {
         return pieceIntern;

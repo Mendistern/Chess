@@ -30,6 +30,8 @@ public class MoveManager {
 
     public void addMove(int column, int row){
 
+
+
         Piece clickedOnPiece = board.getPieceFromSpot(column,row);
 
         //als de moves lijst is leeg,
@@ -46,6 +48,8 @@ public class MoveManager {
             //loop niet verder naar de volgende IF-statement
             return;
         }
+
+
 
         //Als er al op een Piece werd geclicked, analyzeer de volgende click.
         if (spots.size()==1){
@@ -80,8 +84,17 @@ public class MoveManager {
                     for (Spot spot : validMove){
                         if (spot!=null && spot.getColumn()==column&&spot.getRow()==row){
                             //zoja, add de 2de spot naar de lijst, en roep de make move methode op.
+
+
+
+                            //if it's check, then test the second spot, if i'ts going to disable the check
+                            if (board.getCheckedState()&&testMove(new Spot(column,row))){
+                                return;
+                            }
+                            //if not in a checked state, or testMove return true
                             spots.add(new Spot(column,row));
-                            System.out.println("Valid Move");
+
+                            //prepare next turn
                             makeMove();
                         }
                     }
@@ -94,24 +107,69 @@ public class MoveManager {
 
     }
 
+    //move the piece and prepare next turn
     public void makeMove(){
 
+
+        // Actually move the piece
         board.getPieceFromSpot(spots.get(0).getColumn(),spots.get(0).getRow()).moveToSpot(board,spots.get(1));
 
+        //clear the list for next players turn
         spots.clear();
 
-
-
+        // switch player
         board.switchPlayer();
 
+        //check if it's check
         board.checkForCheck();
 
+        //draw the board again
         board.nextTurn();
 
 
 
+    }
 
-        //TODO
+
+    //Method to check if the next move during check, will evade the check
+    public boolean testMove(Spot secondSpot){
+        //create a reference to the old board
+        Board tempBoard = board;
+        //create a copy of the old piece, in case there is one on the second spot
+        Piece oldPiece =  tempBoard.getPieceIntern()[secondSpot.getColumn()][secondSpot.getRow()];
+
+        // get the piece from the first spot
+        Piece piece = board.getPieceFromSpot(spots.get(0).getColumn(),spots.get(0).getRow());
+
+        //if there was a piece on the second spot, remove it
+        if(oldPiece!=null){
+            tempBoard.getPieceIntern()[secondSpot.getColumn()][secondSpot.getRow()]=null;
+        }
+        // remove the piece from the first spot
+        tempBoard.getPieceIntern()[spots.get(0).getColumn()][spots.get(0).getRow()]=null;
+        // set the piece from the first spot in the second spot
+        tempBoard.getPieceIntern()[secondSpot.getColumn()][secondSpot.getRow()] = piece;
+
+        //check if after doing this, the check is still there
+        if (board.getKing(board.getCurrentPlayer().getColor()).isCheck(tempBoard)){
+
+            //if yes, put everything back in place
+            tempBoard.getPieceIntern()[secondSpot.getColumn()][secondSpot.getRow()]=null;
+            tempBoard.getPieceIntern()[spots.get(0).getColumn()][spots.get(0).getRow()] = piece;
+            if(oldPiece!=null){
+                tempBoard.getPieceIntern()[secondSpot.getColumn()][secondSpot.getRow()]=oldPiece;
+            }
+            return true;
+        }
+        //if not, also put everything back in place
+        tempBoard.getPieceIntern()[secondSpot.getColumn()][secondSpot.getRow()]=null;
+        tempBoard.getPieceIntern()[spots.get(0).getColumn()][spots.get(0).getRow()] = piece;
+        if(oldPiece!=null){
+            tempBoard.getPieceIntern()[secondSpot.getColumn()][secondSpot.getRow()]=oldPiece;
+        }
+        return false;
+
+
     }
 
     public List<Spot> getMoves() {
