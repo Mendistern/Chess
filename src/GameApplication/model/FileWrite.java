@@ -1,9 +1,5 @@
 package GameApplication.model;
 
-import GameApplication.model.chess.piece.Piece;
-import GameApplication.model.chess.spot.Spot;
-import GameApplication.view.board.components.PieceComp;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
@@ -31,23 +27,23 @@ public class FileWrite {
 
     }
 
-    public void writeState(String Path, boolean object) throws IOException {
-        try {
-
-            Piece piece = null;
-            assert false;
-            Spot spot = null;
-            PieceComp.fromPieceToPieceComp(spot.getPiece());
-            String val = piece.getPieceLocation().toString();
-            FileOutputStream fos = new FileOutputStream(Path);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(piece);
-            oos.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void writeState(Path Path, boolean object) throws IOException {
+//        try {
+//
+//            Piece piece = null;
+//            assert false;
+//            Spot spot = null;
+//            PieceComp.fromPieceToPieceComp(spot.getPiece());
+//            String val = piece.getPieceLocation().toString();
+//            FileOutputStream fos = new FileOutputStream();
+//            ObjectOutputStream oos = new ObjectOutputStream(fos);
+//            oos.writeObject(piece);
+//            oos.close();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void saveToFile(Path Path, String contents) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(contents))) {

@@ -1,21 +1,15 @@
 package GameApplication.view.board;
 
 import GameApplication.model.Chess;
-import GameApplication.model.ChessIO;
 import GameApplication.model.FileWrite;
-import GameApplication.model.chess.IO.ChessLoader;
+import GameApplication.model.chess.Board;
+import GameApplication.model.chess.FileManager;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
 import GameApplication.model.chess.spot.Spot;
 import GameApplication.view.board.components.ChessBoard;
-import GameApplication.view.board.components.PieceComp;
 import GameApplication.view.board.components.Space;
-import GameApplication.view.game.GamePresenter;
-import GameApplication.view.game.GameView;
 import GameApplication.view.instructions.InstructionsView;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -25,15 +19,16 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.swing.*;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Formatter;
 import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Logger;
 
 
 public class BoardPresenter {
@@ -42,8 +37,12 @@ public class BoardPresenter {
     private Piece[][] piecesFromModel;
     int size = 8;
     private ChessBoard board;
+    private final transient Board moveEvaluator;
     private GridPane options;
     private FileWrite fileWrite;
+    private final transient Logger log = Logger.getLogger("game");
+    private Board gameBoard;
+    private Scanner scanner;
 
 
     public BoardPresenter(Chess model, BoardView view) {
@@ -51,6 +50,8 @@ public class BoardPresenter {
         this.view = view;
         options = new GridPane();
         fileWrite = new FileWrite();
+        FileManager fileManager;
+        this.moveEvaluator = model.getBoard();
         addEventListeners();
         updateView();
     }
@@ -97,7 +98,7 @@ public class BoardPresenter {
 
                         view.getBoard().setActiveSpace(view.getBoard().spaces[finalX][finalY]);
                         view.getBoard().onSpaceClickV2(model.getBoard(), finalX, finalY);
-//                        Spot pos = model.getBoard().getPieceFromSpot(finalX,finalY).getPieceLocation();
+//                      Spot pos = model.getBoard().getPieceFromSpot(finalX,finalY).getPieceLocation();
                         Spot pieceLocation = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation();
 
 
@@ -131,17 +132,28 @@ public class BoardPresenter {
                         File selectedFile = fileChooser.showSaveDialog(view.getScene().getWindow());
                         if ((selectedFile != null) ^ (Files.isWritable(Paths.get(selectedFile.toURI())))) {
                             try (Formatter output = new Formatter(selectedFile)) {
-                                // implementeren wegschrijven model-gegevens vb:
-                                output.format("%s%n", view.getGameFlow().getText());
+//                                PieceComp piece = PieceComp.fromPieceToPieceComp(model.getBoard().getPieceFromSpot(view.getActiveSpace().getX(),view.getActiveSpace().getY()));
+
+                                output.format("%s%s", model.getBoard().getPieceFromSpot(finalX, finalX).toString(), view.getGameFlow().getText());
+                                ObjectOutputStream objWriter = new ObjectOutputStream(new FileOutputStream(selectedFile));
+
+                                Spot pieceLocation = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation();
+                                objWriter.writeInt(model.getBoard().getArrayIndexForColor(pieceLocation.getPiece().getPieceColor()));
+                                objWriter.writeObject(board.getIO());
+                                String ext = fileChooser.getSelectedExtensionFilter().getExtensions().toString();
+                                FileWrite fileWrite = new FileWrite();
+                                fileWrite.saveToFile(Paths.get(selectedFile.toURI()), String.valueOf(output.format("%n", pieceLocation.hashCode())));
+
+
                                 Alert succesAlert = new Alert(Alert.AlertType.CONFIRMATION);
                                 succesAlert.setHeaderText("File succesfully written to " + Paths.get(selectedFile.toURI()).toString());
                                 succesAlert.show();
-                            } catch (IOException e) {/* Exception behandelen */ }
-                        } else {
-                            Alert errorWindow = new Alert(Alert.AlertType.ERROR);
-                            errorWindow.setHeaderText("Problem with selected file");
-                            errorWindow.setContentText("File is not writable");
-                            errorWindow.showAndWait();
+                            } catch (IOException e) {
+                                Alert errorWindow = new Alert(Alert.AlertType.ERROR);
+                                errorWindow.setHeaderText("Problem with selected file");
+                                errorWindow.setContentText("File is not writable");
+                                errorWindow.showAndWait();
+                            }
                         }
                     }
                 });

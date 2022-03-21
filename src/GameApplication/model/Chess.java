@@ -7,15 +7,15 @@ import java.util.Scanner;
 
 public class Chess {
 
-    private  Piece[][] piecesOnBoard;
+    private Piece[][] piecesOnBoard;
     private Board board;
     Scanner sc = new Scanner(System.in);
 
-    public Chess(){
+    public Chess() {
         System.out.println("Chess game ");
 //        piece[0][0] sizeX = 8;
 //        piece[0][1] sizeY = 8;
-         board = new Board();
+        board = new Board();
         // board.drawBoard();
 
       piecesOnBoard = board.getPieceIntern();
