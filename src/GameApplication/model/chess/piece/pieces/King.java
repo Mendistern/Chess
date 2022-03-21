@@ -261,7 +261,7 @@ public class King extends Piece {
                     }
                     break;
                 default:
-                    return false;
+                    continue;
 
 
             }
@@ -287,7 +287,7 @@ public class King extends Piece {
             if (piece.getPieceType()==Piecetype.KING)continue;
             //set the board for the piece incase it wasn't yet set
             piece.setBoard(getBoard());
-            //if the destination spot isn't empty
+            //if the destination spot isn't empty---what if is empty
             if (getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()]!=null) {
                 //and it's an opponents piece, than you've to temporarily remove this piece to check if another piece defends this spot.
                 if (getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()].getPieceColor() == getBoard().getOpponentColor()) {
@@ -298,15 +298,89 @@ public class King extends Piece {
 
                     //remove it from the board
                     tempBoard.getPieceIntern()[spot.getColumn()][spot.getRow()]=null;
-                    //if, without the piece, the move will still cause for check
+                    //if, without the piece, the move still causes check
                     if (checkIfMoveCausesCheck(spot)){
                         //return the piece to the board
-                        tempBoard.getPieceIntern()[spot.getColumn()][spot.getRow()]= tempRemovablePiece;
+                        tempBoard.getPieceIntern()[spot.getColumn()][spot.getRow()]=null;
+                        tempBoard.getPieceIntern()[tempRemovablePiece.getColumn()][tempRemovablePiece.getRow()]= tempRemovablePiece;
                         return true;
                     }
                     //anyways return the piece to the board
-                    tempBoard.getPieceIntern()[spot.getColumn()][spot.getRow()] = tempRemovablePiece;
+                    tempBoard.getPieceIntern()[spot.getColumn()][spot.getRow()]=null;
+                    tempBoard.getPieceIntern()[tempRemovablePiece.getColumn()][tempRemovablePiece.getRow()]= tempRemovablePiece;
                 }
+            }else {
+                //create a temporary board. not a clone
+                Board tempBoard = getBoard();
+
+                King tempKing = (King) tempBoard.getPieceIntern()[getColumn()][getRow()];
+                tempKing.setBoard(tempBoard);
+
+                tempBoard.getPieceIntern()[getColumn()][getRow()]=null;
+                tempBoard.getPieceIntern()[spot.getColumn()][spot.getRow()] = tempKing;
+
+                if (piece.moveTo(new Spot(spot.getColumn(), spot.getRow()))){
+                    tempBoard.getPieceIntern()[spot.getColumn()][spot.getRow()]= null;
+                    tempBoard.getPieceIntern()[tempKing.getColumn()][tempKing.getRow()]=tempKing;
+                    return true;
+                }
+                tempBoard.getPieceIntern()[spot.getColumn()][spot.getRow()]= null;
+                tempBoard.getPieceIntern()[tempKing.getColumn()][tempKing.getRow()]=tempKing;
+
+
+            }
+
+
+            switch (piece.getPieceType()) {
+                case PAWN:
+                    Pawn pawn = (Pawn) piece;
+
+
+                    Board tempBoard =getBoard();
+
+
+                    tempBoard.getPieceIntern()[spot.getColumn()][spot.getRow()]=this;
+
+
+
+
+                    pawn.setBoard(tempBoard);
+                    pawn.validMoves(tempBoard);
+                    if (pawn.getValidAttackSpots()[spot.getColumn()][spot.getRow()]==null) {
+                        tempBoard.getPieceIntern()[spot.getColumn()][spot.getRow()]=null;
+                        continue;
+                    }
+
+                    if (pawn.getValidAttackSpots()[spot.getColumn()][spot.getRow()].getColumn()==spot.getColumn()&&pawn.getValidAttackSpots()[spot.getColumn()][spot.getRow()].getRow()==spot.getRow()){
+                        tempBoard.getPieceIntern()[spot.getColumn()][spot.getRow()]=null;
+                        return true;
+                    }
+                    tempBoard.getPieceIntern()[spot.getColumn()][spot.getRow()]=null;
+                    break;
+                case KNIGHT:
+                    Knight knight = (Knight) piece;
+
+                    if (knight.validMoves(getBoard())[spot.getColumn()][spot.getRow()]==null)continue;
+                    if (knight.validMoves(getBoard())[spot.getColumn()][spot.getRow()].getColumn()==getColumn()&&knight.validMoves(getBoard())[spot.getColumn()][spot.getRow()].getRow()==getRow()){
+                        return true;
+                    }
+                    break;
+                case QUEEN:
+                case BISHOP:
+                case ROOK:
+
+
+                   if(piece.moveTo(new Spot(spot.getColumn(), spot.getRow()))){
+                       return true;
+                   }
+                   /* if (piece.moveTo(new Spot(spot.getColumn(),spot.getRow()))){
+                        return true;
+                    }*/
+                    break;
+                default:
+                    return false;
+
+
             }
 
 
@@ -314,9 +388,31 @@ public class King extends Piece {
 
 
             //else, check if a piece can attack there.
-            if (piece.moveTo(spot))return true;
+            //if (piece.moveTo(spot))return true;
         }
         return false;
+
+    }
+
+    public boolean tempMoveKing(Piece piece,Spot spot,Board board){
+
+        Spot oldKingsSpot = new Spot(getColumn(),getRow());
+        King oldKing = this;
+
+
+
+        piece.getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()]=this;
+        piece.getBoard().getPieceIntern()[getColumn()][getRow()]=null;
+
+        piece.setBoard(board);
+
+        if ( piece.validMoves(board)[spot.getColumn()][spot.getRow()]!=null){
+            piece.getBoard().getPieceIntern()[oldKingsSpot.getColumn()][oldKingsSpot.getRow()] = oldKing;
+            return true;
+        }
+        piece.getBoard().getPieceIntern()[oldKingsSpot.getColumn()][oldKingsSpot.getRow()] = oldKing;
+        return false;
+
 
     }
 

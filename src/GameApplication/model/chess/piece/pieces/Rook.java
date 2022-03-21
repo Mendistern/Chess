@@ -50,6 +50,8 @@ public class Rook extends Piece {
             //set y to next row. loop till you get to destination. dx to y to check next spot (up or down = dx)
             for (y = currentRow + dx; y != destinationRow; y += dx) {
 
+                //voorkom out of bound
+                if (y<0||y>8)return false;
                 //If board on spot dColumn and row y is occupied
                 if (getBoard().getPieceIntern()[destinationColumn][y] != null) {
 
@@ -65,6 +67,8 @@ public class Rook extends Piece {
             dy = currentColumn < destinationColumn ? 1 : -1;
                 for (y = currentColumn+dy; y !=destinationColumn; y+=dy) {
 
+                    //voorkom out of bound
+                    if (y<0||y>8)return false;
                     if (getBoard().getPieceIntern()[y][destinationRow] != null) {
 
                         return false;
