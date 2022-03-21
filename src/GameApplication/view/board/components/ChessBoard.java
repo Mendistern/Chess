@@ -1,27 +1,18 @@
 package GameApplication.view.board.components;
 
 import GameApplication.model.ChessIO;
-import GameApplication.model.FileWrite;
 import GameApplication.model.chess.Board;
 import GameApplication.model.chess.FileManager;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.view.board.Move;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
-import javafx.scene.Node;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Translate;
 
-import javax.swing.border.Border;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -38,9 +29,7 @@ public class ChessBoard extends GridPane {
 
     private GridPane root;
 
-
     private StackPane square;
-
 
     public ChessBoard(boolean playerIsWhite) {
         instance = this;
@@ -106,38 +95,34 @@ public class ChessBoard extends GridPane {
             square.getChildren().add(label);
             this.add(square, size, i - 1);
         }
-        for (int i = 0; i <= size; i++) {
-            this.getColumnConstraints().add(new ColumnConstraints(getMinWidth(), computePrefWidth(Space.USE_PREF_SIZE), Region.USE_COMPUTED_SIZE, Priority.ALWAYS, HPos.CENTER, true));
-            this.getRowConstraints().add(new RowConstraints(getMinHeight(), computePrefHeight(Space.USE_PREF_SIZE), Region.USE_COMPUTED_SIZE, Priority.ALWAYS, VPos.CENTER, true));
-
-
-        }
+//        for (int i = 0; i <= size; i++) {
+//            this.getColumnConstraints().add(new ColumnConstraints(getMinWidth(), Space.USE_COMPUTED_SIZE, Space.USE_PREF_SIZE, Priority.ALWAYS, HPos.CENTER, true));
+//            this.getRowConstraints().add(new RowConstraints(getMinHeight(), Space.USE_COMPUTED_SIZE, Space.USE_PREF_SIZE, Priority.ALWAYS, VPos.CENTER, true));
+//
+//
+//        }
 
         super.setAlignment(Pos.CENTER);
+        this.isResizable();
+        GridPane.setFillHeight(root, super.isResizable());
 
 
     }
-
     public Map<String, ChessIO> getIo() {
         return io;
     }
-
     public PieceComp[][] getPieceComponentsOfBoard() {
         return pieceComponentsOfBoard;
     }
-
     public Piece[][] getPiecesFromBoard() {
         return piecesFromBoard;
     }
-
     public double getCell_width() {
         return cell_width;
     }
-
     public double getCell_height() {
         return cell_height;
     }
-
 
     private double cell_width;
     private double cell_height;

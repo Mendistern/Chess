@@ -94,6 +94,7 @@ public class BoardView extends BorderPane {
     private void initialiseNodes() {
         board = new ChessBoard(playerIsWhite);
         space = new Space[8][8];
+
         textHolder = new GridPane();
         tfPath = new TextField("myFile.txt");
         Path myFile = Paths.get(tfPath.getText());
@@ -111,7 +112,9 @@ public class BoardView extends BorderPane {
         //chessMenu.getMiSave();
         gameFlow = new TextArea();
         super.setTop(getChessMenu());
-        this.setCenter(board);
+
+        super.setCenter(board);
+
 
         //textArea layout
         GridPane.setColumnSpan(gameFlow, 10);
@@ -121,6 +124,9 @@ public class BoardView extends BorderPane {
         GridPane.setHalignment(gameFlow, HPos.CENTER);
         super.setBottom(textHolder);
 
+
+        super.isResizable();
+        super.resize(computePrefWidth(ChessBoard.USE_PREF_SIZE) / USE_PREF_SIZE, computePrefHeight(ChessBoard.USE_PREF_SIZE) / USE_COMPUTED_SIZE);
 
     }
 

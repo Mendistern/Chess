@@ -32,6 +32,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Formatter;
 import java.util.List;
 
 
@@ -123,47 +124,24 @@ public class BoardPresenter {
                 });
                 view.getChessMenu().getMiSave().setOnAction(new EventHandler<ActionEvent>() {
                     @Override
-                    public void handle(ActionEvent actionEvent) {
-
-
-                        try {
-                            FileChooser fileChooser = new FileChooser();
-
-                            //Set extension filter for text files
-
-                            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("text files", "*.txt"), new FileChooser.ExtensionFilter("all", "*.*"));
-
-                            //Show save file dialog
-                            File file = fileChooser.showSaveDialog(view.getScene().getWindow());
-
-
-                            GameView gameView = new GameView();
-                            Stage newStage = new Stage();
-                            newStage.initOwner(view.getScene().getWindow());
-                            newStage.initModality(Modality.APPLICATION_MODAL);
-                            Scene scene = new Scene(gameView);
-                            newStage.setScene(scene);
-
-                            Spot pieceLocation = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation();
-
-
-                            JsonArray blackPieces = new JsonArray();
-                            JsonArray moveMessages = new JsonArray();
-                            Alert succesAlert = new Alert(Alert.AlertType.CONFIRMATION);
-
-                            Path myFile = Paths.get(view.getTfPath().getText());
-
-
-                            board.save(file);
-
-
-                            succesAlert.setHeaderText("File succesfully written to " + view.getTfPath().getText());
-                            succesAlert.show();
-                        } catch (IOException e) {
-                            Alert failedAlert = new Alert(Alert.AlertType.ERROR);
-                            failedAlert.setHeaderText("Problem saving file");
-                            failedAlert.setContentText("Path does not exist" + e.getMessage());
-                            failedAlert.showAndWait();
+                    public void handle(ActionEvent event) {
+                        FileChooser fileChooser = new FileChooser();
+                        fileChooser.setTitle("Save Data File");
+                        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Textfiles", "*.txt"), new FileChooser.ExtensionFilter("All Files", "*.*"));
+                        File selectedFile = fileChooser.showSaveDialog(view.getScene().getWindow());
+                        if ((selectedFile != null) ^ (Files.isWritable(Paths.get(selectedFile.toURI())))) {
+                            try (Formatter output = new Formatter(selectedFile)) {
+                                // implementeren wegschrijven model-gegevens vb:
+                                output.format("%s%n", view.getGameFlow().getText());
+                                Alert succesAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                                succesAlert.setHeaderText("File succesfully written to " + Paths.get(selectedFile.toURI()).toString());
+                                succesAlert.show();
+                            } catch (IOException e) {/* Exception behandelen */ }
+                        } else {
+                            Alert errorWindow = new Alert(Alert.AlertType.ERROR);
+                            errorWindow.setHeaderText("Problem with selected file");
+                            errorWindow.setContentText("File is not writable");
+                            errorWindow.showAndWait();
                         }
                     }
                 });

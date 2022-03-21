@@ -49,8 +49,8 @@ public class FileWrite {
         }
     }
 
-    public void saveToFile(String Path, String contents) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Path))) {
+    public void saveToFile(Path Path, String contents) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(contents))) {
             writer.write(contents);
         } catch (IOException e) {
             System.out.println(e.getMessage());
