@@ -99,10 +99,10 @@ public class BoardPresenter {
                         view.getBoard().setActiveSpace(view.getBoard().spaces[finalX][finalY]);
                         view.getBoard().onSpaceClickV2(model.getBoard(), finalX, finalY);
 //                      Spot pos = model.getBoard().getPieceFromSpot(finalX,finalY).getPieceLocation();
-                        Spot pieceLocation = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation();
+                        Spot pieceLocation = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation().getPiece().getPieceLocation();
 
 
-                        str.append("turn ").append(model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation().toString());
+                        str.append("turn \n").append(model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation().toString()).append("\n");
                         view.getGameFlow().appendText(str.toString());
 
 

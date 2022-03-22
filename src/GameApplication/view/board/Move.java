@@ -7,7 +7,6 @@ package GameApplication.view.board;
  * @version 1.0
  */
 
-//totally so unnecessary
 
 public class Move {
     int oldX;

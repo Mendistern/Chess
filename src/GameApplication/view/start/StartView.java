@@ -3,7 +3,9 @@ package GameApplication.view.start;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
+
 /**
  * View that welcome's the user
  *
@@ -11,24 +13,33 @@ import javafx.scene.layout.GridPane;
  * @version 1.0
  */
 
-public class StartView extends GridPane {
-    private Label lblGameName;
+/**
+ * @author nicolas
+ */
+public class StartView extends BorderPane {
+    private Label lblPlayerNAme;
     private Button btnStartGame;
     private Button btnSettings;
     private Image imgBackground;
 
-    public StartView(){
+    public StartView() {
         initNodes();
         layoutNodes();
 
     }
 
-    private void layoutNodes() {
-
+    private void initNodes() {
+        btnStartGame = new Button("Start Schaakspel");
     }
 
-    private void initNodes() {
+    private void layoutNodes() {
+        btnStartGame.setFont(new Font(20));
+        setPrefSize(300, 300);
+        setCenter(btnStartGame);
+    }
 
+    public Button getBtnStartGame() {
+        return btnStartGame;
     }
 
 

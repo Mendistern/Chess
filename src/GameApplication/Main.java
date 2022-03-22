@@ -1,8 +1,8 @@
 package GameApplication;
 
 import GameApplication.model.Chess;
-import GameApplication.view.board.BoardPresenter;
-import GameApplication.view.board.BoardView;
+import GameApplication.view.start.StartPresenter;
+import GameApplication.view.start.StartView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -12,6 +12,10 @@ import javafx.stage.Stage;
  *
  * @author Nicolas Bouquiaux
  * @version 1.0
+ */
+
+/**
+ * @author nicolas
  */
 
 public class Main extends Application {
@@ -27,8 +31,10 @@ public class Main extends Application {
 
         Chess model = new Chess();
 
-        BoardView view = new BoardView();
-        BoardPresenter presenter = new BoardPresenter(model, view);
+//        BoardView view = new BoardView();
+//        BoardPresenter presenter = new BoardPresenter(model, view);
+        StartView view = new StartView();
+        StartPresenter startPresenter = new StartPresenter(model, view);
         Scene scene = new Scene(view);
 
         scene.getStylesheets().add("resources/stylesheet.css");
