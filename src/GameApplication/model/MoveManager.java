@@ -16,6 +16,10 @@ public class MoveManager {
     //Creer een lijst met laatste spots
     List<Spot> spots = new ArrayList<>();
 
+    public Board getBoard() {
+        return board;
+    }
+
     //behoud de staat van de board.
     private Board board;
 

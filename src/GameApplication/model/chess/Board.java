@@ -28,12 +28,17 @@ public class Board {
     //creer een moveManager
     MoveManager moveManager;
 
+    public Player[] getPlayers() {
+        return players;
+    }
+
     //create int for ruleOf50
     private int ruleOf50 = 0;
 
     public int get50MoveRuleTurns() {
         return ruleOf50;
     }
+
     public void set50MoveRuleTurns(int turns) {
         this.ruleOf50 = turns;
     }

@@ -41,6 +41,11 @@ public class BoardPresenter {
     private GridPane options;
     private FileWrite fileWrite;
     private final transient Logger log = Logger.getLogger("game");
+
+    public Board getGameBoard() {
+        return gameBoard;
+    }
+
     private Board gameBoard;
     private Scanner scanner;
 
@@ -102,7 +107,13 @@ public class BoardPresenter {
                         Spot pieceLocation = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation().getPiece().getPieceLocation();
 
 
-                        str.append("turn \n").append(model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation().toString()).append("\n");
+                        str.append("Current turn ").append(model.getBoard().getMoveManager().getBoard().getCurrentTurn() - 1).append("\n");
+
+                        if (model.getBoard().getMoveManager().getSpots().size() == 1) {
+                            Spot firstSpot = model.getBoard().getMoveManager().getSpots().get(0);
+                            str.append("from -> ").append(model.getBoard().getPieceFromSpot(firstSpot.getColumn(), firstSpot.getRow()).getPieceLocation().getFormattedName());
+                            str.append(" to ").append(model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation().toString()).append("\n");
+                        }
                         view.getGameFlow().appendText(str.toString());
 
 
