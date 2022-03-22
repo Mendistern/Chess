@@ -2,6 +2,7 @@ package GameApplication.view.board;
 
 import GameApplication.model.Chess;
 import GameApplication.model.FileWrite;
+import GameApplication.model.Position;
 import GameApplication.model.chess.Board;
 import GameApplication.model.chess.FileManager;
 import GameApplication.model.chess.piece.Piece;
@@ -14,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -98,28 +100,42 @@ public class BoardPresenter {
                     @Override
                     public void handle(ActionEvent actionEvent) {
 
-                        StringBuilder str = new StringBuilder();
+
                         handleValidMoves(model.getBoard().getPieceFromSpot(finalX, finalY));
 
                         view.getBoard().setActiveSpace(view.getBoard().spaces[finalX][finalY]);
                         view.getBoard().onSpaceClickV2(model.getBoard(), finalX, finalY);
 //                      Spot pos = model.getBoard().getPieceFromSpot(finalX,finalY).getPieceLocation();
                         Spot pieceLocation = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation().getPiece().getPieceLocation();
+                        view.getBoard().getSpaces()[finalX][finalY].setOnMouseClicked((MouseEvent e) -> {
+                            StringBuilder str = new StringBuilder();
 
+                            str.append("Position Gridpane X: ").append(e.getX()).append("\n");
+                            str.append("Position Gridpane Y: ").append(e.getY()).append("\n");
 
-                        str.append("Current turn ").append(model.getBoard().getMoveManager().getBoard().getCurrentTurn() - 1).append("\n");
+                            int x = (int) e.getX();
+                            int y = (int) e.getY();
 
-                        if (model.getBoard().getMoveManager().getSpots().size() == 1) {
-                            Spot firstSpot = model.getBoard().getMoveManager().getSpots().get(0);
-                            str.append("from -> ").append(model.getBoard().getPieceFromSpot(firstSpot.getColumn(), firstSpot.getRow()).getPieceLocation().getFormattedName());
-                            str.append(" to ").append(model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation().toString()).append("\n");
-                        }
-                        view.getGameFlow().appendText(str.toString());
+                            int rx = ((int) e.getX() % 8);
+                            int ry = ((int) e.getY() % 8);
+
+                            int lin = (x - rx) / 8;
+                            int col = (y - ry) / 8;
+
+                            str.append("Line X: ").append(lin).append("\n");
+                            str.append("Col Y: ").append(convCol(col)).append("\n");
+                            str.append("Position XY : ").append(new Position(lin, convCol(col))).append("\n");
+                            str.append("\n-----------------------------------------------------------------------------\n\n");
+
+                            view.getGameFlow().appendText(str.toString());
+                        });
 
 
                         updateView();
-
                     }
+
+                    ;
+
 
                 });
                 view.getChessMenu().getMiInstructions().setOnAction(new EventHandler<ActionEvent>() {

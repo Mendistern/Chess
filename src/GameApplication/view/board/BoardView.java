@@ -24,9 +24,9 @@ import java.util.List;
 public class BoardView extends BorderPane {
     public Button[][] buttons = new Button[8][8];
     private Space[][] space;
-    private List<Space> validMovesSpaces;
-    private List<Space> validAttackSpaces;
-    private List<Space> clickedSpace;
+    private final List<Space> validMovesSpaces;
+    private final List<Space> validAttackSpaces;
+    private final List<Space> clickedSpace;
 
     public Space activeSpace = null;
     public ChessBoard board;
@@ -38,7 +38,6 @@ public class BoardView extends BorderPane {
 
     private ChessMenu chessMenu;
 
-    ;
     private Button btnSettings;
     private Button btnInstructions;
     private Button btnSave;
@@ -65,7 +64,6 @@ public class BoardView extends BorderPane {
         layoutNodes();
         validMovesSpaces = new ArrayList<>();
         validAttackSpaces = new ArrayList<>();
-//        options = new OptionButton("/resources/save.png", getOnMouseClicked(),chessMenu.getMiSave().getText());
         clickedSpace = new ArrayList<>();
 
 
@@ -123,6 +121,7 @@ public class BoardView extends BorderPane {
         textHolder.add(gameFlow, 0, 25);
         GridPane.setHalignment(gameFlow, HPos.CENTER);
         super.setBottom(textHolder);
+        GridPane.setHalignment(gameFlow, HPos.CENTER);
 
 
         super.isResizable();
