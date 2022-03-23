@@ -8,10 +8,22 @@ import java.util.Iterator;
 import java.util.List;
 
 public class PieceSets {
+    public List<Piece> getPieceSets() {
+        return pieceSets;
+    }
+
     //hier gaan we alle Piece's inzetten
     List<Piece> pieceSets = new ArrayList<>();
 
     private boolean isChecked;
+
+    public void setPieceSets(List<Piece> pieceSets) {
+        this.pieceSets = pieceSets;
+    }
+
+    public void setColor(PieceColor color) {
+        this.color = color;
+    }
 
     private PieceColor color;
 

@@ -2,7 +2,9 @@ package GameApplication.model.chess.spot;
 
 import GameApplication.model.chess.piece.Piece;
 
-public class Spot  {
+import java.io.Serializable;
+
+public class Spot implements Serializable {
     //X
     private int column;
     //Y
@@ -10,9 +12,9 @@ public class Spot  {
 
     Piece piece;
 
-    public Spot(int column, int row)  {
-        try{
-            setInitialSpot(column,row);
+    public Spot(int column, int row) {
+        try {
+            setInitialSpot(column, row);
             piece = null;
         }catch(SpotException se){
             System.out.println(se.getMessage());

@@ -5,10 +5,6 @@ import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
 import GameApplication.model.chess.spot.Spot;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 public class Bishop extends Piece {
     //private Board board;
     private Spot[][] validAttackSpots ;

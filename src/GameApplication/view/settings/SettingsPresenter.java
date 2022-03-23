@@ -6,7 +6,16 @@ package GameApplication.view.settings;
  * @author Nicolas Bouquiaux
  * @version 1.0
  */
-
+/**
+ * @author nicolas
+ */
 public class SettingsPresenter {
     //TODO
+
+
+    public SettingsPresenter() {
+
+    }
+
+
 }

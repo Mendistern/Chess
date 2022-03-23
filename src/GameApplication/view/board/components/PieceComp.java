@@ -4,7 +4,9 @@ import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
 import javafx.scene.image.Image;
 
-public abstract class PieceComp {
+import java.io.Serializable;
+
+public abstract class PieceComp implements Serializable {
     protected Image image;
     protected boolean color;
 
@@ -66,5 +68,13 @@ public abstract class PieceComp {
         }
 
         return pieceComp;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public void setColor(boolean color) {
+        this.color = color;
     }
 }

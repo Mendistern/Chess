@@ -4,9 +4,10 @@ import GameApplication.model.chess.Board;
 import GameApplication.model.chess.piece.pieces.Piecetype;
 import GameApplication.model.chess.spot.Spot;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class Piece {
+public abstract class Piece implements Serializable {
 
 
     private Board board;
@@ -15,11 +16,11 @@ public abstract class Piece {
     //Locatie van de Piece in rij kolom
     private Spot pieceLocation;
     //belangrijk voor castling en enpassant?
-    private boolean moved=false;
+    private boolean moved = false;
 
     public abstract Piecetype getPieceType();
 
-    public Spot getPieceLocation(){
+    public Spot getPieceLocation() {
         return pieceLocation;
     }
 

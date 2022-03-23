@@ -14,8 +14,16 @@ import java.util.List;
 
 public class MoveManager {
 
+    public List<Spot> getSpots() {
+        return spots;
+    }
+
     //Creer een lijst met laatste spots
     List<Spot> spots = new ArrayList<>();
+
+    public Board getBoard() {
+        return board;
+    }
 
     //behoud de staat van de board.
     private Board board;
@@ -198,5 +206,6 @@ public class MoveManager {
     public List<Spot> getMoves() {
         return spots;
     }
+
 
 }
