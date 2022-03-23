@@ -1,20 +1,11 @@
 package GameApplication.view.game;
 
 import GameApplication.model.Chess;
-import GameApplication.model.chess.FileManager;
-import GameApplication.model.chess.IO.ChessLoader;
 import GameApplication.view.ChessMenu;
-import GameApplication.view.board.BoardView;
 import GameApplication.view.board.components.ChessBoard;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,6 +42,12 @@ public class GamePresenter {
                     alert.setContentText("The path does not exists: " + e.getMessage());
                     alert.showAndWait();
                 }
+            }
+        });
+        menu.getMiLoad().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                
             }
         });
     }

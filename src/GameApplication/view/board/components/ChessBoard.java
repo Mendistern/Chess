@@ -52,6 +52,12 @@ public class ChessBoard extends GridPane {
         // stackpane zorgt ervoor dat we deze op de huidige pane kunnen plaatsen, anders krijg je duplication errors
         for (int y = 7; y >= 0; y--) {
             //rij
+
+            StackPane square = new StackPane();
+            int rows = ( y + 1);
+            Label label = new Label(new String(String.valueOf((7-y)+1)));
+            square.getChildren().add(label);
+            this.add(square, size,y) ;
             for (int x = 0; x < 8; x++) {
 
                 boolean light = ((x + y) % 2 != 0);
@@ -89,13 +95,13 @@ public class ChessBoard extends GridPane {
             square.getChildren().add(label);
             this.add(square, i - 1, size);
         }
-        for (int i = 1; i <= size; i++) {
-            StackPane square = new StackPane();
-            int rows = (i + 1);
-            Label label = new Label(new String(String.valueOf(rows - 1)));
-            square.getChildren().add(label);
-            this.add(square, size, i - 1);
-        }
+//        for (int i = 1; i <= size; i++) {
+//            StackPane square = new StackPane();
+//            int rows = (i + 1);
+//            Label label = new Label(new String(String.valueOf(rows - 1)));
+//            square.getChildren().add(label);
+//            this.add(square, size, i - 1);
+//        }
 //        for (int i = 0; i <= size; i++) {
 //            this.getColumnConstraints().add(new ColumnConstraints(getMinWidth(), Space.USE_COMPUTED_SIZE, Space.USE_PREF_SIZE, Priority.ALWAYS, HPos.CENTER, true));
 //            this.getRowConstraints().add(new RowConstraints(getMinHeight(), Space.USE_COMPUTED_SIZE, Space.USE_PREF_SIZE, Priority.ALWAYS, VPos.CENTER, true));
