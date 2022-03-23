@@ -1,8 +1,8 @@
 package GameApplication.view.start;
 
 import GameApplication.model.Chess;
-import GameApplication.view.board.BoardPresenter;
-import GameApplication.view.board.BoardView;
+import GameApplication.view.player.PlayerPresenter;
+import GameApplication.view.player.PlayerView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
@@ -19,8 +19,8 @@ import javafx.event.EventHandler;
 
 public class StartPresenter {
     //TODO
-    private Chess model;
-    private StartView view;
+    private final Chess model;
+    private final StartView view;
 
     public StartPresenter(Chess model, StartView view) {
         this.model = model;
@@ -32,10 +32,10 @@ public class StartPresenter {
         view.getBtnStartGame().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                BoardView boardView = new BoardView();
-                BoardPresenter boardPresenter = new BoardPresenter(model, boardView);
-                view.getScene().setRoot(boardView);
-                boardView.getScene().getWindow().sizeToScene();
+                PlayerView playerView = new PlayerView();
+                PlayerPresenter playerPresenter = new PlayerPresenter(model, playerView);
+                view.getScene().setRoot(playerView);
+                playerView.getScene().getWindow().sizeToScene();
             }
         });
 

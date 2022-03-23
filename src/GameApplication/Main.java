@@ -1,6 +1,8 @@
 package GameApplication;
 
 import GameApplication.model.Chess;
+import GameApplication.view.board.BoardPresenter;
+import GameApplication.view.board.BoardView;
 import GameApplication.view.start.StartPresenter;
 import GameApplication.view.start.StartView;
 import javafx.application.Application;
@@ -31,8 +33,8 @@ public class Main extends Application {
 
         Chess model = new Chess();
 
-//        BoardView view = new BoardView();
-//        BoardPresenter presenter = new BoardPresenter(model, view);
+        BoardView boardview = new BoardView();
+        BoardPresenter presenter = new BoardPresenter(model, boardview);
         StartView view = new StartView();
         StartPresenter startPresenter = new StartPresenter(model, view);
         Scene scene = new Scene(view);
@@ -45,7 +47,6 @@ public class Main extends Application {
         primaryStage.show();
 
 
-        //board.loadFromResource("init.json");
 
     }
 }

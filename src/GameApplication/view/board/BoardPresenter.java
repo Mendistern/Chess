@@ -94,7 +94,6 @@ public class BoardPresenter {
             for (int y = 0; y < 8; y++) {
                 final int finalX = x;
                 final int finalY = y;
-//                spot = new Spot(x, y);
 
                 view.getBoard().getSpaces()[finalX][finalY].setOnAction(new EventHandler<ActionEvent>() {
                     @Override
@@ -105,7 +104,6 @@ public class BoardPresenter {
 
                         view.getBoard().setActiveSpace(view.getBoard().spaces[finalX][finalY]);
                         view.getBoard().onSpaceClickV2(model.getBoard(), finalX, finalY);
-//                      Spot pos = model.getBoard().getPieceFromSpot(finalX,finalY).getPieceLocation();
                         Spot pieceLocation = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation().getPiece().getPieceLocation();
                         view.getBoard().getSpaces()[finalX][finalY].setOnMouseClicked((MouseEvent e) -> {
                             StringBuilder str = new StringBuilder();
@@ -129,12 +127,8 @@ public class BoardPresenter {
 
                             view.getGameFlow().appendText(str.toString());
                         });
-
-
                         updateView();
                     }
-
-                    ;
 
 
                 });
@@ -159,7 +153,6 @@ public class BoardPresenter {
                         File selectedFile = fileChooser.showSaveDialog(view.getScene().getWindow());
                         if ((selectedFile != null) ^ (Files.isWritable(Paths.get(selectedFile.toURI())))) {
                             try (Formatter output = new Formatter(selectedFile)) {
-//                                PieceComp piece = PieceComp.fromPieceToPieceComp(model.getBoard().getPieceFromSpot(view.getActiveSpace().getX(),view.getActiveSpace().getY()));
 
                                 output.format("%s%s", model.getBoard().getPieceFromSpot(finalX, finalX).toString(), view.getGameFlow().getText());
                                 ObjectOutputStream objWriter = new ObjectOutputStream(new FileOutputStream(selectedFile));
@@ -189,8 +182,6 @@ public class BoardPresenter {
                 Space s = view.getBoard().getActiveSpace();
                 if (view.getBoard().getActiveSpace() != null) {
                     view.getBoard().getActiveSpace().getStyleClass().removeAll("chess-space-active");
-
-
                 }
                 s = view.getActiveSpace();
                 if (view.getBoard().getActiveSpace() != null) {
@@ -202,36 +193,6 @@ public class BoardPresenter {
         }
 
     }
-
-
-    //    public void writeToConsole(Piece piece){
-//        List<Space> clickedSpace = view.getClickedSpace();
-//
-//
-//
-//        for (Space space : clickedSpace){
-//            space.setUserData( new Spot( view.getBoard().getSpaces().length - 7, convCol(space.getX() + 1)));
-//            StringBuilder str = new StringBuilder();
-//            str.append( "Position XY : "  ).append(space.getUserData().toString()).append("\n");
-//            int x = (int) e.getX();
-//            int y = (int) e.getY();
-//
-//            int rx = ((int) e.getX() % 8);
-//            int ry = ((int) e.getY() % 8);
-//
-//            int lin = (x - rx) / 8;
-//            int col = (y - ry) / 8;
-//
-//            str.append("Line X: ").append(lin).append("\n");
-//            str.append("Col Y: ").append(convCol(col)).append("\n");
-//            str.append("Position XY : ").append(new Position(lin, convCol(col))).append("\n");
-//            str.append("\n-----------------------------------------------------------------------------\n\n");
-//            view.getGameFlow().appendText( str.toString() );
-//
-//        }
-//
-//
-//    }
     public void handleValidMoves(Piece piece) {
         List<Space> validSpaces = view.getValidMovesSpaces();
         for (Space space : validSpaces) {
@@ -268,12 +229,9 @@ public class BoardPresenter {
         }
 
     }
-
-
     public Piece[][] getPiecesFromModel() {
         return piecesFromModel;
     }
-
     public void updateView() {
         piecesFromModel = model.getPiecesOnBoard();
         view.getBoard().defineStartPositions(piecesFromModel);
@@ -289,7 +247,6 @@ public class BoardPresenter {
         }
 
     }
-
     public void setPiecesFromModel(Piece[][] piecesFromModel) {
         this.piecesFromModel = piecesFromModel;
     }

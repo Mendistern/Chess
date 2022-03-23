@@ -1,6 +1,4 @@
 package GameApplication.view.board;
-
-
 import GameApplication.view.ChessMenu;
 import GameApplication.view.board.components.ChessBoard;
 import GameApplication.view.board.components.PieceComp;
@@ -19,8 +17,6 @@ import javafx.stage.FileChooser;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
-
-
 public class BoardView extends BorderPane {
     public Button[][] buttons = new Button[8][8];
     private Space[][] space;
@@ -65,8 +61,6 @@ public class BoardView extends BorderPane {
         validMovesSpaces = new ArrayList<>();
         validAttackSpaces = new ArrayList<>();
         clickedSpace = new ArrayList<>();
-
-
     }
 
     public Button getBtnSave() {
@@ -92,16 +86,9 @@ public class BoardView extends BorderPane {
     private void initialiseNodes() {
         board = new ChessBoard(playerIsWhite);
         space = new Space[8][8];
-
         textHolder = new GridPane();
-        tfPath = new TextField("myFile.txt");
         Path myFile = Paths.get(tfPath.getText());
         tfPath.setText(myFile.toString());
-
-
-        //String location = Paths.get( FileSystems.getDefault().getPath(this.getPath());,)
-
-
     }
 
 
@@ -179,10 +166,6 @@ public class BoardView extends BorderPane {
         return playerIsWhite;
     }
 
-
-//    public GridPane getGamePane() {
-//        return gamePane;
-//    }
 
 }
 
