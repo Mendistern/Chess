@@ -1,8 +1,6 @@
 package GameApplication;
 
 import GameApplication.model.Chess;
-import GameApplication.view.board.BoardPresenter;
-import GameApplication.view.board.BoardView;
 import GameApplication.view.start.StartPresenter;
 import GameApplication.view.start.StartView;
 import javafx.application.Application;
@@ -33,8 +31,8 @@ public class Main extends Application {
 
         Chess model = new Chess();
 
-        BoardView boardview = new BoardView();
-        BoardPresenter presenter = new BoardPresenter(model, boardview);
+        //BoardView boardview = new BoardView();
+        //BoardPresenter presenter = new BoardPresenter(model, boardview);
         StartView view = new StartView();
         StartPresenter startPresenter = new StartPresenter(model, view);
         Scene scene = new Scene(view);

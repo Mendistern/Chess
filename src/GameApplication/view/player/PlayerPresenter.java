@@ -1,12 +1,10 @@
 package GameApplication.view.player;
 
 import GameApplication.model.Chess;
+import GameApplication.view.board.BoardPresenter;
 import GameApplication.view.board.BoardView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 public class PlayerPresenter {
     private final Chess model;
@@ -23,15 +21,17 @@ public class PlayerPresenter {
             @Override
             public void handle(ActionEvent event) {
                 BoardView boardView = new BoardView();
-                Stage newStage = new Stage();
-                newStage.initOwner(view.getScene().getWindow());
-                newStage.initModality(Modality.APPLICATION_MODAL);
-                Scene scene = new Scene(boardView);
-                //BoardPresenter boardPresenter = new BoardPresenter(model, boardView);
-                newStage.setScene(scene);
-                newStage.getScene().getWindow().sizeToScene();
+                BoardPresenter BoardPresenter = new BoardPresenter(model, boardView);
+                view.getScene().setRoot(boardView);
+                boardView.getScene().getWindow().sizeToScene();
+
+
             }
         });
 
+    }
+
+    public Chess getModel() {
+        return model;
     }
 }

@@ -35,7 +35,7 @@ public class FileWrite {
 //            Spot spot = null;
 //            PieceComp.fromPieceToPieceComp(spot.getPiece());
 //            String val = piece.getPieceLocation().toString();
-//            FileOutputStream fos = new FileOutputStream();
+//            //     FileOutputStream fos = new FileOutputStream();
 //            ObjectOutputStream oos = new ObjectOutputStream(fos);
 //            oos.writeObject(piece);
 //            oos.close();

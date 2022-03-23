@@ -1,4 +1,5 @@
 package GameApplication.view.board;
+
 import GameApplication.view.ChessMenu;
 import GameApplication.view.board.components.ChessBoard;
 import GameApplication.view.board.components.PieceComp;
@@ -14,9 +15,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 
-import java.nio.file.*;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
 public class BoardView extends BorderPane {
     public Button[][] buttons = new Button[8][8];
     private Space[][] space;
@@ -55,6 +57,7 @@ public class BoardView extends BorderPane {
     private TextArea gameFlow;
     private GridPane textHolder;
     private TextField tfPath;
+
     public BoardView() {
         initialiseNodes();
         layoutNodes();
@@ -83,12 +86,14 @@ public class BoardView extends BorderPane {
         return textHolder;
     }
 
+    private Path myFile;
+
     private void initialiseNodes() {
         board = new ChessBoard(playerIsWhite);
         space = new Space[8][8];
         textHolder = new GridPane();
-        Path myFile = Paths.get(tfPath.getText());
-        tfPath.setText(myFile.toString());
+        //Path myFile =  Paths.get(tfPath.getText());
+//        tfPath.setText(myFile.toString());
     }
 
 

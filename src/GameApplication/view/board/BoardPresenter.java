@@ -16,7 +16,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -29,36 +28,34 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Formatter;
 import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Logger;
+
 
 
 public class BoardPresenter {
-    private Chess model;
-    private BoardView view;
+    private final Chess model;
+    private final BoardView view;
     private Piece[][] piecesFromModel;
     int size = 8;
     private ChessBoard board;
-    private final transient Board moveEvaluator;
-    private GridPane options;
-    private FileWrite fileWrite;
-    private final transient Logger log = Logger.getLogger("game");
+    //private final transient Board moveEvaluator;
+    //private GridPane options;
+  //  private FileWrite fileWrite;
+
 
     public Board getGameBoard() {
         return gameBoard;
     }
 
     private Board gameBoard;
-    private Scanner scanner;
 
 
     public BoardPresenter(Chess model, BoardView view) {
         this.model = model;
         this.view = view;
-        options = new GridPane();
-        fileWrite = new FileWrite();
+        //options = new GridPane();
+        //fileWrite = new FileWrite();
         FileManager fileManager;
-        this.moveEvaluator = model.getBoard();
+        //this.moveEvaluator = model.getBoard();
         addEventListeners();
         updateView();
     }
