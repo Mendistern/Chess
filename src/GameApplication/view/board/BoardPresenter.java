@@ -32,7 +32,6 @@ import java.util.Formatter;
 import java.util.List;
 
 
-
 public class BoardPresenter {
     private final Chess model;
     private final BoardView view;
@@ -41,7 +40,7 @@ public class BoardPresenter {
     private ChessBoard board;
     //private final transient Board moveEvaluator;
     //private GridPane options;
-  //  private FileWrite fileWrite;
+    //  private FileWrite fileWrite;
 
 
     public Board getGameBoard() {
@@ -50,6 +49,9 @@ public class BoardPresenter {
 
     private Board gameBoard;
 
+    public void restartGame() {
+
+    }
 
     public BoardPresenter(Chess model, BoardView view) {
         this.model = model;
@@ -93,12 +95,18 @@ public class BoardPresenter {
             for (int y = 0; y < 8; y++) {
                 final int finalX = x;
                 final int finalY = y;
-                System.out.println("final "+finalY+" "+finalY);
+                System.out.println("final " + finalY + " " + finalY);
+
+
 
                 view.getBoard().getSpaces()[finalX][finalY].setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
 
+                     /*   if (finalX==1){
+                            System.out.println("----------------------------RESTARTING-----------");
+                            model.restartGame();
+                        }*/
 
                         handleValidMoves(model.getBoard().getPieceFromSpot(finalX, finalY));
 
@@ -110,7 +118,7 @@ public class BoardPresenter {
 
                         handleValidMoves(model.getBoard().getPieceFromSpot(finalX, finalY));
 
-                        view.getBoard().onSpaceClickV2(model.getBoard(),finalX, finalY);
+                        view.getBoard().onSpaceClickV2(model.getBoard(), finalX, finalY);
 
                         view.getBoard().onSpaceClickV2(model.getBoard(), finalX, finalY);
                         //Spot pieceLocation = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation().getPiece().getPieceLocation();
@@ -202,6 +210,7 @@ public class BoardPresenter {
         }
 
     }
+
     public void handleValidMoves(Piece piece) {
         List<Space> validSpaces = view.getValidMovesSpaces();
         for (Space space : validSpaces) {
@@ -240,18 +249,18 @@ public class BoardPresenter {
     }
 
 
-
     public Piece[][] getPiecesFromModel() {
         return piecesFromModel;
     }
+
     public void updateView() {
+        //todo on game restart, clean the board.
 
         piecesFromModel = model.getPiecesOnBoard();
         view.getBoard().defineStartPositions(piecesFromModel);
 
 
-
-        King king   = model.getBoard().getKing(model.getBoard().getCheckedColor());
+        King king = model.getBoard().getKing(model.getBoard().getCheckedColor());
 
         //remove attack color from kings position
         view.getBoard().getSpaces()[king.getColumn()][king.getRow()].getStyleClass().remove("chess-space-attackable");
@@ -260,30 +269,23 @@ public class BoardPresenter {
         view.getBoard().getSpaces()[king.getLastKingPosition().get(0).getColumn()][king.getLastKingPosition().get(0).getRow()].getStyleClass().remove("chess-space-attackable");
 
 
-
-       List<Space> validSpaces =  view.getValidMovesSpaces();
-       for (Space space : validSpaces) {
-           view.getBoard().getSpaces()[space.getX()][space.getY()].getStyleClass().add("chess-space-valid");
-       }
-       List<Space> validAttackSpaces =  view.getValidAttackSpaces();
-       for (Space space : validAttackSpaces) {
-           view.getBoard().getSpaces()[space.getX()][space.getY()].getStyleClass().add("chess-space-attackable");
-       }
-
+        List<Space> validSpaces = view.getValidMovesSpaces();
+        for (Space space : validSpaces) {
+            view.getBoard().getSpaces()[space.getX()][space.getY()].getStyleClass().add("chess-space-valid");
+        }
+        List<Space> validAttackSpaces = view.getValidAttackSpaces();
+        for (Space space : validAttackSpaces) {
+            view.getBoard().getSpaces()[space.getX()][space.getY()].getStyleClass().add("chess-space-attackable");
+        }
 
 
-
-        if (model.getBoard().getCheckedState()){
+        if (model.getBoard().getCheckedState()) {
             view.getBoard().getSpaces()[king.getColumn()][king.getRow()].getStyleClass().add("chess-space-attackable");
         }
 
 
-
-
-
-
-
     }
+
     public void setPiecesFromModel(Piece[][] piecesFromModel) {
         this.piecesFromModel = piecesFromModel;
     }

@@ -6,8 +6,13 @@ import GameApplication.view.board.components.ChessBoard;
 public class ChessLoader implements ChessIO {
     private ChessBoard board;
 
+    public ChessLoader(ChessBoard board) {
+        this.board = board;
+    }
+
     @Override
     public void load(byte[] data, ChessBoard board) {
+
 
     }
 

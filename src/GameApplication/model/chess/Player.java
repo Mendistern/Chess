@@ -18,6 +18,10 @@ public class Player {
         this.color = color;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     //getter for player attributes
 
     public String getName() {

@@ -51,18 +51,24 @@ public class Board {
 
         moveManager = new MoveManager(this);
 
-        generatePlayers();
+        players = new Player[2];
+      // generatePlayers();
 
         drawBoard();
 
 
     }
 
+    public void addPlayer(String name,int index){
+        players[index] = new Player(name);
+    }
 
-    private void generatePlayers() {
-        players = new Player[2];
+
+    public void generatePlayers() {
+
         String player1;
         String player2;
+/*
 
         do {
 
@@ -79,6 +85,7 @@ public class Board {
         } while (player2.length() == 0);
         players[1] = new Player(player2);
 
+*/
 
         Random random = new Random();
         int generatedRandomColor = random.nextInt(2);
@@ -307,6 +314,8 @@ public class Board {
         return pieces;
     }
 
+
+
     public Piece[][] getPieceIntern() {
         return pieceIntern;
     }
@@ -334,5 +343,13 @@ public class Board {
 
     public PieceColor getCheckedColor() {
         return checkedColor;
+    }
+
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Player[] players) {
+        this.players = players;
     }
 }

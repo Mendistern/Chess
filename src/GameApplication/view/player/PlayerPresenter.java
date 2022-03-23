@@ -20,6 +20,14 @@ public class PlayerPresenter {
         view.getBtnShowBoard().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+
+                model.getBoard().addPlayer(view.getTfPlayerOne().getText(),0);
+                model.getBoard().addPlayer(view.getTfPlayerTwo().getText(),1);
+                model.getBoard().generatePlayers();
+
+                //view.getTfPlayerOne()
+
+
                 BoardView boardView = new BoardView();
                 BoardPresenter BoardPresenter = new BoardPresenter(model, boardView);
                 view.getScene().setRoot(boardView);
