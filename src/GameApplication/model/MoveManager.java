@@ -14,6 +14,8 @@ import java.util.List;
 
 public class MoveManager {
 
+    public List<String> movesList;
+
     public List<Spot> getSpots() {
         return spots;
     }
@@ -31,6 +33,7 @@ public class MoveManager {
     //initialisser het board
     public MoveManager(Board board) {
         this.board = board;
+        movesList = new ArrayList<>();
     }
 
 
@@ -142,9 +145,11 @@ public class MoveManager {
         if (piece.getPieceType()==Piecetype.PAWN){
             Pawn pawn = (Pawn) piece;
 
+
             System.out.println("Promotion: "+pawn.checkIfPromotionAvailable());
         }
 
+        movesList.add(String.format("%s:%s",spots.get(0).getLocationSpotName(),spots.get(1).getLocationSpotName()));
         //clear the list for next players turn
         spots.clear();
 
@@ -158,7 +163,11 @@ public class MoveManager {
         board.nextTurn();
 
 
+        for (Iterator<String> iterator = movesList.iterator(); iterator.hasNext(); ) {
+            String next =  iterator.next();
+            System.out.println(next);
 
+        }
     }
 
 
@@ -201,6 +210,10 @@ public class MoveManager {
         return false;
 
 
+    }
+
+    public List<String> getMovesList() {
+        return movesList;
     }
 
     public List<Spot> getMoves() {

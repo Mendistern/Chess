@@ -113,7 +113,7 @@ public class BoardPresenter {
                         view.getBoard().onSpaceClickV2(model.getBoard(),finalX, finalY);
 
                         view.getBoard().onSpaceClickV2(model.getBoard(), finalX, finalY);
-                        Spot pieceLocation = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation().getPiece().getPieceLocation();
+                        //Spot pieceLocation = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation().getPiece().getPieceLocation();
                         view.getBoard().getSpaces()[finalX][finalY].setOnMouseClicked((MouseEvent e) -> {
                             StringBuilder str = new StringBuilder();
 
@@ -269,14 +269,7 @@ public class BoardPresenter {
        for (Space space : validAttackSpaces) {
            view.getBoard().getSpaces()[space.getX()][space.getY()].getStyleClass().add("chess-space-attackable");
        }
-        List<Space> validSpaces = view.getValidMovesSpaces();
-        for (Space space : validSpaces) {
-            view.getBoard().getSpaces()[space.getX()][space.getY()].getStyleClass().add("chess-space-valid");
-        }
-        List<Space> validAttackSpaces = view.getValidAttackSpaces();
-        for (Space space : validAttackSpaces) {
-            view.getBoard().getSpaces()[space.getX()][space.getY()].getStyleClass().add("chess-space-attackable");
-        }
+
 
 
 

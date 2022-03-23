@@ -65,9 +65,15 @@ public class Spot implements Serializable {
         return getPiece().getPieceColor().getColorName() + piece.getPieceType().getType();
     }
 
+    public String getLocationSpotName(){
+        return String.format("%d.%d",column,row);
+    }
+
     //The column number is converted to ASCII. ROOK is in position 0 +65 = 65 -> 65 in ASCII is A. so char 65 is A
     @Override
     public String toString() {
         return String.format("(%c%d)",column+65,row+1);
     }
+
+
 }
