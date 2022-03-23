@@ -259,6 +259,7 @@ public class Pawn extends Piece {
         return isGoingInRightDirection;
     }
 
+
     public boolean checkIfInSameColumn(Spot spot) {
         return getColumn() == spot.getColumn();
     }
@@ -397,8 +398,29 @@ public class Pawn extends Piece {
 
         }
 
+
+
         errorMsg.setPrintError(false);
         return true;
+    }
+
+    public boolean checkIfPromotionAvailable(){
+        switch(getPieceColor()){
+            case WHITE:
+                if (getRow()==7){
+                    System.out.println("Promote");
+                    return true;
+                }else{
+                    return false;
+                }
+            case BLACK:
+                if (getRow()==0){
+                    System.out.println("Promote");
+                    return true;
+                }
+                return false;
+        }
+        return false;
     }
 
     public boolean isLastMove2SpotsForward() {

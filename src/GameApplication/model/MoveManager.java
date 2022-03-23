@@ -4,6 +4,7 @@ import GameApplication.model.chess.Board;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
 import GameApplication.model.chess.piece.pieces.King;
+import GameApplication.model.chess.piece.pieces.Pawn;
 import GameApplication.model.chess.piece.pieces.Piecetype;
 import GameApplication.model.chess.spot.Spot;
 
@@ -66,6 +67,11 @@ public class MoveManager {
             //Krijg de Piece van de huidige click (spot)
             Piece currentPiece = board.getPieceFromSpot(column,row);
 
+            if (board.getPieceFromSpot(column,row)!=null&&board.getPieceFromSpot(column,row).getPieceType()==Piecetype.KING){
+                return;
+            }
+
+
             //Als huidige geklickde piece heeft dezelfde kleur als de vorige piece,
             if (currentPiece!=null &&  currentPiece.getPieceColor()==board.getLastTurnColor()){
                // verwijder de vorige spot,
@@ -78,6 +84,9 @@ public class MoveManager {
                     spots.clear();
                     return;
                 }
+
+
+
                 //^De else betekent dat er op een andere Spot met of zonder Piece geklicked werd.
                 //Nu bekijken we als de 2de spot van de lijst, 1 van de valid moves van de eerste piece is.
                 for (Spot[] validMove : pieceFromSpot.validMoves(board)) {
@@ -91,8 +100,12 @@ public class MoveManager {
                             if (board.getCheckedState()&&testMove(new Spot(column,row))){
                                 return;
                             }
+
+
                             //if not in a checked state, or testMove return true
                             spots.add(new Spot(column,row));
+
+
 
                             //prepare next turn
                             makeMove();
@@ -110,9 +123,19 @@ public class MoveManager {
     //move the piece and prepare next turn
     public void makeMove(){
 
+        Piece piece =  board.getPieceFromSpot(spots.get(0).getColumn(),spots.get(0).getRow());
 
         // Actually move the piece
-        board.getPieceFromSpot(spots.get(0).getColumn(),spots.get(0).getRow()).moveToSpot(board,spots.get(1));
+       piece.moveToSpot(board,spots.get(1));
+
+
+
+       //check if it's a pawn, if yes check if it's promotable
+        if (piece.getPieceType()==Piecetype.PAWN){
+            Pawn pawn = (Pawn) piece;
+
+            System.out.println("Promotion: "+pawn.checkIfPromotionAvailable());
+        }
 
         //clear the list for next players turn
         spots.clear();

@@ -43,6 +43,8 @@ public class Board {
     private PieceColor checkedColor;
 
 
+
+
     public Board() {
         pieceSets[0] = new PieceSets(PieceColor.WHITE);
         pieceSets[1] = new PieceSets(PieceColor.BLACK);
