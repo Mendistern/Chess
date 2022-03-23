@@ -8,7 +8,6 @@ import GameApplication.model.chess.FileManager;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
 import GameApplication.model.chess.piece.pieces.King;
-import GameApplication.model.chess.piece.pieces.Pawn;
 import GameApplication.model.chess.spot.Spot;
 import GameApplication.view.board.components.ChessBoard;
 import GameApplication.view.board.components.Space;
@@ -192,6 +191,13 @@ public class BoardPresenter {
                                 errorWindow.showAndWait();
                             }
                         }
+                    }
+                });
+                view.getChessMenu().getMiRestart().setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        model.restartGame();
+                        updateView();
                     }
                 });
 

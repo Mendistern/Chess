@@ -14,6 +14,8 @@ public class ChessMenu extends MenuBar {
     private MenuItem miLoad;
     private MenuItem miSave;
 
+    private MenuItem miRestart;
+
     public ChessMenu() {
         Menu mnFile = new Menu("File");
         Menu mnHelp = new Menu("Help");
@@ -21,9 +23,12 @@ public class ChessMenu extends MenuBar {
         miSettings = new MenuItem("Instellingen");
         miLoad = new MenuItem("Load Game");
         miSave = new Menu("Save Game");
+        miRestart = new MenuItem("Restart Game");
+
         mnFile.getItems().add(miSettings);
         mnFile.getItems().add(miSave);
         mnFile.getItems().add(miLoad);
+        mnFile.getItems().add(miRestart);
         mnHelp.getItems().add(miInstructions);
         super.getMenus().addAll(mnFile, mnHelp);
 
@@ -62,5 +67,9 @@ public class ChessMenu extends MenuBar {
     }
 
     public void setMiSave(Scene scene) {
+    }
+
+    public MenuItem getMiRestart() {
+        return miRestart;
     }
 }
