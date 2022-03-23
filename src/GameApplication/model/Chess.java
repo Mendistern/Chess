@@ -56,7 +56,7 @@ public class Chess {
         board.setPlayers(players);
         board.generatePlayers();
         board.setCheckedState(false);
-        System.out.println("BOARDCHECKEDSTAteE"+board.getCheckedState());
+
     }
 
 
