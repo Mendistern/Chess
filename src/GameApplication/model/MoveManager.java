@@ -107,8 +107,8 @@ public class MoveManager {
 
 
 
-                            //if it's check, then test the second spot, if i'ts going to disable the check
-                            if (board.getCheckedState()&&testMove(new Spot(column,row))){
+                            //Check if next move will cause check, or disable the check.
+                            if (testMove(new Spot(column,row))){
                                 return;
                             }
 

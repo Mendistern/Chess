@@ -81,6 +81,9 @@ public class King extends Piece {
             return false;
         }
 
+        if(getBoard().getPieceIntern()[destColumn][destRow] != null && getBoard().getPieceIntern()[destColumn][destRow].getPieceType()==Piecetype.KING){
+            return false;
+        }
 
         if (checkIfMoveCausesCheck(spot)) return false;
 
