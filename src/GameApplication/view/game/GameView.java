@@ -1,19 +1,14 @@
 package GameApplication.view.game;
 
-import GameApplication.model.chess.Board;
-import GameApplication.model.chess.FileManager;
-import GameApplication.model.chess.IO.ChessLoader;
 import GameApplication.view.board.BoardView;
 import GameApplication.view.board.components.ChessBoard;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
@@ -77,7 +72,7 @@ public class GameView extends GridPane {
         board = new ChessBoard(true);
         btnSave = new Button("Save");
 
-        FileManager manager = new FileManager();
+       // FileManager manager = new FileManager();
         options = new GridPane();
 
         options.add(new OptionButton("resources/save.png", e -> {

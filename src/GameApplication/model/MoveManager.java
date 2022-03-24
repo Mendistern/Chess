@@ -13,15 +13,15 @@ import java.util.Iterator;
 import java.util.List;
 
 public class MoveManager {
-
-    public List<String> movesList;
-
-    public List<Spot> getSpots() {
-        return spots;
-    }
-
     //Creer een lijst met laatste spots
-    List<Spot> spots = new ArrayList<>();
+    private List<Spot> spots = new ArrayList<>();
+
+
+    private List<String> movesList;
+
+
+
+
 
     public Board getBoard() {
         return board;
@@ -149,7 +149,8 @@ public class MoveManager {
             System.out.println("Promotion: "+pawn.checkIfPromotionAvailable());
         }
 
-        movesList.add(String.format("%s:%s",spots.get(0).getLocationSpotName(),spots.get(1).getLocationSpotName()));
+        // voeg deze move toe naar de moveList
+       addMoveToList();
         //clear the list for next players turn
         spots.clear();
 
@@ -171,7 +172,7 @@ public class MoveManager {
     }
 
 
-    //Method to check if the next move during check, will evade the check
+        //Method to check if the next move during check, will evade the check
     public boolean testMove(Spot secondSpot){
         //create a reference to the old board
         Board tempBoard = board;
@@ -212,6 +213,41 @@ public class MoveManager {
 
     }
 
+    public void addMoveToList(){
+        movesList.add(String.format("%s:%s",spots.get(0).getLocationSpotName(),spots.get(1).getLocationSpotName()));
+    }
+
+    public List<Spot> getSpotFromString(String spotString){
+        String[] twoSpots = spotString.split(":");
+        List<Spot> spot = new ArrayList<>();
+
+        if (twoSpots.length==0){
+            return null;
+        }
+
+        for (String singleSpot : twoSpots){
+           String[] columnAndRow =singleSpot.split("\\.");
+
+
+           try {
+               spot.add(new Spot(Integer.parseInt(columnAndRow[0]),Integer.parseInt(columnAndRow[1])));
+
+           }catch (Exception e){
+               return null;
+           }
+
+
+
+        }
+        return spot;
+
+
+    }
+
+    public List<Spot> getSpots() {
+        return spots;
+    }
+
     public List<String> getMovesList() {
         return movesList;
     }
@@ -219,6 +255,8 @@ public class MoveManager {
     public List<Spot> getMoves() {
         return spots;
     }
+
+
 
 
 }

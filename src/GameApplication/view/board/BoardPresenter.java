@@ -4,7 +4,6 @@ import GameApplication.model.Chess;
 import GameApplication.model.FileWrite;
 import GameApplication.model.Position;
 import GameApplication.model.chess.Board;
-import GameApplication.model.chess.FileManager;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
 import GameApplication.model.chess.piece.pieces.King;
@@ -57,7 +56,7 @@ public class BoardPresenter {
         this.view = view;
         //options = new GridPane();
         //fileWrite = new FileWrite();
-        FileManager fileManager;
+        // FileManager fileManager;
         //this.moveEvaluator = model.getBoard();
         addEventListeners();
         updateView();
@@ -95,7 +94,6 @@ public class BoardPresenter {
                 final int finalX = x;
                 final int finalY = y;
                 System.out.println("final " + finalY + " " + finalY);
-
 
 
                 view.getBoard().getSpaces()[finalX][finalY].setOnAction(new EventHandler<ActionEvent>() {
@@ -162,12 +160,74 @@ public class BoardPresenter {
                 });
                 view.getChessMenu().getMiSave().setOnAction(new EventHandler<ActionEvent>() {
                     @Override
+                    public void handle(ActionEvent actionEvent) {
+                        FileChooser fileChooser = new FileChooser();
+
+                        fileChooser.setTitle("Save to file");
+                        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Textfiles", "*.txt"));
+                        File selectedFile = fileChooser.showSaveDialog(view.getScene().getWindow());
+
+                        if ((selectedFile != null) ^ (Files.isWritable(Paths.get(selectedFile.toURI())))) {
+                            try {
+                                model.getFileManager().saveToFile(selectedFile.getPath());
+                            } catch (IOException e) {
+                                Alert errorWindow = new Alert(Alert.AlertType.ERROR);
+                                errorWindow.setHeaderText("Problem with selected file");
+                                errorWindow.setContentText("File is not writable: " + e.getMessage());
+                                errorWindow.showAndWait();
+
+                            }
+                        } else {
+                            Alert errorWindow = new Alert(Alert.AlertType.ERROR);
+                            errorWindow.setHeaderText("Problem with selected file");
+                            errorWindow.setContentText("File is not writable");
+                            errorWindow.showAndWait();
+
+                        }
+                    }
+                });
+
+                view.getChessMenu().getMiLoad().setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        FileChooser fileChooser = new FileChooser();
+                        fileChooser.setTitle("Load Data File");
+                                fileChooser.getExtensionFilters().addAll(
+                                        new FileChooser.ExtensionFilter("Textfiles", "*.txt"));
+                        File selectedFile = fileChooser.showOpenDialog(
+                                view.getScene().getWindow());
+                        if ((selectedFile != null) &&
+                                (Files.isReadable(Paths.get(selectedFile.toURI())))) {
+                            try {
+
+                                System.out.println(selectedFile);
+
+                                model.getFileManager().loadFile(String.valueOf(selectedFile.getPath()));
+                            } catch (IOException e) {
+                                Alert errorWindow = new Alert(Alert.AlertType.ERROR);
+                                errorWindow.setHeaderText("Problem with selected file");
+                                errorWindow.setContentText("File is not readable: " + e.getMessage());
+                                errorWindow.showAndWait();
+
+                            }
+                        } else{
+                            Alert errorWindow = new Alert(Alert.AlertType.ERROR);
+                            errorWindow.setHeaderText("Problem with selected file");
+                            errorWindow.setContentText("File is not readable.");
+                            errorWindow.showAndWait();
+                        }
+
+                    }
+                });
+
+               /* view.getChessMenu().getMiSave().setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
                     public void handle(ActionEvent event) {
                         FileChooser fileChooser = new FileChooser();
                         fileChooser.setTitle("Save Data File");
                         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Textfiles", "*.txt"), new FileChooser.ExtensionFilter("All Files", "*.*"));
                         File selectedFile = fileChooser.showSaveDialog(view.getScene().getWindow());
-                        if ((selectedFile != null) ^ (Files.isWritable(Paths.get(selectedFile.toURI())))) {
+                        if ((selectedFile != null) && (Files.isWritable(Paths.get(selectedFile.toURI())))) {
                             try (Formatter output = new Formatter(selectedFile)) {
 
                                 output.format("%s%s", model.getBoard().getPieceFromSpot(finalX, finalX).toString(), view.getGameFlow().getText());
@@ -192,7 +252,7 @@ public class BoardPresenter {
                             }
                         }
                     }
-                });
+                });*/
                 view.getChessMenu().getMiRestart().setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
@@ -261,6 +321,17 @@ public class BoardPresenter {
 
     public void updateView() {
         //todo on game restart, clean the board.
+
+        //On restart, remove all space classes from board.
+        if (model.isRestarted()) {
+            for (Space[] spaceX : view.getBoard().getSpaces()) {
+                for (Space space : spaceX) {
+                    space.getStyleClass().remove("chess-space-attackable");
+                }
+            }
+            //set restarted to false
+            model.setRestarted(false);
+        }
 
         piecesFromModel = model.getPiecesOnBoard();
         view.getBoard().defineStartPositions(piecesFromModel);

@@ -1,9 +1,7 @@
 package GameApplication.model.chess;
 
 
-
-
-
+import GameApplication.model.FileManager;
 import GameApplication.model.MoveManager;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
@@ -32,7 +30,7 @@ public class Board {
     private PieceColor lastTurnColor = PieceColor.WHITE;
 
     //creer een moveManager
-   private  MoveManager moveManager;
+    private MoveManager moveManager;
 
     private Scanner key = new Scanner(System.in);
 
@@ -43,8 +41,6 @@ public class Board {
     private PieceColor checkedColor;
 
 
-
-
     public Board() {
         pieceSets[0] = new PieceSets(PieceColor.WHITE);
         pieceSets[1] = new PieceSets(PieceColor.BLACK);
@@ -52,14 +48,14 @@ public class Board {
         moveManager = new MoveManager(this);
 
         players = new Player[2];
-      // generatePlayers();
+        // generatePlayers();
 
         drawBoard();
 
 
     }
 
-    public void addPlayer(String name,int index){
+    public void addPlayer(String name, int index) {
         players[index] = new Player(name);
     }
 
@@ -68,24 +64,7 @@ public class Board {
 
         String player1;
         String player2;
-/*
 
-        do {
-
-            System.out.print("Please enter your name: ");
-            player1 = key.nextLine();
-        } while (player1.length() == 0);
-        players[0] = new Player(player1);
-
-        do {
-
-            System.out.print("Please enter your opponents name: ");
-            player2 = key.nextLine();
-            System.out.println(player2);
-        } while (player2.length() == 0);
-        players[1] = new Player(player2);
-
-*/
 
         Random random = new Random();
         int generatedRandomColor = random.nextInt(2);
@@ -106,7 +85,7 @@ public class Board {
         return pieceSets;
     }
 
-    public int getArrayIndexForColor(PieceColor color){
+    public int getArrayIndexForColor(PieceColor color) {
         return color == PieceColor.WHITE ? 0 : 1;
     }
 
@@ -134,7 +113,6 @@ public class Board {
                 //spots[piece.getColumn()][piece.getRow()] = pieceSet.getColorName() + piece.getPieceType().getType();
 
 
-
                 pieceIntern[piece.getColumn()][piece.getRow()] = piece;
                 pieceIntern[piece.getColumn()][piece.getRow()].getPieceLocation().setPiece(piece);
                 piece.getPieceLocation().setPiece(piece);
@@ -145,8 +123,6 @@ public class Board {
 
 
         System.out.println("\ta\tb\tc\td\te\tf\tg\th");
-
-
 
 
         for (int i = 7; i >= 0; i--) {
@@ -164,18 +140,14 @@ public class Board {
         }
 
 
-
-
-
         //Go to next turn
 
         //nextTurn();
 
 
-
     }
 
-    public void switchPlayer(){
+    public void switchPlayer() {
 
         for (Player pl :
                 players) {
@@ -183,8 +155,8 @@ public class Board {
                 currentPlayer = pl;
             }
         }
-        lastTurnColor = currentPlayer.getColor() ;
-       // lastTurnColor = currentPlayer.getColor() == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
+        lastTurnColor = currentPlayer.getColor();
+        // lastTurnColor = currentPlayer.getColor() == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
     }
 
     public void nextTurn() {
@@ -192,88 +164,39 @@ public class Board {
         //initialiseer currentPlayer met waarde om later error te vermijden
 
 
-
-
-
-
-
-
-        /*do {
-            System.out.println();
-            System.out.println("move format: kolomRij x kolomRij bv: wQ -> d3 = d1 x d3");
-            System.out.println("Your turn: " + currentPlayer.getName());
-
-            //krijg input van user
-            String moveType = key.nextLine();
-            //split de input in 2 volgens de X na upperCase
-            String[] splittedMove = moveType.toUpperCase().split("X");
-            //trim de 2 delen van spaties
-            splittedMove[0] = splittedMove[0].trim();
-            splittedMove[1] = splittedMove[1].trim();
-
-            ////krijg de kolom in nummer formaat, dus van char naar int
-            int columnOrigin = splittedMove[0].charAt(0) - 65;
-            int rowOrigin = Integer.parseInt(String.valueOf(splittedMove[0].charAt(1))) - 1;
-
-            columnDest = splittedMove[1].charAt(0) - 65;
-            rowDest = Integer.parseInt(String.valueOf(splittedMove[1].charAt(1))) - 1;
-
-
-            originPiece = getPieceFromSpot(columnOrigin, rowOrigin);
-
-            if (originPiece ==null || originPiece.getPieceColor() != lastTurnColor) {
-                System.out.println("Please choose one of your pieces.");
-            }
-
-            Spot[][] validMoves =  originPiece.validMoves(this);
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
-                    if (validMoves[i][j] != null){
-                        System.out.println(validMoves[i][j].toString());
-                    }
-                }
-            }
-
-        } while ( originPiece==null|| originPiece.getPieceColor() != lastTurnColor || !originPiece.moveToSpot(this,new Spot(columnDest, rowDest)) );*/
-
-
-
-
-
-
-
-
-
         drawBoard();
 
-
-        //TODO
-        //
     }
 
-    public void checkForCheck(){
+    public void checkForCheck() {
+        // Get all pieces from current player
         List<Piece> pieces = getPieceSets()[getArrayIndexForColor(getCurrentPlayer().getColor())].getPieces();
+        // Initialize the king
         King king = null;
+        // Find the king
         for (Iterator<Piece> iterator = pieces.iterator(); iterator.hasNext(); ) {
-            Piece next =  iterator.next();
-            if (next.getPieceType()== Piecetype.KING){
-                king = (King)next;
+            Piece next = iterator.next();
+            if (next.getPieceType() == Piecetype.KING) {
+                king = (King) next;
                 break;
             }
 
         }
 
-        boolean isCheck =  king.isCheck(this);
+        // Check if king is in check
+        boolean isCheck = king.isCheck(this);
 
+        // Put the status of isCheck, in the current players pieceSet
         pieceSets[getArrayIndexForColor(getCurrentPlayer().getColor())].setChecked(isCheck);
-       if (isCheck) {
-           setCheckedColor(getCurrentPlayer().getColor());
-       }
+
+        // If, it's check
+        if (isCheck) {
+            // Set the color of the player, to later be retrieved by the presenter
+            setCheckedColor(getCurrentPlayer().getColor());
+        }
+
+        // Add the state to the board
         setCheckedState(isCheck);
-
-
-        System.out.println(king);
-        System.out.println(isCheck + " ");
     }
 
     public Piece getPieceFromSpot(int column, int row) {
@@ -300,12 +223,12 @@ public class Board {
 
      */
 
-    public List<Piece> getPiecesFromInternalBoard(PieceColor color){
-        List<Piece> pieces =  new ArrayList<>();
+    public List<Piece> getPiecesFromInternalBoard(PieceColor color) {
+        List<Piece> pieces = new ArrayList<>();
         for (Piece[] pieceColumns : getPieceIntern()
         ) {
             for (Piece piece : pieceColumns) {
-                if (piece != null && piece.getPieceColor() ==color) {
+                if (piece != null && piece.getPieceColor() == color) {
                     pieces.add(piece);
                 }
 
@@ -313,7 +236,6 @@ public class Board {
         }
         return pieces;
     }
-
 
 
     public Piece[][] getPieceIntern() {
@@ -329,12 +251,12 @@ public class Board {
         return checkedState;
     }
 
-    public King getKing(PieceColor color){
+    public King getKing(PieceColor color) {
         return pieceSets[getArrayIndexForColor(color)].getKing();
     }
 
-    public PieceColor getOpponentColor(){
-        return getCurrentPlayer().getColor()==PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
+    public PieceColor getOpponentColor() {
+        return getCurrentPlayer().getColor() == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
     }
 
     public void setCheckedColor(PieceColor checkedColor) {
@@ -352,4 +274,6 @@ public class Board {
     public void setPlayers(Player[] players) {
         this.players = players;
     }
+
+
 }

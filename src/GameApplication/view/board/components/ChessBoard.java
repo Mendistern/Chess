@@ -2,7 +2,6 @@ package GameApplication.view.board.components;
 
 import GameApplication.model.ChessIO;
 import GameApplication.model.chess.Board;
-import GameApplication.model.chess.FileManager;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.view.board.Move;
 import javafx.geometry.Pos;
@@ -317,7 +316,7 @@ public class ChessBoard extends GridPane {
 
     public void save(File file) throws IOException {
         byte[] s = io.get(getFileExtension(file.getName())).save(this);
-        FileManager.saveDataToFile(s, file);
+       // FileManager.saveDataToFile(s, file);
     }
 
 

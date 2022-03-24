@@ -1,14 +1,11 @@
 package GameApplication.view.game;
 
-import GameApplication.model.chess.FileManager;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 
 public class OptionButton extends Label {
 
@@ -18,7 +15,7 @@ public class OptionButton extends Label {
 
     public OptionButton(String imagePath, EventHandler<? super MouseEvent> mouseClickedEvent, String tooltip) {
         setAlignment(Pos.CENTER);
-        icon = new ImageView(FileManager.loadImage(imagePath, 70, 70));
+       // icon = new ImageView(FileManager.loadImage(imagePath, 70, 70));
 
         setMinHeight(35);
         setMaxHeight(35);

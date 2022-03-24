@@ -1,6 +1,7 @@
 package GameApplication.view.player;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -40,12 +41,14 @@ public class PlayerView extends BorderPane {
     //getters to be called upon in the PlayerPresenter class
 
     private void layoutNodes() {
-        //create a vbox for placing both HBoxes on seperate rows
+        //create a vbox for placing both HBoxes on separate rows
         //layout of the player one's elements
         HBox playerOneBox = new HBox(lblPlayerOne, tfPlayerOne);
+        playerOneBox.setAlignment(Pos.CENTER);
         playerOneBox.setSpacing(10);
         //layout of the second player's elements
         HBox playerTwoBox = new HBox(lblPlayerTwo, tfPlayerTwo);
+        playerTwoBox.setAlignment(Pos.CENTER);
         playerTwoBox.setSpacing(10);
 
         VBox vboxPlayers = new VBox();
@@ -58,6 +61,12 @@ public class PlayerView extends BorderPane {
 
 
         btnShowBoard.setFont(new Font(20));
+        btnShowBoard.setPadding(new Insets(10));
+        BorderPane.setMargin(btnShowBoard,new Insets(10));
+
+        BorderPane.setAlignment(vboxPlayers,Pos.CENTER);
+        BorderPane.setAlignment(btnShowBoard, Pos.CENTER);
+
     }
 
     public Label getLblPlayerOne() {
