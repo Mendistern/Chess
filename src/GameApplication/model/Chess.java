@@ -78,15 +78,22 @@ public class Chess {
         return fileManager;
     }
 
+    // Method to load a saved game, and to set the pieces on the correct place.
     public void restarSavedGame(List<String> readLines) {
+        //Firest restart the game
         restartGame();
 
+        //loop through all lines from the file
         for (Iterator<String> iterator = readLines.iterator(); iterator.hasNext(); ) {
             String next = iterator.next();
+            // torn every line into 2 spots
             List<Spot> spot= board.getMoveManager().getSpotFromString(next);
 
+            //loop through those 2 spots
             for (Iterator<Spot> spotIterator = spot.iterator(); spotIterator.hasNext(); ) {
                 Spot moveSpot = spotIterator.next();
+
+                //add each spot to the move manager
                 board.getMoveManager().addMove(moveSpot.getColumn(),moveSpot.getRow());
             }
 

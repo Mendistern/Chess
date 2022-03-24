@@ -150,7 +150,7 @@ public class Pawn extends Piece {
         return returnBoolean;
     }
 
-    private boolean checkIfEnPassantIsAvailable(Spot spot){
+    private boolean checkIfEnPassantIsAvailable(Spot spot) throws NullPointerException{
 
         int dy = getRow() < spot.getRow()?-1:+1;
 

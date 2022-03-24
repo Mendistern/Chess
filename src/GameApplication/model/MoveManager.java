@@ -91,10 +91,19 @@ public class MoveManager {
                addMove(column,row);
             }else{
                 //Als move niet mogelijk is
-                if (!pieceFromSpot.moveTo(new Spot(column,row))){
-                    spots.clear();
-                    return;
+                try {
+                    if (!pieceFromSpot.moveTo(new Spot(column,row))){
+                        spots.clear();
+                        return;
+                    }
+                }catch (NullPointerException npe){
+                    pieceFromSpot.setBoard(getBoard());
+                    if (!pieceFromSpot.moveTo(new Spot(column,row))){
+                        spots.clear();
+                        return;
+                    }
                 }
+
 
 
 

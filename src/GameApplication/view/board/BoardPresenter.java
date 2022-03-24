@@ -203,6 +203,7 @@ public class BoardPresenter {
                                 System.out.println(selectedFile);
 
                                 model.getFileManager().loadFile(String.valueOf(selectedFile.getPath()));
+                                updateView();
                             } catch (IOException e) {
                                 Alert errorWindow = new Alert(Alert.AlertType.ERROR);
                                 errorWindow.setHeaderText("Problem with selected file");
