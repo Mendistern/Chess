@@ -8,8 +8,16 @@ import GameApplication.model.chess.spot.Spot;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * The chess class is the main class of the program. It contains all the methods and attributes that are needed to play the
+ * game
+ */
 public class Chess {
 
+    // `piecesOnBoard` is a 2D array of pieces.
+    //     `board` is a board object.
+    //     `restarted` is a boolean that is used to check if the game has been restarted.
+    //     `fileManager` is a file manager object.
     private Piece[][] piecesOnBoard;
     private Board board;
     private boolean restarted = false;
@@ -20,11 +28,15 @@ public class Chess {
      */
     public Chess() {
 
+        // Creating a new game by invoking the method `createGame` into the default constructor.
         createGame();
     }
 
     public void createGame() {
         //initialisation of the attributes for creating a new game
+        // This is creating a new board, and a new file manager.
+        //         The file manager is created with the chess object as a parameter.
+        //         The piecesOnBoard is created with the board object as a parameter.
         this.board = new Board();
         this.fileManager = new FileManager(this);
         this.piecesOnBoard = board.getPieceIntern();
@@ -35,7 +47,8 @@ public class Chess {
         //First restart the game
         restartGame();
 
-        //loop through all lines from the file
+
+        // This is looping through the lines in the file, and then looping through the spots in the line.
         for (Iterator<String> iterator = readLines.iterator(); iterator.hasNext(); ) {
             String next = iterator.next();
             // torn every line into 2 spots
@@ -54,6 +67,10 @@ public class Chess {
 
     }
 
+    /**
+     * This function is called when the user clicks the restart button. It resets the game by creating a new instance of
+     * the board, and then setting the players to the old players
+     */
     public void restartGame() {
         //save players before creating new instantiation of the board
         Player[] players = getBoard().getPlayers();
@@ -73,11 +90,17 @@ public class Chess {
     /**
      * Getters and setters of the game properties
      */
+    // Returning the board object.
     public Board getBoard() {
         return board;
     }
 
 
+    /**
+     * Returns the 2D array of pieces on the board
+     *
+     * @return A 2D array of pieces.
+     */
     public Piece[][] getPiecesOnBoard() {
         piecesOnBoard = getBoard().getPieceIntern();
         return piecesOnBoard;
@@ -85,12 +108,24 @@ public class Chess {
 
 
 
+    /**
+     * Returns true if the game has been restarted
+     *
+     * @return A boolean value.
+     */
+    // Returning the value of the restarted boolean, and setting the value of the restarted boolean.
     public boolean isRestarted() {
         return restarted;
     }
     public void setRestarted(boolean restarted) {
         this.restarted = restarted;
     }
+
+    /**
+     * Returns the file manager
+     *
+     * @return The fileManager object.
+     */
     public FileManager getFileManager() {
         return fileManager;
     }
