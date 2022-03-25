@@ -142,18 +142,21 @@ public class BoardPresenter {
                         // Checking if the file is writable.
                         if ((selectedFile != null) && (Files.isWritable(Paths.get(selectedFile.toURI())))) {
                             try {
-                                // The above code is saving the file to the file system.
-                                model.getFileManager().saveToFile(selectedFile.getPath());
+                                model.getFileManager().saveToFile(String.valueOf(selectedFile.getPath()));
                             } catch (IOException e) {
                                 Alert errorWindow = new Alert(Alert.AlertType.ERROR);
-                                // Showing a pop-up window with the error message.
                                 errorWindow.setHeaderText("Problem with selected file");
                                 errorWindow.setContentText("File is not writable: " + e.getMessage());
                                 errorWindow.showAndWait();
 
+                            } 
+                        } else {
+                            Alert successWindow = new Alert(Alert.AlertType.CONFIRMATION);
+                            successWindow.setHeaderText("Problem with selected file " + String.valueOf(Paths.get(selectedFile.toURI())));
+
                             }
                         }
-                    }
+
                 });
 
                 // The above code is creating a new event handler for the load button.

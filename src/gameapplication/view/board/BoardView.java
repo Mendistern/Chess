@@ -142,7 +142,7 @@ public class BoardView extends BorderPane {
     private void layoutNodes() {
         // This is initialising the chess menu and setting the top of the border pane to the chess menu.
         chessMenu = new ChessMenu();
-        super.setTop(this.getChessMenu());
+        super.setTop(getChessMenu());
         Label gameOver = new Label("Game Over. 😘");
         gameOver.setFont(new Font(22));
 
