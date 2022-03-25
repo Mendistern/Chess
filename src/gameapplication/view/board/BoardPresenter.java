@@ -153,6 +153,7 @@ public class BoardPresenter {
                         } else {
                             Alert successWindow = new Alert(Alert.AlertType.CONFIRMATION);
                             successWindow.setHeaderText("Problem with selected file " + String.valueOf(Paths.get(selectedFile.toURI())));
+                            successWindow.showAndWait();
 
                             }
                         }
