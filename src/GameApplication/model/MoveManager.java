@@ -117,7 +117,7 @@ public class MoveManager {
 
 
                             //Check if next move will cause check, or disable the check.
-                            if (testMove(new Spot(column,row))){
+                            if (testMove(new Spot(column,row),null)){
                                 return;
                             }
 
@@ -182,21 +182,25 @@ public class MoveManager {
 
 
         //Method to check if the next move during check, will evade the check
-    public boolean testMove(Spot secondSpot){
+    public boolean testMove(Spot secondSpot,Spot firstSpot){
+
+        //second parameter to check for checkmate, only available if called from the board
+        Spot newFirstSpot = firstSpot!=null?firstSpot:spots.get(0);
+
         //create a reference to the old board
         Board tempBoard = board;
         //create a copy of the old piece, in case there is one on the second spot
         Piece oldPiece =  tempBoard.getPieceIntern()[secondSpot.getColumn()][secondSpot.getRow()];
 
         // get the piece from the first spot
-        Piece piece = board.getPieceFromSpot(spots.get(0).getColumn(),spots.get(0).getRow());
+        Piece piece = board.getPieceFromSpot(newFirstSpot.getColumn(),newFirstSpot.getRow());
 
         //if there was a piece on the second spot, remove it
         if(oldPiece!=null){
             tempBoard.getPieceIntern()[secondSpot.getColumn()][secondSpot.getRow()]=null;
         }
         // remove the piece from the first spot
-        tempBoard.getPieceIntern()[spots.get(0).getColumn()][spots.get(0).getRow()]=null;
+        tempBoard.getPieceIntern()[newFirstSpot.getColumn()][newFirstSpot.getRow()]=null;
         // set the piece from the first spot in the second spot
         tempBoard.getPieceIntern()[secondSpot.getColumn()][secondSpot.getRow()] = piece;
 
@@ -205,7 +209,7 @@ public class MoveManager {
 
             //if yes, put everything back in place
             tempBoard.getPieceIntern()[secondSpot.getColumn()][secondSpot.getRow()]=null;
-            tempBoard.getPieceIntern()[spots.get(0).getColumn()][spots.get(0).getRow()] = piece;
+            tempBoard.getPieceIntern()[newFirstSpot.getColumn()][newFirstSpot.getRow()] = piece;
             if(oldPiece!=null){
                 tempBoard.getPieceIntern()[secondSpot.getColumn()][secondSpot.getRow()]=oldPiece;
             }
@@ -213,7 +217,7 @@ public class MoveManager {
         }
         //if not, also put everything back in place
         tempBoard.getPieceIntern()[secondSpot.getColumn()][secondSpot.getRow()]=null;
-        tempBoard.getPieceIntern()[spots.get(0).getColumn()][spots.get(0).getRow()] = piece;
+        tempBoard.getPieceIntern()[newFirstSpot.getColumn()][newFirstSpot.getRow()] = piece;
         if(oldPiece!=null){
             tempBoard.getPieceIntern()[secondSpot.getColumn()][secondSpot.getRow()]=oldPiece;
         }

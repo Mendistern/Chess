@@ -28,20 +28,13 @@ public class GamePresenter {
         menu.getMiSave().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                try {
-                    GameView gameView = new GameView();
-                    GamePresenter gamePresenter = new GamePresenter(model, view);
-                    board.save(new File(board.getIO().toString()));
-                    view.getScene().setRoot(gameView);
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setHeaderText("Problem saving file!");
-                    alert.showAndWait();
-                } catch (IOException e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setHeaderText("Problem saving file!");
-                    alert.setContentText("The path does not exists: " + e.getMessage());
-                    alert.showAndWait();
-                }
+                GameView gameView = new GameView();
+                GamePresenter gamePresenter = new GamePresenter(model, view);
+                // board.save(new File(board.getIO().toString()));
+                view.getScene().setRoot(gameView);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setHeaderText("Problem saving file!");
+                alert.showAndWait();
             }
         });
         menu.getMiLoad().setOnAction(new EventHandler<ActionEvent>() {

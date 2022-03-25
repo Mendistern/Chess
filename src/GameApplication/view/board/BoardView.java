@@ -66,7 +66,9 @@ public class BoardView extends BorderPane {
     private Label playerName1;
     private Label playerName2;
 
-    private Label currentPlayerName;
+    private HBox HBoxGameOver;
+    private Button restartGame;
+
 
     public BoardView() {
         initialiseNodes();
@@ -105,12 +107,14 @@ public class BoardView extends BorderPane {
         space = new Space[8][8];
         textHolder = new GridPane();
 
-        playerName1=new Label("Player1");
-        playerName2=new Label("Player2");
+        playerName1 = new Label("Player1");
+        playerName2 = new Label("Player2");
 
-        currentPlayerName=new Label("");
-        //Path myFile =  Paths.get(tfPath.getText());
-//        tfPath.setText(myFile.toString());
+         restartGame = new Button("Restart game");
+
+         HBoxGameOver = new HBox();
+
+
     }
 
 
@@ -121,18 +125,25 @@ public class BoardView extends BorderPane {
         super.setTop(getChessMenu());
 
 
+        Label gameOver = new Label("Game Over. 😘");
+        gameOver.setFont(new Font(22));
+
+
+        HBoxGameOver.getChildren().addAll(gameOver, restartGame);
+        HBoxGameOver.setVisible(false);
+       HBoxGameOver.setAlignment(Pos.CENTER);
+       HBoxGameOver.setSpacing(20);
+
 
         VBox vbox = new VBox();
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(10);
-        BorderPane.setMargin(vbox,new Insets(10));
+        BorderPane.setMargin(vbox, new Insets(10));
         playerName1.setFont(new Font(18));
         playerName2.setFont(new Font(18));
 
 
-
-
-        vbox.getChildren().addAll(playerName2,board,playerName1);
+        vbox.getChildren().addAll(HBoxGameOver, playerName2, board, playerName1);
 
 
         super.setCenter(vbox);
@@ -156,13 +167,6 @@ public class BoardView extends BorderPane {
 
     public Space getActiveSpace() {
         return activeSpace;
-    }
-
-    private FileChooser createFileChooser() {
-        FileChooser fileChooser = new FileChooser();
-        board.getIO().forEach((k, v) -> fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter(v.getFileTypeDescription(), "*." + v.getFileExtension())));
-        return fileChooser;
     }
 
 
@@ -195,11 +199,9 @@ public class BoardView extends BorderPane {
     }
 
 
-
     public void setPlayerName1(String name) {
         this.playerName1.setText(name);
     }
-
 
 
     public void setPlayerName2(String name) {
@@ -214,8 +216,12 @@ public class BoardView extends BorderPane {
         return playerIsWhite;
     }
 
-    public Label getCurrentPlayerName() {
-        return currentPlayerName;
+    public HBox getHBoxGameOver() {
+        return HBoxGameOver;
+    }
+
+    public Button getRestartGameButton() {
+        return restartGame;
     }
 }
 

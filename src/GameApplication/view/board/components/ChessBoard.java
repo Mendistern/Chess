@@ -1,6 +1,5 @@
 package GameApplication.view.board.components;
 
-import GameApplication.model.ChessIO;
 import GameApplication.model.chess.Board;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.view.board.Move;
@@ -8,12 +7,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.transform.Translate;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 
 public class ChessBoard extends GridPane {
@@ -23,12 +16,8 @@ public class ChessBoard extends GridPane {
     public PieceComp[][] pieceComponentsOfBoard;
     private Piece[][] piecesFromBoard;
     public int size;
-    private Translate pos;
-    private Map<String, ChessIO> io = new LinkedHashMap<>();
 
     private GridPane root;
-
-    private StackPane square;
 
     public ChessBoard(boolean playerIsWhite) {
         instance = this;
@@ -114,9 +103,7 @@ public class ChessBoard extends GridPane {
 
 
     }
-    public Map<String, ChessIO> getIo() {
-        return io;
-    }
+
     public PieceComp[][] getPieceComponentsOfBoard() {
         return pieceComponentsOfBoard;
     }
@@ -297,32 +284,13 @@ public class ChessBoard extends GridPane {
         return l;
     }
 
-    public Map<String, ChessIO> getIO() {
-        return io;
-    }
 
-
-//    public void load(File file) {
-//        load(getFileExtension(file.getName()), FileManager.loadDataFromFile(file));
-//    }
-
-    public void setIO(ChessIO io) {
-        this.io.put(io.getFileExtension(), io);
-    }
 
     private String getFileExtension(String name) {
         return name.substring(name.lastIndexOf('.') + 1);
     }
 
-    public void save(File file) throws IOException {
-        byte[] s = io.get(getFileExtension(file.getName())).save(this);
-       // FileManager.saveDataToFile(s, file);
-    }
 
-
-//    public void loadFromResource(String resource) {
-//        load(getFileExtension(resource), FileManager.loadDataFromResource(resource));
-//    }
 
 
 }

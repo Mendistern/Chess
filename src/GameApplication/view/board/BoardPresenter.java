@@ -101,10 +101,7 @@ public class BoardPresenter {
                     @Override
                     public void handle(ActionEvent actionEvent) {
 
-                     /*   if (finalX==1){
-                            System.out.println("----------------------------RESTARTING-----------");
-                            model.restartGame();
-                        }*/
+
 
                         handleValidMoves(model.getBoard().getPieceFromSpot(finalX, finalY));
 
@@ -222,42 +219,18 @@ public class BoardPresenter {
                     }
                 });
 
-               /* view.getChessMenu().getMiSave().setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        FileChooser fileChooser = new FileChooser();
-                        fileChooser.setTitle("Save Data File");
-                        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Textfiles", "*.txt"), new FileChooser.ExtensionFilter("All Files", "*.*"));
-                        File selectedFile = fileChooser.showSaveDialog(view.getScene().getWindow());
-                        if ((selectedFile != null) && (Files.isWritable(Paths.get(selectedFile.toURI())))) {
-                            try (Formatter output = new Formatter(selectedFile)) {
 
-                                output.format("%s%s", model.getBoard().getPieceFromSpot(finalX, finalX).toString(), view.getGameFlow().getText());
-                                ObjectOutputStream objWriter = new ObjectOutputStream(new FileOutputStream(selectedFile));
-
-                                Spot pieceLocation = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation();
-                                objWriter.writeInt(model.getBoard().getArrayIndexForColor(pieceLocation.getPiece().getPieceColor()));
-                                objWriter.writeObject(board.getIO());
-                                String ext = fileChooser.getSelectedExtensionFilter().getExtensions().toString();
-                                FileWrite fileWrite = new FileWrite();
-                                fileWrite.saveToFile(Paths.get(selectedFile.toURI()), String.valueOf(output.format("%n", pieceLocation.hashCode())));
-
-
-                                Alert succesAlert = new Alert(Alert.AlertType.CONFIRMATION);
-                                succesAlert.setHeaderText("File succesfully written to " + Paths.get(selectedFile.toURI()).toString());
-                                succesAlert.show();
-                            } catch (IOException e) {
-                                Alert errorWindow = new Alert(Alert.AlertType.ERROR);
-                                errorWindow.setHeaderText("Problem with selected file");
-                                errorWindow.setContentText("File is not writable");
-                                errorWindow.showAndWait();
-                            }
-                        }
-                    }
-                });*/
                 view.getChessMenu().getMiRestart().setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
+                        model.restartGame();
+                        updateView();
+                    }
+                });
+
+                view.getRestartGameButton().setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
                         model.restartGame();
                         updateView();
                     }
@@ -327,10 +300,17 @@ public class BoardPresenter {
             for (Space[] spaceX : view.getBoard().getSpaces()) {
                 for (Space space : spaceX) {
                     space.getStyleClass().remove("chess-space-attackable");
+                    space.getStyleClass().remove("chess-space-valid");
                 }
             }
             //set restarted to false
             model.setRestarted(false);
+
+            view.getHBoxGameOver().setVisible(false);
+        }
+
+        if (model.getBoard().isGameOver()){
+            view.getHBoxGameOver().setVisible(true);
         }
 
         piecesFromModel = model.getPiecesOnBoard();

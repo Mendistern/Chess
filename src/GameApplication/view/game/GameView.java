@@ -75,7 +75,7 @@ public class GameView extends GridPane {
        // FileManager manager = new FileManager();
         options = new GridPane();
 
-        options.add(new OptionButton("resources/save.png", e -> {
+       /* options.add(new OptionButton("resources/save.png", e -> {
                     try {
 
 
@@ -89,7 +89,7 @@ public class GameView extends GridPane {
                         ex.printStackTrace();
                     }
                 }, "Save"), 1, 1, 1, 1
-        );
+        );*/
 
     }
 
@@ -105,12 +105,7 @@ public class GameView extends GridPane {
         return btnSave;
     }
 
-    private FileChooser createFileChooser() {
-        FileChooser fileChooser = new FileChooser();
-        board.getIO().forEach((k, v) -> fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter(v.getFileTypeDescription(), "*." + v.getFileExtension())));
-        return fileChooser;
-    }
+
 
 }
 

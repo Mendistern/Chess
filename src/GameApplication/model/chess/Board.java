@@ -32,13 +32,13 @@ public class Board {
     //creer een moveManager
     private MoveManager moveManager;
 
-    private Scanner key = new Scanner(System.in);
-
     private Player currentPlayer;
 
     private boolean checkedState;
 
     private PieceColor checkedColor;
+
+    private boolean gameOver = false;
 
 
     public Board() {
@@ -61,9 +61,6 @@ public class Board {
 
 
     public void generatePlayers() {
-
-        String player1;
-        String player2;
 
 
         Random random = new Random();
@@ -197,6 +194,44 @@ public class Board {
 
         // Add the state to the board
         setCheckedState(isCheck);
+
+        if (isCheck){
+
+        checkForCheckmate();
+        }
+    }
+
+
+    public void checkForCheckmate() {
+        // Get all pieces from current player
+        List<Piece> pieces = getPieceSets()[getArrayIndexForColor(getCurrentPlayer().getColor())].getPieces();
+        //Keep a list of available moves to make during chess
+        List<Spot> availableMovesDuringChess = new ArrayList<>();
+
+        //loop through the pieces
+        for (Iterator<Piece> iterator = pieces.iterator(); iterator.hasNext(); ) {
+            Piece next = iterator.next();
+
+            //get the array of the current piece valid move
+            Spot[][] validSpots =next.validMoves(this);
+
+            //loop through them
+            for (Spot[] columns: validSpots){
+                for (Spot spot: columns){
+
+                    if (spot==null)continue;
+                    //if the test move return false, then the spot will evade the check
+                    if (!moveManager.testMove(spot,next.getPieceLocation())){
+                        availableMovesDuringChess.add(spot);
+                    }
+                }
+            }
+        }
+
+        //if list is empty, then checkmate
+        if (availableMovesDuringChess.isEmpty()){
+            setGameOver(true);
+        }
     }
 
     public Piece getPieceFromSpot(int column, int row) {
@@ -275,5 +310,11 @@ public class Board {
         this.players = players;
     }
 
+    private void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
 
+    public boolean isGameOver() {
+        return gameOver;
+    }
 }
