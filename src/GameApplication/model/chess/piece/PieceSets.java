@@ -4,20 +4,21 @@ import GameApplication.model.chess.piece.pieces.*;
 import GameApplication.model.chess.spot.Spot;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class PieceSets {
 
-    //hier gaan we alle Piece's insteken
+    // This is a list of all the pieces in the game.
     private List<Piece> pieceSets = new ArrayList<>();
+    // A flag that is used to determine if the king is in check.
     private boolean checked;
 
-
-
+    // Setting the color of the pieces.
     private PieceColor color;
 
 
+    // This is the constructor for the PieceSets class. It sets the color of the pieces and calls the
+    // setPieceStartPositions method.
     public PieceSets(PieceColor color) {
 
 
@@ -26,6 +27,7 @@ public class PieceSets {
         this.color = color;
     }
 
+    // This method is returning the king of the current color.
     public King getKing(){
 
         for (Piece piece:pieceSets){
@@ -37,6 +39,11 @@ public class PieceSets {
     }
 
 
+    /**
+     * This function sets the initial positions of the pieces on the board
+     *
+     * @param color The color of the pieces.
+     */
     public void setPieceStartPositions(PieceColor color) {
         //If color is white then row should be 0 (bottom) else 7 (top of board)
         int valueForRow = PieceColor.WHITE == color ? 0 : 7;
@@ -65,6 +72,11 @@ public class PieceSets {
 
     }
 
+    /**
+     * Returns a list of all the pieces in the game
+     *
+     * @return A list of pieces.
+     */
     public List<Piece> getPieces() {
         return pieceSets;
     }

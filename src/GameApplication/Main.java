@@ -15,9 +15,13 @@ import javafx.stage.Stage;
  */
 
 /**
- * @author nicolas
+ * @author nicolas Bouquiaux
  */
 
+/**
+ * The main class is the entry point for the program. It creates a new chess game and a new scene. It then creates a new
+ * start view and a new start presenter. It then sets the scene to the start view
+ */
 public class Main extends Application {
 
 
