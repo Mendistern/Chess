@@ -4,7 +4,6 @@ import GameApplication.view.ChessMenu;
 import GameApplication.view.board.components.ChessBoard;
 import GameApplication.view.board.components.PieceComp;
 import GameApplication.view.board.components.Space;
-import GameApplication.view.game.OptionButton;
 import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -19,7 +18,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.stage.FileChooser;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -31,10 +29,9 @@ public class BoardView extends BorderPane {
     private final List<Space> validMovesSpaces;
     private final List<Space> validAttackSpaces;
     private final List<Space> clickedSpace;
-
     public Space activeSpace = null;
     public ChessBoard board;
-    private OptionButton options;
+
 
     public ChessMenu getChessMenu() {
         return chessMenu;
@@ -60,8 +57,6 @@ public class BoardView extends BorderPane {
 
     private Group boardGroup;
     private Bounds gameBounds;
-    private TextArea gameFlow;
-    private GridPane textHolder;
     private TextField tfPath;
     private Label playerName1;
     private Label playerName2;
@@ -88,31 +83,22 @@ public class BoardView extends BorderPane {
         return tfPath;
     }
 
-    public TextArea getGameFlow() {
-        return gameFlow;
-    }
+
 
     public Space[][] getSpace() {
         return space;
     }
-
-    public GridPane getTextHolder() {
-        return textHolder;
-    }
-
     private Path myFile;
 
     private void initialiseNodes() {
         board = new ChessBoard(playerIsWhite);
         space = new Space[8][8];
-        textHolder = new GridPane();
 
         playerName1 = new Label("Player1");
         playerName2 = new Label("Player2");
+        restartGame = new Button("Restart game");
 
-         restartGame = new Button("Restart game");
-
-         HBoxGameOver = new HBox();
+        HBoxGameOver = new HBox();
 
 
     }
@@ -120,19 +106,15 @@ public class BoardView extends BorderPane {
 
     private void layoutNodes() {
         chessMenu = new ChessMenu();
-        //chessMenu.getMiSave();
-        gameFlow = new TextArea();
-        super.setTop(getChessMenu());
-
-
+        super.setTop(this.getChessMenu());
         Label gameOver = new Label("Game Over. 😘");
         gameOver.setFont(new Font(22));
 
 
         HBoxGameOver.getChildren().addAll(gameOver, restartGame);
         HBoxGameOver.setVisible(false);
-       HBoxGameOver.setAlignment(Pos.CENTER);
-       HBoxGameOver.setSpacing(20);
+        HBoxGameOver.setAlignment(Pos.CENTER);
+        HBoxGameOver.setSpacing(20);
 
 
         VBox vbox = new VBox();
@@ -144,24 +126,7 @@ public class BoardView extends BorderPane {
 
 
         vbox.getChildren().addAll(HBoxGameOver, playerName2, board, playerName1);
-
-
         super.setCenter(vbox);
-
-
-        //textArea layout
-        GridPane.setColumnSpan(gameFlow, 10);
-        GridPane.setRowSpan(gameFlow, 2);
-        textHolder.setVgap(1);
-        textHolder.add(gameFlow, 0, 25);
-        GridPane.setHalignment(gameFlow, HPos.CENTER);
-        super.setBottom(textHolder);
-        GridPane.setHalignment(gameFlow, HPos.CENTER);
-
-
-        super.isResizable();
-        super.resize(computePrefWidth(ChessBoard.USE_PREF_SIZE) / USE_PREF_SIZE, computePrefHeight(ChessBoard.USE_PREF_SIZE) / USE_COMPUTED_SIZE);
-
     }
 
 

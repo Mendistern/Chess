@@ -15,51 +15,23 @@ public class Chess {
     private boolean restarted = false;
     private FileManager fileManager;
 
-
+    /**
+     * Instantiates new a game by invoking the method CreateGame into the default constructor
+     */
     public Chess() {
-        // extra method and not inline, so that restart is possible.
+
         createGame();
     }
 
     public void createGame() {
-        //initialize
+        //initialisation of the attributes for creating a new game
         this.board = new Board();
         this.fileManager = new FileManager(this);
-
-
         this.piecesOnBoard = board.getPieceIntern();
     }
 
-    public Board getBoard() {
-        return board;
-    }
-
-
-    public Piece[][] getPiecesOnBoard() {
-        piecesOnBoard = getBoard().getPieceIntern();
-        return piecesOnBoard;
-    }
-
-
-    public void restartGame() {
-        //save players before creating new instantiation of the board
-        Player[] players = getBoard().getPlayers();
-        //create new board, and file manager
-        createGame();
-        //set the players
-        board.setPlayers(players);
-        //add the players to the game (color and currentPlayer)
-        board.generatePlayers();
-        //reset the state to false
-        board.setCheckedState(false);
-        //set restarted for presenter purposes
-        setRestarted(true);
-
-    }
-
-
     // Method to load a saved game, and to set the pieces on the correct place.
-    public void restarSavedGame(List<String> readLines) {
+    public void restartSavedGame(List<String> readLines) {
         //First restart the game
         restartGame();
 
@@ -82,14 +54,43 @@ public class Chess {
 
     }
 
+    public void restartGame() {
+        //save players before creating new instantiation of the board
+        Player[] players = getBoard().getPlayers();
+        //create new board, and file manager
+        createGame();
+        //set the players
+        board.setPlayers(players);
+        //add the players to the game (color and currentPlayer)
+        board.generatePlayers();
+        //reset the state to false
+        board.setCheckedState(false);
+        //set restarted for presenter purposes
+        setRestarted(true);
+
+    }
+
+    /**
+     * Getters and setters of the game properties
+     */
+    public Board getBoard() {
+        return board;
+    }
+
+
+    public Piece[][] getPiecesOnBoard() {
+        piecesOnBoard = getBoard().getPieceIntern();
+        return piecesOnBoard;
+    }
+
+
+
     public boolean isRestarted() {
         return restarted;
     }
-
     public void setRestarted(boolean restarted) {
         this.restarted = restarted;
     }
-
     public FileManager getFileManager() {
         return fileManager;
     }

@@ -1,7 +1,6 @@
 package GameApplication.view.board;
 
 import GameApplication.model.Chess;
-import GameApplication.model.Position;
 import GameApplication.model.chess.Board;
 import GameApplication.model.chess.Player;
 import GameApplication.model.chess.piece.Piece;
@@ -15,18 +14,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Formatter;
 import java.util.List;
 
 
@@ -36,9 +31,6 @@ public class BoardPresenter {
     private Piece[][] piecesFromModel;
     int size = 8;
     private ChessBoard board;
-    //private final transient Board moveEvaluator;
-    //private GridPane options;
-    //  private FileWrite fileWrite;
 
 
     public Board getGameBoard() {
@@ -54,10 +46,6 @@ public class BoardPresenter {
     public BoardPresenter(Chess model, BoardView view) {
         this.model = model;
         this.view = view;
-        //options = new GridPane();
-        //fileWrite = new FileWrite();
-        // FileManager fileManager;
-        //this.moveEvaluator = model.getBoard();
         addEventListeners();
         updateView();
     }
@@ -87,57 +75,23 @@ public class BoardPresenter {
 
     private void addEventListeners() {
         board = view.getBoard();
-
-
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 final int finalX = x;
                 final int finalY = y;
-                System.out.println("final " + finalY + " " + finalY);
-
-
                 view.getBoard().getSpaces()[finalX][finalY].setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
 
-
-
                         handleValidMoves(model.getBoard().getPieceFromSpot(finalX, finalY));
 
                         view.getBoard().setActiveSpace(view.getBoard().spaces[finalX][finalY]);
-                        /*if (model.getBoard().getCheckedState()){
-                            System.out.println("check state");
-                            return;
-                        }*/
 
                         handleValidMoves(model.getBoard().getPieceFromSpot(finalX, finalY));
 
                         view.getBoard().onSpaceClickV2(model.getBoard(), finalX, finalY);
 
                         view.getBoard().onSpaceClickV2(model.getBoard(), finalX, finalY);
-                        //Spot pieceLocation = model.getBoard().getPieceFromSpot(finalX, finalY).getPieceLocation().getPiece().getPieceLocation();
-                        view.getBoard().getSpaces()[finalX][finalY].setOnMouseClicked((MouseEvent e) -> {
-                            StringBuilder str = new StringBuilder();
-
-                            str.append("Position Gridpane X: ").append(e.getX()).append("\n");
-                            str.append("Position Gridpane Y: ").append(e.getY()).append("\n");
-
-                            int x = (int) e.getX();
-                            int y = (int) e.getY();
-
-                            int rx = ((int) e.getX() % 8);
-                            int ry = ((int) e.getY() % 8);
-
-                            int lin = (x - rx) / 8;
-                            int col = (y - ry) / 8;
-
-                            str.append("Line X: ").append(lin).append("\n");
-                            str.append("Col Y: ").append(convCol(col)).append("\n");
-                            str.append("Position XY : ").append(new Position(lin, convCol(col))).append("\n");
-                            str.append("\n-----------------------------------------------------------------------------\n\n");
-
-                            view.getGameFlow().appendText(str.toString());
-                        });
                         updateView();
                     }
 
@@ -164,7 +118,7 @@ public class BoardPresenter {
                         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Textfiles", "*.txt"));
                         File selectedFile = fileChooser.showSaveDialog(view.getScene().getWindow());
 
-                        if ((selectedFile != null) ^ (Files.isWritable(Paths.get(selectedFile.toURI())))) {
+                        if ((selectedFile != null) && (Files.isWritable(Paths.get(selectedFile.toURI())))) {
                             try {
                                 model.getFileManager().saveToFile(selectedFile.getPath());
                             } catch (IOException e) {
@@ -174,12 +128,6 @@ public class BoardPresenter {
                                 errorWindow.showAndWait();
 
                             }
-                        } else {
-                            Alert errorWindow = new Alert(Alert.AlertType.ERROR);
-                            errorWindow.setHeaderText("Problem with selected file");
-                            errorWindow.setContentText("File is not writable");
-                            errorWindow.showAndWait();
-
                         }
                     }
                 });
@@ -196,9 +144,7 @@ public class BoardPresenter {
                         if ((selectedFile != null) &&
                                 (Files.isReadable(Paths.get(selectedFile.toURI())))) {
                             try {
-
                                 System.out.println(selectedFile);
-
                                 model.getFileManager().loadFile(String.valueOf(selectedFile.getPath()));
                                 updateView();
                             } catch (IOException e) {
@@ -208,11 +154,6 @@ public class BoardPresenter {
                                 errorWindow.showAndWait();
 
                             }
-                        } else{
-                            Alert errorWindow = new Alert(Alert.AlertType.ERROR);
-                            errorWindow.setHeaderText("Problem with selected file");
-                            errorWindow.setContentText("File is not readable.");
-                            errorWindow.showAndWait();
                         }
 
                     }

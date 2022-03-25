@@ -10,36 +10,24 @@ import javafx.scene.control.MenuItem;
  */
 public class ChessMenu extends MenuBar {
     private MenuItem miInstructions;
-    private MenuItem miSettings;
     private MenuItem miLoad;
     private MenuItem miSave;
-
     private MenuItem miRestart;
 
     public ChessMenu() {
         Menu mnFile = new Menu("File");
         Menu mnHelp = new Menu("Help");
         miInstructions = new MenuItem("Instructies");
-        miSettings = new MenuItem("Instellingen");
         miLoad = new MenuItem("Load Game");
         miSave = new Menu("Save Game");
         miRestart = new MenuItem("Restart Game");
 
-        mnFile.getItems().add(miSettings);
         mnFile.getItems().add(miSave);
         mnFile.getItems().add(miLoad);
         mnFile.getItems().add(miRestart);
         mnHelp.getItems().add(miInstructions);
         super.getMenus().addAll(mnFile, mnHelp);
 
-    }
-
-    public void setMiInstructions(MenuItem miInstructions) {
-        this.miInstructions = miInstructions;
-    }
-
-    public void setMiSettings(MenuItem miSettings) {
-        this.miSettings = miSettings;
     }
 
     public void setMiLoad(MenuItem miLoad) {
@@ -60,13 +48,6 @@ public class ChessMenu extends MenuBar {
 
     public MenuItem getMiInstructions() {
         return miInstructions;
-    }
-
-    public MenuItem getMiSettings() {
-        return miSettings;
-    }
-
-    public void setMiSave(Scene scene) {
     }
 
     public MenuItem getMiRestart() {
