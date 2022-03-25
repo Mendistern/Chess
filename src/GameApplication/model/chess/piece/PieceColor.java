@@ -2,7 +2,7 @@ package GameApplication.model.chess.piece;
 
 public enum PieceColor {
     BLACK("b"),WHITE("w");
-    String name;
+    private String name;
 
     PieceColor(String name){
         this.name = name;

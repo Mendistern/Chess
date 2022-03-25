@@ -18,33 +18,6 @@ public abstract class Piece implements Serializable {
     //belangrijk voor castling en enpassant?
     private boolean moved = false;
 
-    public abstract Piecetype getPieceType();
-
-    public Spot getPieceLocation() {
-        return pieceLocation;
-    }
-
-    public int getColumn(){
-        return pieceLocation.getColumn();
-    }
-
-    public int getRow(){
-        return pieceLocation.getRow();
-    }
-
-    //self explanatory
-    public PieceColor getPieceColor() {
-        return pieceColor;
-    }
-
-    public boolean isMoved() {
-        return moved;
-    }
-
-    //self explanatory
-    public void setMoved(boolean moved) {
-        this.moved = moved;
-    }
 
     //retourneert een array van Spots die deze Piece naartoe kan gaan.
     public abstract Spot[][] validMoves(Board board);
@@ -70,13 +43,37 @@ public abstract class Piece implements Serializable {
     }
 
     //Actually move to Spot
-    public abstract boolean moveToSpot(Board board,Spot  spot);
+    public boolean moveToSpot(Board board,Spot  spot){
+       setBoard(board);
+        if(!moveTo(spot)) return false;
+
+        if(checkIfAttacking(spot)){
+            attack(spot);
+            return true;
+        }
+        //Als alles ok is, beweeg de Piece
+        getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
+        getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
+
+        setMoved(true);
+        return true;
+    };
 
     //get all valid attack spots
     public abstract Spot[][] getValidAttackSpots();
 
     //execute attack on opponents piece
-    public abstract void attack(Spot spot);
+    public void attack(Spot spot){
+        Piece attackedPiece = getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()];
+        getBoard().getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
+
+
+
+        getBoard().getPieceSets()[getBoard().getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
+        spot.setPiece(this);
+        getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
+        setMoved(true);
+    };
 
     //Check if current Piece object is attacking the given Spot paramater. (through spot.getColumn() and spot.getRow)
 public abstract boolean checkIfAttacking(Spot spot);
@@ -106,4 +103,33 @@ public abstract boolean checkIfAttacking(Spot spot);
                 ", pieceType=" + this.getPieceType() +
                 '}';
     }
+
+
+    public abstract Piecetype getPieceType();
+
+    public Spot getPieceLocation() {
+        return pieceLocation;
+    }
+
+    public int getColumn(){
+        return pieceLocation.getColumn();
+    }
+
+    public int getRow(){
+        return pieceLocation.getRow();
+    }
+
+    public PieceColor getPieceColor() {
+        return pieceColor;
+    }
+
+    public boolean isMoved() {
+        return moved;
+    }
+
+
+    public void setMoved(boolean moved) {
+        this.moved = moved;
+    }
+
 }

@@ -1,7 +1,6 @@
 package GameApplication.view.board;
 
 import GameApplication.model.Chess;
-import GameApplication.model.FileWrite;
 import GameApplication.model.Position;
 import GameApplication.model.chess.Board;
 import GameApplication.model.chess.Player;

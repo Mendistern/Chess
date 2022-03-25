@@ -16,16 +16,8 @@ public class MoveManager {
     //Creer een lijst met laatste spots
     private List<Spot> spots = new ArrayList<>();
 
-
+   //creer een lijst voor de moves
     private List<String> movesList;
-
-
-
-
-
-    public Board getBoard() {
-        return board;
-    }
 
     //behoud de staat van de board.
     private Board board;
@@ -38,18 +30,16 @@ public class MoveManager {
 
 
 
-    //bij elke click op de board, wordt een niewe oproep naar addMove gemaakt.
+    //bij elke click op de board, wordt een nieuwe oproep naar addMove gemaakt.
 
     public void addMove(int column, int row){
-
-
-
+        //get the piece
         Piece clickedOnPiece = board.getPieceFromSpot(column,row);
 
         //als de moves lijst is leeg,
         if (spots.isEmpty()){
 
-            // Kijk of er op niks gecklicked werd, zoja doe niks
+            // Kijk of er op niks geklicked werd, zoja doe niks
             if (clickedOnPiece == null)return;
             // als er op een andere piece gecklicked werd, doe ook niks.
             if (clickedOnPiece.getPieceColor()!=board.getLastTurnColor())return;
@@ -155,7 +145,7 @@ public class MoveManager {
             Pawn pawn = (Pawn) piece;
 
 
-            System.out.println("Promotion: "+pawn.checkIfPromotionAvailable());
+            pawn.checkIfPromotionAvailable();
         }
 
         // voeg deze move toe naar de moveList
@@ -173,11 +163,7 @@ public class MoveManager {
         board.nextTurn();
 
 
-        for (Iterator<String> iterator = movesList.iterator(); iterator.hasNext(); ) {
-            String next =  iterator.next();
-            System.out.println(next);
 
-        }
     }
 
 
@@ -254,11 +240,10 @@ public class MoveManager {
         }
         return spot;
 
-
     }
 
-    public List<Spot> getSpots() {
-        return spots;
+    public Board getBoard() {
+        return board;
     }
 
     public List<String> getMovesList() {
@@ -268,8 +253,5 @@ public class MoveManager {
     public List<Spot> getMoves() {
         return spots;
     }
-
-
-
 
 }

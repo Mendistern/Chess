@@ -9,10 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class King extends Piece {
-    //private Board board;
     private Spot[][] validAttackSpots;
-
-
     private List<Spot> lastKingPosition;
 
     public King(PieceColor pieceColor, Spot pieceLocation) {
@@ -141,10 +138,6 @@ public class King extends Piece {
         return false;
     }
 
-    @Override
-    public Spot[][] getValidAttackSpots() {
-        return validAttackSpots;
-    }
 
     @Override
     public void attack(Spot spot) {
@@ -154,12 +147,9 @@ public class King extends Piece {
         Piece attackedPiece = getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()];
         getBoard().getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
 
-        //board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
-
 
         getBoard().getPieceSets()[getBoard().getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
         spot.setPiece(this);
-        //System.out.println(board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())]);
         getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
         setLastKingPosition(spot);
         setMoved(true);
@@ -185,8 +175,6 @@ public class King extends Piece {
     @Override
     public boolean checkIfAttacking(Spot spot) {
         if (getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()] == null) return false;
-
-        //if (checkIfMoveCausesCheck(spot)) return false;
 
 
         validAttackSpots[spot.getColumn()][spot.getRow()] = spot;
@@ -223,25 +211,15 @@ public class King extends Piece {
         super.setBoard(board);
 
 
-        // int pieceSetIndex = getBoard().getArrayIndexForColor(getPieceColor())==0?1:0;
-        //List<Piece> attackersPieces =  getBoard().getPieceSets()[pieceSetIndex].getPieces();
 
         List<Piece> attackersPieces = getBoard().getPiecesFromInternalBoard(getBoard().getOpponentColor());
 
         for (Piece piece : attackersPieces) {
 
             piece.setBoard(board);
-            Spot[][] pieceValidMoves = piece.validMoves(getBoard());
+            //load the valid moves
+             piece.validMoves(getBoard());
 
-            System.out.println(piece.getPieceType() + " " + piece.moveTo(new Spot(getColumn(), getRow())));
-
-           /* for (int i = 0; i < pieceValidMoves.length; i++) {
-                for (int j = 0; j < pieceValidMoves[i].length; j++) {
-                    if (pieceValidMoves[i][j]!=null&&pieceValidMoves[i][j].getRow()==getRow()&&pieceValidMoves[i][j].getColumn()==getColumn()){
-                        return true;
-                    }
-                }
-            }*/
 
             switch (piece.getPieceType()) {
                 case PAWN:
@@ -275,9 +253,6 @@ public class King extends Piece {
         }
         return false;
 
-       /*for (Piece piece: attackersPieces){
-
-       }*/
 
     }
 
@@ -376,9 +351,7 @@ public class King extends Piece {
                     if (piece.moveTo(new Spot(spot.getColumn(), spot.getRow()))) {
                         return true;
                     }
-                   /* if (piece.moveTo(new Spot(spot.getColumn(),spot.getRow()))){
-                        return true;
-                    }*/
+
                     break;
                 default:
                     return false;
@@ -387,41 +360,15 @@ public class King extends Piece {
             }
 
 
-            //else, check if a piece can attack there.
-            //if (piece.moveTo(spot))return true;
         }
         return false;
 
     }
 
-    public boolean tempMoveKing(Piece piece, Spot spot, Board board) {
 
-        Spot oldKingsSpot = new Spot(getColumn(), getRow());
-        King oldKing = this;
-
-
-        piece.getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
-        piece.getBoard().getPieceIntern()[getColumn()][getRow()] = null;
-
-        piece.setBoard(board);
-
-        if (piece.validMoves(board)[spot.getColumn()][spot.getRow()] != null) {
-            piece.getBoard().getPieceIntern()[oldKingsSpot.getColumn()][oldKingsSpot.getRow()] = oldKing;
-            return true;
-        }
-        piece.getBoard().getPieceIntern()[oldKingsSpot.getColumn()][oldKingsSpot.getRow()] = oldKing;
-        return false;
-
-
-    }
-
-    public List<Spot> getLastKingPosition() {
-        return this.lastKingPosition;
-    }
 
     private void setLastKingPosition(Spot position) {
 
-        System.out.println(position.toString());
         if (this.lastKingPosition.size() == 2) {
             this.lastKingPosition.remove(0);
         }
@@ -429,5 +376,15 @@ public class King extends Piece {
         //Explenation why  this.lastKingPosition.add(position); doesn't work:
         //https://stackoverflow.com/questions/19843506/why-does-my-arraylist-contain-n-copies-of-the-last-item-added-to-the-list/19843507#19843507
         this.lastKingPosition.add(new Spot(position.getColumn(), position.getRow()));
+    }
+
+    public List<Spot> getLastKingPosition() {
+        return this.lastKingPosition;
+    }
+
+
+    @Override
+    public Spot[][] getValidAttackSpots() {
+        return validAttackSpots;
     }
 }

@@ -7,7 +7,6 @@ import GameApplication.model.chess.spot.Spot;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 
 public class Chess {
 
@@ -18,16 +17,15 @@ public class Chess {
 
 
     public Chess() {
-        System.out.println("Chess game ");
-//        piece[0][0] sizeX = 8;
-//        piece[0][1] sizeY = 8;
+        // extra method and not inline, so that restart is possible.
         createGame();
     }
 
-    public void createGame(){
+    public void createGame() {
+        //initialize
         this.board = new Board();
         this.fileManager = new FileManager(this);
-        // board.drawBoard();
+
 
         this.piecesOnBoard = board.getPieceIntern();
     }
@@ -36,33 +34,51 @@ public class Chess {
         return board;
     }
 
-    /*
-    public static void main(String[] args) {
-        System.out.println("Chess game ");
-//        piece[0][0] sizeX = 8;
-//        piece[0][1] sizeY = 8;
-        Board brd = new Board();
-       // brd.drawBoard();
 
-         piecesOnBoard = brd.getPieceIntern();
-    }
-
-     */
-
-
-    public  Piece[][] getPiecesOnBoard() {
+    public Piece[][] getPiecesOnBoard() {
         piecesOnBoard = getBoard().getPieceIntern();
         return piecesOnBoard;
     }
 
 
-    public void restartGame(){
-       Player[] players= getBoard().getPlayers();
+    public void restartGame() {
+        //save players before creating new instantiation of the board
+        Player[] players = getBoard().getPlayers();
+        //create new board, and file manager
         createGame();
+        //set the players
         board.setPlayers(players);
+        //add the players to the game (color and currentPlayer)
         board.generatePlayers();
+        //reset the state to false
         board.setCheckedState(false);
+        //set restarted for presenter purposes
         setRestarted(true);
+
+    }
+
+
+    // Method to load a saved game, and to set the pieces on the correct place.
+    public void restarSavedGame(List<String> readLines) {
+        //First restart the game
+        restartGame();
+
+        //loop through all lines from the file
+        for (Iterator<String> iterator = readLines.iterator(); iterator.hasNext(); ) {
+            String next = iterator.next();
+            // torn every line into 2 spots
+            List<Spot> spot = board.getMoveManager().getSpotFromString(next);
+
+            //loop through those 2 spots
+            for (Iterator<Spot> spotIterator = spot.iterator(); spotIterator.hasNext(); ) {
+                Spot moveSpot = spotIterator.next();
+
+                //add each spot to the move manager
+                board.getMoveManager().addMove(moveSpot.getColumn(), moveSpot.getRow());
+            }
+
+        }
+
 
     }
 
@@ -78,28 +94,4 @@ public class Chess {
         return fileManager;
     }
 
-    // Method to load a saved game, and to set the pieces on the correct place.
-    public void restarSavedGame(List<String> readLines) {
-        //Firest restart the game
-        restartGame();
-
-        //loop through all lines from the file
-        for (Iterator<String> iterator = readLines.iterator(); iterator.hasNext(); ) {
-            String next = iterator.next();
-            // torn every line into 2 spots
-            List<Spot> spot= board.getMoveManager().getSpotFromString(next);
-
-            //loop through those 2 spots
-            for (Iterator<Spot> spotIterator = spot.iterator(); spotIterator.hasNext(); ) {
-                Spot moveSpot = spotIterator.next();
-
-                //add each spot to the move manager
-                board.getMoveManager().addMove(moveSpot.getColumn(),moveSpot.getRow());
-            }
-
-        }
-
-
-
-    }
 }

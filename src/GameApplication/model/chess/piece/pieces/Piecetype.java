@@ -3,7 +3,7 @@ package GameApplication.model.chess.piece.pieces;
 public enum Piecetype {
     QUEEN("Q"),KING("K"),PAWN("P"),ROOK("R"),BISHOP("B"),KNIGHT("N");
 
-    String type;
+    private String type;
 
    Piecetype(String type){
         this.type = type;

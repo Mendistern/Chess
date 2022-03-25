@@ -6,33 +6,12 @@ import GameApplication.model.chess.piece.PieceColor;
 import GameApplication.model.chess.spot.Spot;
 
 public class Queen extends Piece {
+    private Spot[][] validAttackSpots ;
+
     public Queen(PieceColor pieceColor, Spot pieceLocation) {
         super(pieceColor, pieceLocation);
     }
 
-    //private Board board;
-
-    private Spot[][] validAttackSpots ;
-
-
-    @Override
-    public boolean moveToSpot(Board board, Spot spot) {
-
-        super.setBoard(board);
-        if(!moveTo(spot)) return false;
-
-        if(checkIfAttacking(spot)){
-            attack(spot);
-            return true;
-        }
-
-        //Als alles ok is, beweeg de Piece
-        getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
-        getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
-
-        setMoved(true);
-        return true;
-    }
 
     @Override
     public boolean moveTo(Spot spot) {
@@ -61,20 +40,6 @@ public class Queen extends Piece {
         return validAttackSpots;
     }
 
-    @Override
-    public void attack(Spot spot) {
-        Piece attackedPiece = getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()];
-        getBoard().getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
-
-        //board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
-
-
-        getBoard().getPieceSets()[getBoard().getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
-        spot.setPiece(this);
-        //System.out.println(board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())]);
-        getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
-        setMoved(true);
-    }
 
     @Override
     public boolean checkIfAttacking(Spot spot) {
@@ -95,7 +60,6 @@ public class Queen extends Piece {
 
         validAttackSpots = new Spot[8][8];
 
-        Piece[][] boardPieces = getBoard().getPieceIntern();
         Spot[][] validSpots = new Spot[8][8];
 
         for (int i = 0; i < 8; i++) {

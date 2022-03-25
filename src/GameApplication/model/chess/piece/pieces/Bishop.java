@@ -6,7 +6,7 @@ import GameApplication.model.chess.piece.PieceColor;
 import GameApplication.model.chess.spot.Spot;
 
 public class Bishop extends Piece {
-    //private Board board;
+
     private Spot[][] validAttackSpots ;
 
 
@@ -15,16 +15,12 @@ public class Bishop extends Piece {
         super(pieceColor, pieceLocation);
     }
 
-    public Piecetype getPieceType(){
-        return Piecetype.BISHOP;
-    }
+
 
     @Override
     public boolean moveTo(Spot spot) {
         int targetColumn = spot.getColumn();
         int targetRow = spot.getRow();
-
-
 
 
         //check with or, although && is also good
@@ -58,9 +54,6 @@ public class Bishop extends Piece {
             x+=columnOffset;
         }
 
-
-
-
        return true;
     }
 
@@ -68,34 +61,18 @@ public class Bishop extends Piece {
     @Override
     public boolean checkIfAttacking(Spot spot) {
 
+        //If destination isn't empty && the piece at destination is from the opponent
         if (getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()]!=null&&getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()].getPieceColor()!=getBoard().getLastTurnColor()){
 
+            //add it to the attack aray
             validAttackSpots[spot.getColumn()][spot.getRow()] = new Spot(spot.getColumn(),spot.getRow());
             return true;
         }
         return false;
     }
 
-    @Override
-    public Spot[][] getValidAttackSpots() {
-        return validAttackSpots;
-    }
-
-    @Override
-    public void attack(Spot spot) {
-        //haal geattackeerde piece
-        Piece attackedPiece = getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()];
-        getBoard().getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
-
-        //board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
 
 
-        getBoard().getPieceSets()[getBoard().getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
-        spot.setPiece(this);
-        //System.out.println(board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())]);
-        getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
-        setMoved(true);
-    }
 
 
 
@@ -121,23 +98,14 @@ public class Bishop extends Piece {
     }
 
 
-    @Override
-    public boolean moveToSpot(Board board, Spot spot) {
-        super.setBoard(board);
-        if(!moveTo(spot)) return false;
 
-        if(checkIfAttacking(spot)){
-            attack(spot);
-            return true;
-        }
-        //Als alles ok is, beweeg de Piece
-        getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
-        getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
 
-        setMoved(true);
-        return true;
+    public Piecetype getPieceType(){
+        return Piecetype.BISHOP;
     }
-
-
+    @Override
+    public Spot[][] getValidAttackSpots() {
+        return validAttackSpots;
+    }
 
 }

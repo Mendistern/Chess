@@ -1,9 +1,6 @@
 package GameApplication.model;
 
-import GameApplication.model.chess.Board;
-import GameApplication.model.chess.spot.Spot;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,11 +21,14 @@ public class FileManager {
 
 
     public void saveToFile(String filePath) throws IOException {
+        //get all made move
         List<String> spotsList = chess.getBoard().getMoveManager().getMovesList();
+        //try write to file
         try (FileWriter myWriter = new FileWriter(filePath)) {
+            //loop through all moves
             for (Iterator<String> iterator = spotsList.iterator(); iterator.hasNext(); ) {
                 String next = iterator.next();
-
+                //add the move and new line
                 myWriter.write(String.format("%s%n", next));
             }
         } catch (IOException e) {
@@ -39,19 +39,24 @@ public class FileManager {
     }
 
 
+    //load file and set the moves
     public void loadFile(String fileName) throws IOException {
+        //get file
         Path myFile = Paths.get(fileName);
-        List<String> readLines = new ArrayList<String>();
+        //initialise moves list
+        List<String> readLines = new ArrayList<>();
+
 
         if (Files.exists(myFile)){
             try {
                 Scanner fileScanner = new Scanner(myFile);
                 while (fileScanner.hasNext()) {
                     String tekst = fileScanner.nextLine();
+                    //add each line to the list
                     readLines.add(tekst);
                 }
 
-
+                //restart game with entered move list
                 chess.restarSavedGame(readLines);
             } catch (IOException ioe){
                 throw new IOException("Problem Reading File: "+ioe.getMessage());

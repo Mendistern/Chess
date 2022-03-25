@@ -29,3 +29,13 @@
 #Save game
 #Load game
 #Restart game
+
+
+#Fastest way to checkmate
+- White: F2 -> F3 
+- Black: E7 - E5
+- White: G2 -> G4
+- Black: D8 -> H4
+
+#Checkmate🍻
+

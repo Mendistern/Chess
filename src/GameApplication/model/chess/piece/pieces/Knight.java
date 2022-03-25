@@ -10,7 +10,7 @@ public class Knight extends Piece {
     public Knight(PieceColor pieceColor, Spot pieceLocation) {
         super(pieceColor, pieceLocation);
     }
-    //private Board board;
+
 
     //create 2 arrays: X for valid Spot distance from current spot by column and same for Y
     private static final int[] X = {2,1,-1,-2,-2,-1,1,2};
@@ -42,7 +42,7 @@ public class Knight extends Piece {
 
 
     public Spot[][] validMoves(Board board){
-        //todo
+
         super.setBoard(board);
 
         //change later to initialize the spots to the number of valid moves
@@ -70,7 +70,7 @@ public class Knight extends Piece {
 
         if (checkIfTargetIsEmpty(spot)) return false;
         if (getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()].getPieceColor()==getPieceColor()) {
-            //errorMsg.cannotAttackSameColor();
+
             return false;
         }
         validAttackSpots[spot.getColumn()][spot.getRow()]=new Spot(spot.getColumn(),spot.getRow());
@@ -82,40 +82,7 @@ public class Knight extends Piece {
         return validAttackSpots;
     }
 
-    @Override
-    public void attack(Spot spot) {
 
-        Piece attackedPiece = getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()];
-        getBoard().getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
-
-        //board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
-
-
-        getBoard().getPieceSets()[getBoard().getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
-        spot.setPiece(this);
-        //System.out.println(board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())]);
-        getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
-        setMoved(true);
-
-    }
-
-    @Override
-    public boolean moveToSpot(Board board, Spot spot) {
-        super.setBoard(board);
-        if(!moveTo(spot)) return false;
-
-
-        if(checkIfAttacking(spot)){
-            attack(spot);
-            return true;
-        }
-
-        getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
-        getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
-
-        setMoved(true);
-        return true;
-    }
 
     public Piecetype getPieceType(){
         return Piecetype.KNIGHT;

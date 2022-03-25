@@ -9,7 +9,6 @@ import java.util.List;
 
 public class Pawn extends Piece {
     int numOfRowsFromOrigin;
-    //private Board board;
     private boolean isEnpassantAvailable = false;
 
 
@@ -28,57 +27,6 @@ public class Pawn extends Piece {
         return Piecetype.PAWN;
     }
 
-    //Strings of possible error messages related to the pawn
-    // TODO add explanation to presentation
-    static class ErrorMessages {
-        private boolean printError = false;
-
-        public void setPrintError(boolean printError) {
-            this.printError = printError;
-        }
-
-        void moveInRightDirection() {
-            if (!printError)return;
-            System.out.println("Please move in right direction.");
-        }
-
-        void goStraight() {
-            if (!printError)return;
-            System.out.println("You can only go straight.");
-        }
-
-        void move2Up() {
-            if (!printError)return;
-            System.out.println("You can only move a max of 2 rows up.");
-        }
-
-        void move1up() {
-            if (!printError)return;
-            System.out.println("You can only move a max of 1 row up.");
-        }
-
-        void moveNotPossible() {
-            if (!printError)return;
-            System.out.println("Move not possible.");
-        }
-
-        void must1StepUp() {
-            if (!printError)return;
-            System.out.println("You must go 1 move forward.");
-        }
-
-        void column1Sideways() {
-            if (!printError)return;
-            System.out.println("You can only move 1 column sideways.");
-        }
-
-        void cannotAttackSameColor() {
-            if (!printError)return;
-            System.out.println("You cannot attack your own pieces.");
-        }
-    }
-
-    ErrorMessages errorMsg = new ErrorMessages();
 
 
     @Override
@@ -92,7 +40,6 @@ public class Pawn extends Piece {
 
         if (!checkIfGoingInRightDirection(spot)) {
 
-            errorMsg.moveInRightDirection();
             return false;
 
         }
@@ -105,27 +52,18 @@ public class Pawn extends Piece {
             if (checkIfAttacking(spot)) {
 
 
-                //attack(spot);
                 return true;
             } else {
-                errorMsg.goStraight();
                 return false;
             }
         }
 
 
         if (numOfRowsFromOrigin > 2) {
-            if (!isMoved()) {
-                errorMsg.move2Up();
-            } else {
-                errorMsg.move1up();
-            }
-
-            return false;
+         return false;
         }
 
         if (numOfRowsFromOrigin == 2 && isMoved()) {
-            errorMsg.move1up();
 
             return false;
         }
@@ -138,7 +76,6 @@ public class Pawn extends Piece {
 
         //after checking that dest is possible numOfRowsFromOrigin wise, check if target is empty
         if (!checkIfTargetIsEmpty(spot)) {
-            errorMsg.moveNotPossible();
             return false;
         }
 
@@ -167,7 +104,7 @@ public class Pawn extends Piece {
         if (!opponentsPiece.isLastMove2SpotsForward())return false;
 
         if (!checkAttackColumnOnly1SpotAway(spot)) {
-            // errorMsg.column1Sideways();
+
             return false;
 
         }
@@ -178,7 +115,7 @@ public class Pawn extends Piece {
 
 
         int rowValueForEnPassant = getPieceColor() ==PieceColor.WHITE ?3:4;
-        //bug here
+
         if (Math.abs(7-getRow())!=rowValueForEnPassant){
             return false;
         }
@@ -197,24 +134,24 @@ public class Pawn extends Piece {
         int moveDirectionValue = getMoveDirectionValue();
 
         if (numOfRowsFromOrigin != Math.abs(moveDirectionValue)) {
-            //errorMsg.must1StepUp();
+
             return false;
         }
 
         if (!checkAttackColumnOnly1SpotAway(spot)) {
-            // errorMsg.column1Sideways();
+
             return false;
 
         }
 
         if (checkIfTargetIsEmpty(spot)) {
-            // errorMsg.moveNotPossible();
+
             return false;
         }
 
         //check if attack target is same color
         if (getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()].getPieceColor()==getPieceColor()) {
-            //errorMsg.cannotAttackSameColor();
+
             return false;
         }
 
@@ -226,22 +163,6 @@ public class Pawn extends Piece {
     }
 
 
-    @Override
-    public void attack(Spot spot) {
-
-        //haal geattackeerde piece
-        Piece attackedPiece = getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()];
-        getBoard().getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
-
-        //board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
-
-
-        getBoard().getPieceSets()[getBoard().getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
-        spot.setPiece(this);
-        //System.out.println(board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())]);
-        getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
-        setMoved(true);
-    }
 
     private boolean checkIfTargetIsEmpty(Spot spot) {
         return getBoard().getPieceFromSpot(spot.getColumn(), spot.getRow()) == null;
@@ -272,13 +193,10 @@ public class Pawn extends Piece {
     }
 
     public Spot[][] validMoves(Board board) {
-        errorMsg.setPrintError(false);
         super.setBoard(board);
-        System.out.println(getColumn() + " "+getRow());
 
         validAttackSpots = new Spot[8][8];
 
-        Piece[][] boardPieces = getBoard().getPieceIntern();
         Spot[][] validSpots = new Spot[8][8];
 
         for (int i = 0; i < 8; i++) {
@@ -290,21 +208,7 @@ public class Pawn extends Piece {
         }
 
 
-        /*
-        //todo
-        boolean isFirstMove = isMoved();
-        PieceColor color = getPieceColor();
-        Piece[][] piecesOnBoard = board.getPieceIntern();
-        for (Piece[] piece :
-                piecesOnBoard) {
-            System.out.println(piece);
-        }
-        //change later to initialize the spots to the number of valid moves
-        Spot[][] spot = new Spot[1][1];
-         */
-
-
-        return validSpots;
+             return validSpots;
     }
 
 
@@ -312,43 +216,15 @@ public class Pawn extends Piece {
         return validAttackSpots;
     }
 
-    public Spot[][] attackableSpots(Board board) {
-        errorMsg.setPrintError(false);
-        super.setBoard(board);
-        System.out.println(getColumn() + " "+getRow());
-
-        Piece[][] boardPieces = getBoard().getPieceIntern();
-        Spot[][] validAttackSpots = new Spot[8][8];
-
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0;j<8; j++) {
-                if(checkIfAttacking(new Spot(j,i))){
-                    validAttackSpots[i][j] = new Spot(j,i);
-                }
-            }
-        }
-
-
-
-
-
-        return validAttackSpots;
-    }
-
-
 
     public int getMoveDirectionValue() {
         return this.getPieceColor() == PieceColor.WHITE ? 1 : -1;
     }
 
 
-    public boolean isEnpassantAvailable() {
-        return isEnpassantAvailable;
-    }
 
     public boolean moveToSpot(Board board,Spot spot) {
        super.setBoard(board);
-        errorMsg.setPrintError(true);
         if(!moveTo(spot)) return false;
 
 
@@ -365,12 +241,9 @@ public class Pawn extends Piece {
             Piece attackedPiece = getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()+dy];
             getBoard().getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()+dy] = null;
 
-            //board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
-
 
             getBoard().getPieceSets()[getBoard().getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
             spot.setPiece(this);
-            //System.out.println(board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())]);
             getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
             setMoved(true);
 
@@ -398,8 +271,6 @@ public class Pawn extends Piece {
         }
 
 
-
-        errorMsg.setPrintError(false);
         return true;
     }
 
@@ -407,14 +278,12 @@ public class Pawn extends Piece {
         switch(getPieceColor()){
             case WHITE:
                 if (getRow()==7){
-                    System.out.println("Promote");
                     return true;
                 }else{
                     return false;
                 }
             case BLACK:
                 if (getRow()==0){
-                    System.out.println("Promote");
                     return true;
                 }
                 return false;

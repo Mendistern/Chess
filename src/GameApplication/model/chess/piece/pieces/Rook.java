@@ -7,7 +7,6 @@ import GameApplication.model.chess.spot.Spot;
 
 
 public class Rook extends Piece {
-    //private Board board;
     private Spot[][] validAttackSpots ;
 
     public Rook(PieceColor pieceColor, Spot pieceLocation) {
@@ -99,20 +98,7 @@ public class Rook extends Piece {
         return validAttackSpots;
     }
 
-    @Override
-    public void attack(Spot spot) {
-        Piece attackedPiece = getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()];
-        getBoard().getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
 
-        //board.getPieceIntern()[attackedPiece.getColumn()][attackedPiece.getRow()] = null;
-
-
-        getBoard().getPieceSets()[getBoard().getArrayIndexForColor(getAttackerColor())].removePiece(attackedPiece);
-        spot.setPiece(this);
-        //System.out.println(board.getPieceSets()[board.getArrayIndexForColor(getAttackerColor())]);
-        getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
-        setMoved(true);
-    }
 
 
     public Piecetype getPieceType() {
@@ -141,25 +127,7 @@ public class Rook extends Piece {
     }
 
 
-    @Override
-    public boolean moveToSpot(Board board, Spot spot) {
 
-        super.setBoard(board);
-        if(!moveTo(spot)) return false;
-
-        if(checkIfAttacking(spot)){
-            attack(spot);
-            return true;
-        }
-
-        //Als alles ok is, beweeg de Piece
-        getPieceLocation().setSpot(spot.getColumn(), spot.getRow());
-        getBoard().getPieceIntern()[spot.getColumn()][spot.getRow()] = this;
-
-        setMoved(true);
-        return true;
-
-    }
 
 
 }
