@@ -4,6 +4,7 @@ import GameApplication.model.Chess;
 import GameApplication.model.FileWrite;
 import GameApplication.model.Position;
 import GameApplication.model.chess.Board;
+import GameApplication.model.chess.Player;
 import GameApplication.model.chess.piece.Piece;
 import GameApplication.model.chess.piece.PieceColor;
 import GameApplication.model.chess.piece.pieces.King;
@@ -321,8 +322,6 @@ public class BoardPresenter {
     }
 
     public void updateView() {
-        //todo on game restart, clean the board.
-
         //On restart, remove all space classes from board.
         if (model.isRestarted()) {
             for (Space[] spaceX : view.getBoard().getSpaces()) {
@@ -336,6 +335,16 @@ public class BoardPresenter {
 
         piecesFromModel = model.getPiecesOnBoard();
         view.getBoard().defineStartPositions(piecesFromModel);
+
+        //Add names to labels
+        for (Player player:model.getBoard().getPlayers()){
+            if (player.getColor()==PieceColor.WHITE){
+                view.setPlayerName1(player.getName());
+            }else{
+                view.setPlayerName2(player.getName());
+            }
+        }
+
 
 
         King king = model.getBoard().getKing(model.getBoard().getCheckedColor());

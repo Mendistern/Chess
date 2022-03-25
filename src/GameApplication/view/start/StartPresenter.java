@@ -26,6 +26,7 @@ public class StartPresenter {
         this.model = model;
         this.view = view;
         addEventHandlers();
+        updateView();
     }
 
     private void addEventHandlers() {
@@ -39,5 +40,9 @@ public class StartPresenter {
             }
         });
 
+    }
+
+    public void updateView(){
+        view.getStyleClass().add("start-background");
     }
 }

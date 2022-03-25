@@ -7,12 +7,18 @@ import GameApplication.view.board.components.Space;
 import GameApplication.view.game.OptionButton;
 import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 
 import java.nio.file.Path;
@@ -57,6 +63,10 @@ public class BoardView extends BorderPane {
     private TextArea gameFlow;
     private GridPane textHolder;
     private TextField tfPath;
+    private Label playerName1;
+    private Label playerName2;
+
+    private Label currentPlayerName;
 
     public BoardView() {
         initialiseNodes();
@@ -64,6 +74,8 @@ public class BoardView extends BorderPane {
         validMovesSpaces = new ArrayList<>();
         validAttackSpaces = new ArrayList<>();
         clickedSpace = new ArrayList<>();
+
+
     }
 
     public Button getBtnSave() {
@@ -92,6 +104,11 @@ public class BoardView extends BorderPane {
         board = new ChessBoard(playerIsWhite);
         space = new Space[8][8];
         textHolder = new GridPane();
+
+        playerName1=new Label("Player1");
+        playerName2=new Label("Player2");
+
+        currentPlayerName=new Label("");
         //Path myFile =  Paths.get(tfPath.getText());
 //        tfPath.setText(myFile.toString());
     }
@@ -103,7 +120,22 @@ public class BoardView extends BorderPane {
         gameFlow = new TextArea();
         super.setTop(getChessMenu());
 
-        super.setCenter(board);
+
+
+        VBox vbox = new VBox();
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setSpacing(10);
+        BorderPane.setMargin(vbox,new Insets(10));
+        playerName1.setFont(new Font(18));
+        playerName2.setFont(new Font(18));
+
+
+
+
+        vbox.getChildren().addAll(playerName2,board,playerName1);
+
+
+        super.setCenter(vbox);
 
 
         //textArea layout
@@ -163,6 +195,17 @@ public class BoardView extends BorderPane {
     }
 
 
+
+    public void setPlayerName1(String name) {
+        this.playerName1.setText(name);
+    }
+
+
+
+    public void setPlayerName2(String name) {
+        this.playerName2.setText(name);
+    }
+
     public ChessBoard getBoard() {
         return board;
     }
@@ -171,7 +214,9 @@ public class BoardView extends BorderPane {
         return playerIsWhite;
     }
 
-
+    public Label getCurrentPlayerName() {
+        return currentPlayerName;
+    }
 }
 
 
