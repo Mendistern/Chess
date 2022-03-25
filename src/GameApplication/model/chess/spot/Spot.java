@@ -4,14 +4,18 @@ import GameApplication.model.chess.piece.Piece;
 
 import java.io.Serializable;
 
+
+/**
+ * A spot is a location on the board. It has a column and a row. It also has a piece
+ */
 public class Spot implements Serializable {
 
+    // Declaring a private variable called column, row & piece.
     private int column;
-
     private int row;
-
     private Piece piece;
 
+    // A constructor. It is used to set the initial spot.
     public Spot(int column, int row) {
         try {
             setInitialSpot(column, row);

@@ -1,6 +1,10 @@
 package GameApplication.model.chess.spot;
 
+/**
+ * This class is used to represent exceptions that are thrown by the Spot class
+ */
 public class SpotException extends Exception{
+    // The constructor of the class.
     public SpotException() {
     }
 

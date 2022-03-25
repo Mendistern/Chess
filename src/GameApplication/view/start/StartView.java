@@ -6,15 +6,11 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 
-/**
- * View that welcome's the user
- *
- * @author Nicolas Bouquiaux
- * @version 1.0
- */
+
+
 
 /**
- * @author nicolas
+ * The StartView class is a BorderPane that contains a button that starts the game
  */
 public class StartView extends BorderPane {
     private Label lblPlayerNAme;
